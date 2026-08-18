@@ -1,0 +1,41 @@
+:root {
+    /* Colors */
+    --darker-green: #1b4332;
+    --dark-green: #2d6a4f;
+    --base-green: #40916c;
+    --yellow-green: #d9ed92;
+    
+    --clr-success: hsl(142, 71%, 45%);
+    --clr-danger: #ef4444;
+    --clr-background: #ffffff;
+    --clr-text: #1f2937;
+    --clr-light: #fafafa;
+
+    --input-border: #c0c0c0;
+
+    /* Spacing */
+    --space-1: 0.25rem;
+    --space-2: 0.5rem;
+    --space-3: 0.75rem;
+    --space-4: 1rem;
+    --space-5: 1.5rem;
+    --space-6: 2rem;
+
+    /* Typography */
+    --font-family: "Inter", sans-serif;
+    --font-xs: 0.625rem;
+    --font-sm: 0.875rem;
+    --font-md: 1rem;
+    --font-lg: 1.25rem;
+    --font-xl: 2rem;
+
+    /* Radius */
+    --radius-sm: 4px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+
+    /* Shadow */
+    --shadow-sm: 0 2px 4px rgb(0 0 0 / 0.1);
+    --shadow-md: 0 4px 8px rgb(0 0 0 / 0.1);
+
+}

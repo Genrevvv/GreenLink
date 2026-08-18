@@ -1,0 +1,8 @@
+.home.page {
+    grid-template-columns: 0.25fr 1fr;
+}
+
+.main-content {
+    background-color: aliceblue;
+    padding: 0;
+}

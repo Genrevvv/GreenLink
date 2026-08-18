@@ -1,0 +1,39 @@
+.sidebar {
+    background-color: var(--darker-green);
+}
+
+.sidebar-header {
+    padding: 1rem;
+    border-bottom: 1px solid var(--base-green);
+}
+
+.sidebar-header i {
+    font-size: var(--font-lg);
+    color: var(--clr-light);
+    background-color: var(--base-green);
+    padding: 0.5rem;
+    border-radius: 50%;
+}
+
+.sidebar-header .text-sm {
+    color: var(--clr-light);
+}
+
+.sidebar-header .text-xs {
+    color: var(--yellow-green);
+}
+
+.sidebar-options .option {
+    color: var(--clr-light);
+    border-radius: 1rem;
+}
+
+.sidebar-options .option.selected {
+    background-color: var(--base-green);
+}
+
+.sidebar-options .option:hover {
+    background-color: var(--dark-green);
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}

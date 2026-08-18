@@ -1,0 +1,8 @@
+.w-full   { width: 100%; }
+.w-auto   { width: auto; }
+.w-fit    { width: fit-content; }
+
+.h-full   { height: 100%; }
+.h-auto   { height: auto; }
+.h-fit    { height: fit-content; }
+.h-screen { height: 100vh; }

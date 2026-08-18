@@ -1,0 +1,23 @@
+.header {
+    background-color: #fafafa;
+    box-shadow: var(--shadow-md);
+    margin: 0;
+    padding: 0.75rem 0;
+}
+
+.header h1 {
+    font-size: var(--font-lg);
+}
+
+.header .icons i {
+    font-size: var(--font-lg);
+}
+
+.header .icons .fa-bell {
+    color: var(--dark-green);   
+}
+
+.header .icons .fa-circle-user {
+    font-size: 1.4rem;
+    color: var(--dark-green);
+}

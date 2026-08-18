@@ -1,0 +1,27 @@
+body {
+    font-family: var(--font-family);
+    font-size: var(--font-md);
+    color: var(--clr-text);
+    line-height: 1.5;
+    background: var(--clr-background);
+}
+
+h1 {
+    font-size: var(--font-xl);
+}
+
+h2 {
+    font-size: 1.75rem;
+}
+
+h3 {
+    font-size: 1.5rem;
+}
+
+p {
+    margin-bottom: var(--space-4);
+}
+
+strong {
+    font-weight: 600;
+}

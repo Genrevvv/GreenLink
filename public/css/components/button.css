@@ -1,0 +1,13 @@
+.btn {
+    font-size: var(--font-sm);
+    font-weight: bold;
+    padding: 0.25rem 0.5rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.btn-primary {
+    background: var(--dark-green);
+    color: white;
+}
