@@ -37,3 +37,20 @@
     cursor: pointer;
     transition: background-color 0.2s ease;
 }
+
+.sidebar .logout-container {
+    margin-top: auto;
+    padding: 0.7rem;
+    border-top: 1px solid var(--base-green);
+}
+
+.sidebar .logout-container #logout {
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+}
+
+.sidebar .logout-container #logout:hover {
+    background-color: var(--dark-green);
+    cursor: pointer;
+}

@@ -22,5 +22,7 @@
     $router->get('/register', [$authController, 'renderRegister']);
     $router->post('/register', [$authController, 'register']);
 
+    $router->post('/logout', [$authController, 'logout']);
+    
     $router->dispatch(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
 ?>
