@@ -1,6 +1,8 @@
 import { titleCase } from '../utils/string.js';
 import { loadPage, selectOption,  logout, updateHeaderText } from './sidebar-functions.js';
 
+loadPage('dashboard'); // load initial content
+
 const options = document.querySelectorAll('.option');
 options.forEach(option => {
     option.addEventListener('click', async () => {
