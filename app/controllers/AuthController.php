@@ -7,11 +7,11 @@
         }
 
         public function renderLogin() {
-            require ROOT . '/app/views/auth/login.html';
+            require ROOT . '/public/views/auth/login.html';
         }
 
         public function renderRegister() {
-            require ROOT . '/app/views/auth/register.html';
+            require ROOT . '/public/views/auth/register.html';
         }
 
         public function login() {
@@ -41,8 +41,11 @@
 
             $_SESSION['user_id'] = $user['id'];
             $_SESSION['username'] = $user['username'];
+            $_SESSION['user_type'] = $user['user_type'];
 
-            json_response(['message' => 'Login successful.', 'success' => true]);
+            unset($user['password_hash']);
+
+            json_response(['message' => 'Login successful.', 'user' => $user, 'success' => true]);
         }
 
         public function register() {

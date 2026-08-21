@@ -20,6 +20,7 @@ login.addEventListener('click', async (e) => {
             return;
         }
 
+        sessionStorage.setItem('user', JSON.stringify(data.user));
         window.location.href = '/';
 
     } catch (error) {

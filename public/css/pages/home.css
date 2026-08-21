@@ -2,7 +2,7 @@
     grid-template-columns: 0.25fr 1fr;
 }
 
-.main-content {
+.main-container {
     background-color: aliceblue;
     padding: 0;
 }

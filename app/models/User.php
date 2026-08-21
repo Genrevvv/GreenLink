@@ -10,7 +10,7 @@
         public function create(string $username, string $password): bool {
             $stmt = $this->db->prepare('
                 INSERT INTO users (username, password_hash, user_type) 
-                VALUES (:username, :password_hash, user_type)
+                VALUES (:username, :password_hash, :user_type)
             ');
 
             return $stmt->execute([
@@ -29,7 +29,7 @@
 
         public function findByUsername(string $username) {
             $stmt = $this->db->prepare(
-                'SELECT id, username, password_hash
+                'SELECT id, username, password_hash, user_type
                 FROM users 
                 WHERE username = ? 
                 LIMIT 1'
