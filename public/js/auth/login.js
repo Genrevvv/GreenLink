@@ -15,7 +15,7 @@ login.addEventListener('click', async (e) => {
 
         const data = await response.json();
 
-        if (!response.ok) {
+        if (!response.ok || !data.success) {
             alert(data.message || 'Login failed.');
             return;
         }

@@ -8,13 +8,15 @@
         }
 
         public function create(string $username, string $password): bool {
-            $stmt = $this->db->prepare(
-                'INSERT INTO users (username, password_hash) VALUES (:username, :password_hash)'
-            );
+            $stmt = $this->db->prepare('
+                INSERT INTO users (username, password_hash, user_type) 
+                VALUES (:username, :password_hash, user_type)
+            ');
 
             return $stmt->execute([
                 ':username' => $username,
-                ':password_hash' => password_hash($password, PASSWORD_DEFAULT)
+                ':password_hash' => password_hash($password, PASSWORD_DEFAULT),
+                ':user_type' => 'user'
             ]);
         }
 

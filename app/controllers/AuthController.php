@@ -21,14 +21,19 @@
             $password = $data['password'] ?? '';
 
             if ($username === '' || $password === '') {
-                json_response(['message' => 'Username and password are required.'], 400);
+                json_response(['message' => 'Username and password are required.', 'success' => true]);
                 return;
             }
 
             $user = $this->user->findByUsername($username);
 
-            if (!$user || !password_verify($password, $user['password_hash'])) {
-                json_response(['message' => 'Invalid username or password.'], 401);
+            if  (!$user) {
+                json_response(['message' => 'User not found', 'success' => false]);
+                return;
+            }
+
+            if (!password_verify($password, $user['password_hash'])) {
+                json_response(['message' => 'Invalid username or password.', 'success' => false]);
                 return;
             }
 
@@ -37,7 +42,7 @@
             $_SESSION['user_id'] = $user['id'];
             $_SESSION['username'] = $user['username'];
 
-            json_response(['message' => 'Login successful.']);
+            json_response(['message' => 'Login successful.', 'success' => true]);
         }
 
         public function register() {
