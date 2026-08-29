@@ -37,5 +37,5 @@
     /* Shadow */
     --shadow-sm: 0 2px 4px rgb(0 0 0 / 0.1);
     --shadow-md: 0 4px 8px rgb(0 0 0 / 0.1);
-
+    --shadow-bottom: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
