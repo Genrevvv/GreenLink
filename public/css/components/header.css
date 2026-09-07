@@ -1,8 +1,8 @@
 .header {
-    background-color: #fafafa;
-    box-shadow: var(--shadow-md);
     margin: 0;
-    padding: 0.75rem 0;
+    padding: 0.75rem 1rem;
+    background-color: var(--clr-light);
+    box-shadow: var(--shadow-md);
 }
 
 .header h1 {
@@ -14,7 +14,7 @@
 }
 
 .header .icons .fa-bell {
-    color: var(--dark-green);   
+    color: var(--dark-green);
 }
 
 .header .icons .fa-circle-user {

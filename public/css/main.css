@@ -1,21 +1,11 @@
-@import './base/reset.css';
-@import './base/variables.css';
-@import './base/typography.css';
+@import url("./global.css");
+@import url("./utilities.css");
 
-@import './components/button.css';
-@import './components/header.css';
-@import './components/input.css';
-@import './components/sidebar.css';
+@import url("./components/button.css");
+@import url("./components/input.css");
+@import url("./components/header.css");
+@import url("./components/sidebar.css");
 
-@import './layout/container.css';
-@import './layout/flex.css';
-@import './layout/grid.css';
-
-@import './utilities/display.css';
-@import './utilities/spacing.css';
-@import './utilities/style.css';
-@import './utilities/sizing.css';
-@import './utilities/text.css';
-
-@import './pages/auth.css';
-@import './pages/home.css';
+@import url("./pages/auth.css");
+@import url("./pages/home.css");
+@import url("./pages/products.css");

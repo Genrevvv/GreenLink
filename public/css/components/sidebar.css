@@ -8,10 +8,10 @@
 }
 
 .sidebar-header i {
+    padding: 0.5rem;
     font-size: var(--font-lg);
     color: var(--clr-light);
     background-color: var(--base-green);
-    padding: 0.5rem;
     border-radius: 50%;
 }
 
@@ -45,8 +45,8 @@
 }
 
 .sidebar .logout-container #logout {
-    color: white;
     padding: 0.5rem 1rem;
+    color: white;
     border-radius: 0.5rem;
 }
 

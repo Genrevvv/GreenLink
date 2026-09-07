@@ -1,7 +1,7 @@
 .input {
-    font-size: var(--font-sm);
     width: 100%;
     padding: 0.25rem 0.5rem;
+    font-size: var(--font-sm);
     border: 1px solid var(--input-border);
-    border-radius: 8px;
+    border-radius: var(--radius-md);
 }
