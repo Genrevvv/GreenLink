@@ -1,5 +1,5 @@
-import { apiFetch } from '../api/api.js';
-import { getCurrentUser } from '../state/user.js';
+import { apiFetch } from '../utils/api.js';
+import { getCurrentUser } from '../utils/user.js';
 
 const mainContent = document.querySelector('#main-content');
 const headerText = document.querySelector('#header-text');
