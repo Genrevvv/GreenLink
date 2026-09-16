@@ -6,7 +6,7 @@ export function showAddProductForm() {
     document.querySelector('.focus-input').focus();
 
     const addProductBtn = document.querySelector('#add-product-btn');
-    addProductBtn.onclick = addProduct;
+    addProductBtn.onclick = () => { addProduct() };
 }
 
 export function addProduct(productDataInput = null) {
