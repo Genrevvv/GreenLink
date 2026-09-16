@@ -13,7 +13,7 @@
 
 .products-table th,
 .products-table td {
-    padding: 0.75rem 1rem;
+    padding: 0.6rem 0.8rem;
     text-align: left;
     border-bottom: 1px solid var(--input-border);
 }
@@ -25,19 +25,19 @@
 }
 
 .products-table td span {
-    background-color: var(--base-green);
-    padding: 0.25rem 0.75rem;
+    padding: 0.25rem 0.65rem;
     border-radius: 0.5rem;
 }
 
-.products-table td span.out-of-stock { background-color: lightgray; }
-.products-table td span.limited-stock { background-color: var(--yellow-green); }
+.products-table td span.in-stock        { background-color: var(--base-green); }
+.products-table td span.out-of-stock    { background-color: lightgray; }
+.products-table td span.limited-stock   { background-color: var(--yellow-green); }
 
 .fa-trash-can { background: var(--clr-danger); }
 .fa-pen-to-square { background: var(--base-green); }
 
 /* Add Product Modal */
-.add-product-form {
+.add-edit-product-form {
     min-width: 400px;
     background-color: #fff;
     padding: 1.25rem;
@@ -46,23 +46,23 @@
     position: relative;
 }
 
-.add-product-form h4 {
+.add-edit-product-form h4 {
     font-size: 1rem;
     margin-bottom: 0.5rem;
 }
 
-.add-product-form div {
+.add-edit-product-form div {
     display: flex;
     flex-direction: column;
     gap: 0.2rem;
     margin-bottom: 0.5rem;
 }
 
-.add-product-form span {
+.add-edit-product-form span {
     font-size: 0.75rem;
 }
 
-.add-product-form input {
+.add-edit-product-form input {
     padding: 0.4rem 0.5rem;
     border: 1px solid var(--input-border);
     border-radius: 0.4rem;
@@ -70,11 +70,11 @@
     outline: none;
 }
 
-.add-product-form input:focus {
+.add-edit-product-form input:focus {
     border-color: var(--base-green);
 }
 
-#add-product-btn {
+.add-edit-product-form .add-edit-btn {
     width: 100%;
     background-color: var(--base-green);
     color: #fff;

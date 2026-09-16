@@ -1,29 +1,8 @@
 import { hideOverlay, showOverlay } from '../utils/overlay.js';
+import { addEditProductModal, setProductrow } from './products-modal.js';
 
 export function showAddProductForm() {
-    showOverlay(`
-        <div class="add-product-form flex-column gap-1">
-            <i id="close-add-product" class="fa-solid fa-x close-overlay"></i>
-            <h4>Add New Product</h4>
-            <div>
-                <span>Product Name</span>
-                <input id="product-name" type="text" class="focus-input">
-            </div>
-            <div>
-                <span>Price (₱)</span>
-                <input id="product-price" type="number">
-            </div>
-            <div>
-                <span>Unit</span>
-                <input id="product-unit" type="text" placeholder="e.g. per kg, per dozen">
-            </div>
-            <div>
-                <span>Stock Quantity</span>
-                <input id="product-stock" type="number">
-            </div>
-            <div id="add-product-btn" type="submit">Add Product</div>
-        </div>
-    `);
+    showOverlay(addEditProductModal());
 
     document.querySelector('.focus-input').focus();
 
@@ -31,11 +10,38 @@ export function showAddProductForm() {
     addProductBtn.onclick = addProduct;
 }
 
-export function addProduct() {
+function addProduct() {
     /* TODO: 
         - Input validation
         - Implement backend
     */
+    const productData = getProductData();
+
+    const row = document.createElement('tr');
+    row.innerHTML = setProductrow(productData);
+
+    document.querySelector('.products-table').appendChild(row);
+    hideOverlay();
+
+    const editProductAct = row.querySelector('.edit-product');
+    editProductAct.onclick = () => { editProduct(row, productData) };
+}
+
+function editProduct(productRow, productData) {
+    showOverlay(addEditProductModal(productData));
+    
+    const updateProductBtn = document.querySelector('#update-product-btn');
+    updateProductBtn.onclick = () => { updateProduct(productRow) };
+}
+
+function updateProduct(productRow) {
+    const productData = getProductData();
+    productRow.innerHTML = setProductrow(productData);
+
+    hideOverlay();
+}
+
+function getProductData() {
     const name = document.querySelector('#product-name').value;
     const price = document.querySelector('#product-price').value;
     const unit = document.querySelector('#product-unit').value;
@@ -53,21 +59,5 @@ export function addProduct() {
         statusClass = 'in-stock';
     }
 
-    const row = document.createElement('tr');
-    row.innerHTML = `
-        <td>${name}</td>
-        <td>₱${price}</td>
-        <td>${unit}</td>
-        <td>${stock}</td>
-        <td>
-            <span class="${statusClass}">${status}</span>
-        </td>
-        <td>
-            <i class="fa-solid fa-trash-can"></i>
-            <i class="fa-solid fa-pen-to-square"></i>
-        </td>
-    `;
-
-    document.querySelector('.products-table').appendChild(row);
-    hideOverlay();
+    return { name, price, unit, stock, status, statusClass };
 }
