@@ -10,12 +10,11 @@ export function showAddProductForm() {
     addProductBtn.onclick = addProduct;
 }
 
-function addProduct() {
+export function addProduct(productDataInput = null) {
     /* TODO: 
-        - Input validation
         - Implement backend
     */
-    const productData = getProductData();
+    const productData = productDataInput !== null ? productDataInput : getProductData();
 
     const row = document.createElement('tr');
     row.innerHTML = setProductrow(productData);
@@ -23,8 +22,21 @@ function addProduct() {
     document.querySelector('.products-table').appendChild(row);
     hideOverlay();
 
+    // Product row actions
+    const deleteProductAct = row.querySelector('.delete-product');
+    deleteProductAct.onclick = () => { deleteProduct(row) };
+
     const editProductAct = row.querySelector('.edit-product');
     editProductAct.onclick = () => { editProduct(row, productData) };
+}
+
+function deleteProduct(productRow) {
+    /* TODO:
+        - Add action notification (pag di tinamad)
+        - suggestion: small lower right notification pop up 
+          that have a stack animation, so action notif can stack
+    */
+    productRow.remove();
 }
 
 function editProduct(productRow, productData) {
@@ -35,6 +47,9 @@ function editProduct(productRow, productData) {
 }
 
 function updateProduct(productRow) {
+    /* TODO: 
+        - Implement backend
+    */
     const productData = getProductData();
     productRow.innerHTML = setProductrow(productData);
 
@@ -42,11 +57,20 @@ function updateProduct(productRow) {
 }
 
 function getProductData() {
+    /* TODO: 
+        - Implement backend
+    */
     const name = document.querySelector('#product-name').value;
     const price = document.querySelector('#product-price').value;
     const unit = document.querySelector('#product-unit').value;
     const stock = Number(document.querySelector('#product-stock').value);
 
+    const { status, statusClass } = getStatus(stock);
+
+    return { name, price, unit, stock, status, statusClass };
+}
+
+export function getStatus(stock) {
     let status, statusClass;
     if (stock === 0) {
         status = 'Out of Stock';
@@ -59,5 +83,5 @@ function getProductData() {
         statusClass = 'in-stock';
     }
 
-    return { name, price, unit, stock, status, statusClass };
+    return { status, statusClass };
 }

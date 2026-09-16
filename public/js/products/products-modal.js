@@ -43,8 +43,8 @@ export function setProductrow(productData) {
             <span class="${productData.statusClass}">${productData.status}</span>
         </td>
         <td>
-            <i class="fa-solid fa-trash-can delete-product"></i>
             <i class="fa-solid fa-pen-to-square edit-product"></i>
+            <i class="fa-solid fa-trash-can delete-product"></i>
         </td>
     `;
 }
