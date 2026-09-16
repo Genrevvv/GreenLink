@@ -2,8 +2,9 @@
 
 #### Products Page
 - Product Mangement
-    - Add Product (Front-end only yet) ✅
-    - Product Actions
-    - Edit Product
-    - Load product on table
+    - Add product (Front-end only) ✅
+    - Product Actions (Front-end only) ✅
+        - Edit product
+        - Delete product
+    - Load products on table (Front-end only) ✅
 - Load product cards for user
