@@ -71,8 +71,10 @@
 .m-auto  { margin: auto; }
 .mx-auto { margin-inline: auto; }
 
-.mt-1 { margin-top: var(--space-1); }
-.mt-2 { margin-top: var(--space-2); }
+.mt-1   { margin-top: var(--space-1); }
+.mt-2   { margin-top: var(--space-2); }
+.mt-3   { margin-top: var(--space-3); }
+.mt-4   { margin-top: var(--space-4); }
 
 .mb-1 { margin-bottom: var(--space-1); }
 .mb-2 { margin-bottom: var(--space-2); }
@@ -108,8 +110,9 @@
 .text-xs    { font-size: 0.75rem; }
 .text-sm    { font-size: 0.875rem; }
 .text-base  { font-size: 1rem; }
-.text-lg    { font-size: 1.5rem; }
-.text-xl    { font-size: 2rem; }
+.text-lg    { font-size: 1.25rem; }
+.text-xl    { font-size: 1.5rem; }
+.text-xxl   { font-size: 1.75rem; }
 
 .text-center { text-align: center; }
 .text-left   { text-align: left; }
@@ -122,3 +125,12 @@
 .rounded-md     { border-radius: var(--radius-lg); }
 .rounded-lg     { border-radius: 2rem; }
 .shadow-bottom  { box-shadow: var(--shadow-bottom); }
+
+/* Background */
+.bg-darker-green { background-color: var(--darker-green); }
+.bg-dark-green   { background-color: var(--dark-green); }
+.bg-base-green   { background-color: var(--base-green); }
+.bg-yellow-green { background-color: var(--yellow-green) }
+
+/* Text Color */
+.text-white { color: #fff; }

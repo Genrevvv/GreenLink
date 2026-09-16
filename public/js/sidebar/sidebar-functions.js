@@ -21,6 +21,11 @@ export async function loadPage(page) {
     }
 
     mainContent.innerHTML = await response.text();
+
+    // Import scripts everytime page is loaded
+    if (page === 'products') {
+        import('../products/products.js');
+    }
 }
 
 export function selectOption(selectedOption, options) {

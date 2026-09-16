@@ -1,0 +1,95 @@
+/* Products Management - Header */
+#add-product {
+    cursor: pointer;
+    user-select: none;
+}
+
+/* Products Table */
+.products-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.8rem;
+}
+
+.products-table th,
+.products-table td {
+    padding: 0.75rem 1rem;
+    text-align: left;
+    border-bottom: 1px solid var(--input-border);
+}
+
+.products-table td i {
+    padding: 0.5rem;
+    color: #fff;
+    border-radius: var(--radius-sm);
+}
+
+.products-table td span {
+    background-color: var(--base-green);
+    padding: 0.25rem 0.75rem;
+    border-radius: 0.5rem;
+}
+
+.products-table td span.out-of-stock { background-color: lightgray; }
+.products-table td span.limited-stock { background-color: var(--yellow-green); }
+
+.fa-trash-can { background: var(--clr-danger); }
+.fa-pen-to-square { background: var(--base-green); }
+
+/* Add Product Modal */
+.add-product-form {
+    min-width: 400px;
+    background-color: #fff;
+    padding: 1.25rem;
+    border-radius: 1rem;
+    font-size: 0.8rem;
+    position: relative;
+}
+
+.add-product-form h4 {
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.add-product-form div {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    margin-bottom: 0.5rem;
+}
+
+.add-product-form span {
+    font-size: 0.75rem;
+}
+
+.add-product-form input {
+    padding: 0.4rem 0.5rem;
+    border: 1px solid var(--input-border);
+    border-radius: 0.4rem;
+    font-size: 0.8rem;
+    outline: none;
+}
+
+.add-product-form input:focus {
+    border-color: var(--base-green);
+}
+
+#add-product-btn {
+    width: 100%;
+    background-color: var(--base-green);
+    color: #fff;
+    padding: 0.4rem;
+    text-align: center;
+    font-size: 0.8rem;
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+}
+
+#close-add-product {
+    font-size: 0.6rem;
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    cursor: pointer;
+}
