@@ -1,28 +1,15 @@
 import { getStatus, showAddProductForm } from './products-function.js';
 import { addProduct } from './products-function.js';
+import { productsData } from './products-data.js';
+import * as prodSum from './products-summary.js';
+
+// Setup product summary
+prodSum.setTotalProducts(prodSum.getTotalProducts(productsData));
+prodSum.setInStock(prodSum.getInStock(productsData));
+prodSum.setLimitedStock(prodSum.getLimitedStock(productsData));
+prodSum.setTotalValue(prodSum.getTotalValue(productsData));
 
 // Load products (pseudo loader for front end testing, temporary)
-const productsData = [
-    {
-        name: 'lettuce',
-        price: 45,
-        unit: 'per kg',
-        stock: 120
-    },
-    {
-        name: 'kangkong',
-        price: 35,
-        unit: 'per bundle',
-        stock: 7
-    },
-    {
-        name: 'organic eggs',
-        price: 120,
-        unit: 'per dozen',
-        stock: 0
-    }
-]; // Dummy data for loader testing
-
 for (let productData of productsData) {
     const { status, statusClass } = getStatus(productData.stock);
     productData = { ...productData, status, statusClass };
