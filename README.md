@@ -7,4 +7,5 @@
         - Edit product
         - Delete product
     - Load products on table (Front-end only) ✅
+    - Product summary ⏳
 - Load product cards for user
