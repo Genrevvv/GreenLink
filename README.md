@@ -9,3 +9,4 @@
     - Load products on table (Front-end only) ✅
     - Product summary ⏳
 - Load product cards for user
+- Dashboard front end
