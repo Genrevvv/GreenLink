@@ -24,7 +24,7 @@
     --space-6: 2rem;
 
     /* Typography */
-    --font-family: "Inter", sans-serif;
+    --font-family: Lexend;
     --font-xs: 0.625rem;
     --font-sm: 0.875rem;
     --font-md: 1rem;
@@ -80,6 +80,11 @@ a {
 
 
 /* Global Typography */
+
+@font-face {
+    font-family: Lexend;
+    src: url(../fontawsome/Lexend/Lexend-VariableFont_wght.ttf);
+}
 body {
     font-family: var(--font-family);
     font-size: var(--font-md);
