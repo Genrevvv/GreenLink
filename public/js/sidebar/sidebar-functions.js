@@ -7,9 +7,9 @@ const user = getCurrentUser();
 
 export async function loadPage(page) {
     // js for testing, remove the products page specific constraint later
-    const pagePath = page === 'products' ? `/views/pages/${user.user_type}/${page}.html` : '/views/dummy.html';
+    // const pagePath = page === 'products' ? `/views/pages/${user.user_type}/${page}.html` : '/views/dummy.html';
 
-    // const pagePath = `./views/pages/admin/${page}.html`;
+    const pagePath = `./views/pages/admin/${page}.html`;
     console.log(pagePath)
 
     const response = await fetch(pagePath);
