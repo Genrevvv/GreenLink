@@ -1,5 +1,5 @@
 import { hideOverlay, showOverlay } from '../utils/overlay.js';
-import { addEditProductModal, setProductrow } from './products-modal.js';
+import { addEditProductModal, productCardModal, productRowModal } from './products-modal.js';
 
 export function showAddProductForm() {
     showOverlay(addEditProductModal());
@@ -16,7 +16,7 @@ export function addProduct(productDataInput = null) {
     const productData = productDataInput !== null ? productDataInput : getProductData();
 
     const row = document.createElement('tr');
-    row.innerHTML = setProductrow(productData);
+    row.innerHTML = productRowModal(productData);
 
     document.querySelector('.products-table').appendChild(row);
     hideOverlay();
@@ -88,4 +88,15 @@ export function getStatus(stock) {
     }
 
     return { status, statusClass };
+}
+
+export function createProductCard(productData) {
+    const productCards = document.querySelector('#product-cards');
+    const productCard = document.createElement('div');
+    
+    // <div class="container container-xs px-0 product-card">...</div>
+    productCard.classList.add('container', 'container-xs', 'px-0', 'product-card');
+    productCard.innerHTML = productCardModal(productData);
+
+    productCards.appendChild(productCard);
 }

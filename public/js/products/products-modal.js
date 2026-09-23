@@ -33,7 +33,7 @@ export function addEditProductModal(productData = null) {
     `;
 }
 
-export function setProductrow(productData) {
+export function productRowModal(productData) {
     return `
         <td>${productData.name}</td>
         <td>₱${productData.price}</td>
@@ -46,5 +46,31 @@ export function setProductrow(productData) {
             <i class="fa-solid fa-pen-to-square edit-product"></i>
             <i class="fa-solid fa-trash-can delete-product"></i>
         </td>
+    `;
+}
+
+export function productCardModal(productData) {
+    return `
+        <div class="container flex-center product-image">
+            <i class="fa-solid fa-leaf"></i>
+        </div>
+        <div class="container mt-3 product-content">
+            <h4 class="text-sm">${productData.name}</h4>
+            <span class="text-xs">currently no description data</span>
+            <div class="container flex gap-1 px-0 mt-1">
+                <h3 class="text-base">₱${productData.price}</h3>
+                <span class="text-sm px-1 mt-1">${productData.unit}</span>
+            </div>
+            <div class="container mt-1 product-option">
+                <div>
+                    <button>-</button>
+                    <input type="number" value="1">
+                    <button>+</button>
+                </div>
+                <div class="order-btn">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <span class="text-xs">Order Now</span>
+                </div>                    
+            </div>
     `;
 }

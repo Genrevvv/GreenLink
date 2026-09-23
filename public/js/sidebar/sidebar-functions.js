@@ -10,7 +10,6 @@ export async function loadPage(page) {
     // const pagePath = page === 'products' ? `/views/pages/${user.user_type}/${page}.html` : '/views/dummy.html';
     
     const pagePath = `/views/pages/${user.user_type}/${page}.html`;
-    
     console.log(pagePath)
 
     const response = await fetch(pagePath);
