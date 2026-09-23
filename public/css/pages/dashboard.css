@@ -1,0 +1,43 @@
+.main-container-dashboard { 
+    height: 100%;
+    width: 100%;
+}
+
+
+/* Cards */
+.stat-cards-container { 
+    height: 1%;
+    width: 100%;
+    margin: 25px 0 25px 0;
+}
+
+.card { 
+    background-color: rgb(255, 255, 255);
+    height: 125 px;
+    width: 350px;
+    border-radius: 20px;
+    padding: 2%;
+}
+
+.activity-container { 
+    height: 350px;
+    width: 100%;
+    background-color: rgb(255, 255, 255);
+    margin-bottom: 25px;
+}
+
+.card-header { 
+    width: 100%;
+    height: 15%;
+    padding: 1.5rem 0 0 1rem;
+    background: linear-gradient(to right, var(--darker-green), var(--dark-green));
+    color: white;
+}
+
+.oaa { 
+    background-color: white;
+    height: 380px;
+    width: 49%;
+    margin-bottom: 25px;
+}
+

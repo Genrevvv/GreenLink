@@ -3,18 +3,18 @@ import { getCurrentUser } from '../utils/user.js';
 
 const mainContent = document.querySelector('#main-content');
 const headerText = document.querySelector('#header-text');
-const user = getCurrentUser();
+// const user = getCurrentUser();
 
 export async function loadPage(page) {
     // js for testing, remove the products page specific constraint later
     // const pagePath = page === 'products' ? `/views/pages/${user.user_type}/${page}.html` : '/views/dummy.html';
 
-    const pagePath = `/views/pages/${user.user_type}/${page}.html`;
+    const pagePath = `./views/pages/admin/${page}.html`;
     console.log(pagePath)
 
     const response = await fetch(pagePath);
 
-    if (!response.ok) {
+    if (!response.ok) {  
         mainContent.innerHTML = `
             <div class="container p-2">
                 Can't load content hehe :)

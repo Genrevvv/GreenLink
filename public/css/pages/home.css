@@ -3,6 +3,6 @@
 }
 
 .main-container {
-    padding: 0;
-    background-color: aliceblue;
+    padding: 10px;
+    background-color: rgba(247, 248, 249);
 }
