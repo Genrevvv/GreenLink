@@ -16,7 +16,7 @@
 1. PHP
 2. MySQL
 
-### Setup
+### Setup:
 1. Create a MySQL database named `greenlink`.
 2. Import the schema SQL file.
 3. Configure DB credentials in `config.php`.
