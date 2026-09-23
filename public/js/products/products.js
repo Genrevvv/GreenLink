@@ -35,6 +35,7 @@ function adminProductScript() {
 }
 
 function userProductScript() {
+    // Load product cards (currently only for front end testing)
     for (const productData of productsData) {
         createProductCard(productData);
     }
