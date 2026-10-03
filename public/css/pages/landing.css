@@ -410,9 +410,9 @@ h1, h2, .about-card h2, .products-heading h2, .contact h2 {
     transform: scale(1.05);
 }
 
-.service-card[data-image="products"]::before { background-image: url('images/grin.jpg'); }
-.service-card[data-image="appointments"]::before { background-image: url('images/bs.jpg'); }
-.service-card[data-image="inquiries"]::before { background-image: url('images/g3.jpg'); }
+.service-card[data-image="products"]::before { background-image: url('../../images/grin.jpg'); }
+.service-card[data-image="appointments"]::before { background-image: url('../../images/bs.jpg'); }
+.service-card[data-image="inquiries"]::before { background-image: url('../../images/g3.jpg'); }
 
 .service-card::after {
     content: "";
