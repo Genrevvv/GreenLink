@@ -1,43 +1,66 @@
-.main-container-dashboard { 
-    height: 100%;
+.main-container-dashboard,
+.main-container-dashboard * {
+    box-sizing: border-box;
+    min-width: 0;
+    max-width: 100%;
+}
+
+.main-container-dashboard {
+    font-size: 14px;
+}
+
+/* Stat Cards */
+.stat-cards-container {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 15px;
     width: 100%;
+    margin: 20px 0;
 }
 
-
-/* Cards */
-.stat-cards-container { 
-    height: 1%;
-    /* width: 100%; */
-    margin: 25px 0 25px 0;
-}
-
-.card { 
-    background-color: rgb(255, 255, 255);
-    height: 125 px;
-    width: 350px;
+.card {
+    flex: 1 1 0;
+    min-width: 0;
+    padding: 15px;
+    min-height: 100px;
+    background: white;
     border-radius: 20px;
-    padding: 2%;
 }
 
-.activity-container { 
-    height: 350px;
+/* Activity */
+.activity-container {
     width: 100%;
-    background-color: rgb(255, 255, 255);
+    min-height: 250px;
     margin-bottom: 25px;
+    background: white;
 }
 
-.card-header { 
-    width: 100%;
-    height: 15%;
-    padding: 1.5rem 0 0 1rem;
+/* Card Header */
+.card-header {
+    min-height: 60px;
+    padding: 16px;
     background: linear-gradient(to right, var(--darker-green), var(--dark-green));
     color: white;
+    font-size: 13px;
 }
 
-.oaa { 
-    background-color: white;
-    height: 380px;
-    width: 49%;
+/* Other Activity Area */
+.oaa {
+    flex: 1 1 0;
+    min-height: 300px;
+    margin: 0 0.5rem;
     margin-bottom: 25px;
+    background: white;
+    border-radius: 20px;
 }
 
+/* Headings */
+.main-container-dashboard h1 { font-size: 22px; }
+.main-container-dashboard h2 { font-size: 18px; }
+.main-container-dashboard h3 { font-size: 16px; }
+.main-container-dashboard small { font-size: 12px; }
+
+/* 
+    Pinaayos ko muna sa AI ung sizing par, 
+    medyo nakaka-bother kasi pag nilo-load ko ung page haha 
+*/

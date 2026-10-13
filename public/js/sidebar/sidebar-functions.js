@@ -46,7 +46,7 @@ export function updateHeaderText(text) {
 export async function logout() {
     try {
         await apiFetch('/logout', 'POST');
-        window.location.href = "/login";
+        window.location.href = "/";
     } catch (error) {
         console.error("Logout failed:", error);
     }
