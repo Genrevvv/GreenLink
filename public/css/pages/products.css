@@ -131,10 +131,15 @@
 }
 
 .product-option input[type="number"] {
-    width: 3rem;
-    padding-inline: 0.5rem;
+    width: 2.5rem;
+    text-align: center;
     border: none;
     outline: none;
+}
+
+.product-option input[type="number"]::-webkit-inner-spin-button,
+.product-option input[type="number"]::-webkit-outer-spin-button {
+    transform: scale(0.8);
 }
 
 .product-option button {
@@ -150,6 +155,7 @@
     text-align: center;
     align-items: center;
     border-radius: 0.5rem;
+    user-select: none;
 }
 
 .order-btn:hover {

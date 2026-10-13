@@ -1,3 +1,4 @@
+import { createNotificationElement } from '../utils/notification/notification.js';
 import { hideOverlay, showOverlay } from '../utils/overlay.js';
 import { addEditProductModal, productCardModal, productRowModal } from './products-modal.js';
 
@@ -101,14 +102,29 @@ export function createProductCard(productData) {
     productCard.innerHTML = productCardModal(productData);
 
     productCards.appendChild(productCard);
-    setupProductCardActions(productCard);
+    setupProductCardActions(productCard, productData);
 }
 
-function setupProductCardActions(productCard) {
+function setupProductCardActions(productCard, productData) {
+    // Quantity functions
     const qtyAdd = productCard.querySelector('.qty-add');
     const qtySub = productCard.querySelector('.qty-sub');
     const qtyCount = productCard.querySelector('.qty-count');
 
-    qtyAdd.onclick = () => { qtyCount.value = Number(qtyCount.value) + 1; };
-    qtySub.onclick = () => { qtyCount.value = Math.max(0, Number(qtyCount.value) - 1); };
+    qtyAdd.onclick = () => { qtyCount.value = Math.min(999, Number(qtyCount.value) + 1) };
+    qtySub.onclick = () => { qtyCount.value = Math.max(1, Number(qtyCount.value) - 1) };
+
+    // Order Functions
+    const orderBtn = productCard.querySelector('.order-btn');
+    orderBtn.onclick = () => { 
+        // Testing message only
+        createNotificationElement({
+            status: 'success', 
+            message: `Added ${qtyCount.value} ${productData.name} to cart`
+        });
+        // createNotificationElement({
+        //     status: 'success', 
+        //     message: `Failure occured whiled adding an item`
+        // });
+    }
 }

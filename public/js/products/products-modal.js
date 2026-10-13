@@ -64,7 +64,7 @@ export function productCardModal(productData) {
             <div class="container mt-1 product-option">
                 <div>
                     <button class="rounded-sm qty-btn qty-sub">-</button>
-                    <input class="qty-count" type="number" value="1">
+                    <input class="text-xs qty-count" type="number" min="1" max="999" value="1">
                     <button class="rounded-sm qty-btn qty-add">+</button>
                 </div>
                 <div class="order-btn">
