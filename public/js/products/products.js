@@ -4,13 +4,17 @@ import { productsData } from './products-data.js';
 import * as prodSum from './products-summary.js';
 import { getCurrentUser } from '../utils/user.js';
 
-const user = getCurrentUser();
+export function initProducts() {
+    const user = getCurrentUser();
 
-if (user.user_type === 'admin') {
-    adminProductScript()
-}
-else if (user.user_type === 'user') {
-    userProductScript();
+    if (user.user_type === 'admin') {
+        adminProductScript()
+    }
+    else if (user.user_type === 'user') {
+        userProductScript();
+    }
+
+    console.log('products.js has been imported');    
 }
 
 function adminProductScript() {

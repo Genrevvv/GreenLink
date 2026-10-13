@@ -5,10 +5,15 @@ const mainContent = document.querySelector('#main-content');
 const headerText = document.querySelector('#header-text');
 const user = getCurrentUser();
 
+let cleanupPage = null;
+
 export async function loadPage(page) {
-    // js for testing, remove the products page specific constraint later
-    // const pagePath = page === 'products' ? `/views/pages/${user.user_type}/${page}.html` : '/views/dummy.html';
-    
+    // Clean up the previous page's script
+    if (cleanupPage) {
+        cleanupPage();
+        cleanupPage = null;
+    }
+
     const pagePath = `/views/pages/${user.user_type}/${page}.html`;
     console.log(pagePath)
 
@@ -25,9 +30,10 @@ export async function loadPage(page) {
 
     mainContent.innerHTML = await response.text();
 
-    // Import scripts everytime page is loaded
+    // Initialize the selected page
     if (page === 'products') {
-        import('../products/products.js');
+        const module = await import('../products/products.js');
+        cleanupPage = module.initProducts();
     }
 }
 
