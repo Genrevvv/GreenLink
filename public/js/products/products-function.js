@@ -40,7 +40,18 @@ function deleteProduct(productRow) {
         - suggestion: small lower right notification pop up 
           that have a stack animation, so action notif can stack
     */
+    const confirmed = confirm("Are you sure you want to delete this item?");
+    if (!confirmed) {
+        return
+    }
+
     productRow.remove();
+
+    // Testing message only
+    createNotificationElement({
+        status: 'success', 
+        message: `Product Deleted Successfully`
+    });
 }
 
 function editProduct(productRow, productData) {
@@ -56,10 +67,16 @@ function updateProduct(productRow) {
         - Implement backend
     */
     const productData = getProductData();
-    productRow.innerHTML = setProductrow(productData);
+    productRow.innerHTML = productRowModal(productData);
     hideOverlay();
 
     setupProductRowActions(productRow, productData);
+
+    // Testing message only
+    createNotificationElement({
+        status: 'success', 
+        message: `Product Updated Successfully`
+    });
 }
 
 function getProductData() {
@@ -122,9 +139,5 @@ function setupProductCardActions(productCard, productData) {
             status: 'success', 
             message: `Added ${qtyCount.value} ${productData.name} to cart`
         });
-        // createNotificationElement({
-        //     status: 'success', 
-        //     message: `Failure occured whiled adding an item`
-        // });
     }
 }

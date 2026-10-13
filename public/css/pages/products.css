@@ -33,7 +33,12 @@
 .products-table td span.out-of-stock    { background-color: lightgray; }
 .products-table td span.limited-stock   { background-color: var(--yellow-green); }
 
-.fa-trash-can { background: var(--clr-danger); }
+.fa-trash-can:hover,
+.fa-pen-to-square:hover {
+    cursor: pointer;
+}
+
+.fa-trash-can { background: var(--clr-failed); }
 .fa-pen-to-square { background: var(--base-green); }
 
 /* Add Product Modal */
