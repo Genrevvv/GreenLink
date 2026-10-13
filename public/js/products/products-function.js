@@ -9,6 +9,7 @@ export function showAddProductForm() {
     addProductBtn.onclick = () => { addProduct() };
 }
 
+// PRODUCT MANAGEMENT: Product Row
 export function addProduct(productDataInput = null) {
     /* TODO: 
         - Implement backend
@@ -90,6 +91,7 @@ export function getStatus(stock) {
     return { status, statusClass };
 }
 
+// PRODUCTS DISPLAY: Product Card
 export function createProductCard(productData) {
     const productCards = document.querySelector('#product-cards');
     const productCard = document.createElement('div');
@@ -99,4 +101,14 @@ export function createProductCard(productData) {
     productCard.innerHTML = productCardModal(productData);
 
     productCards.appendChild(productCard);
+    setupProductCardActions(productCard);
+}
+
+function setupProductCardActions(productCard) {
+    const qtyAdd = productCard.querySelector('.qty-add');
+    const qtySub = productCard.querySelector('.qty-sub');
+    const qtyCount = productCard.querySelector('.qty-count');
+
+    qtyAdd.onclick = () => { qtyCount.value = Number(qtyCount.value) + 1; };
+    qtySub.onclick = () => { qtyCount.value = Math.max(0, Number(qtyCount.value) - 1); };
 }

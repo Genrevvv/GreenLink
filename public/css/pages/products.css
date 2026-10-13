@@ -110,6 +110,10 @@
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
+.product-card .qty-btn:hover {
+    background-color: color-mix(in srgb, var(--base-green) 20%, transparent);
+}
+
 .product-image {
     height: 7rem;
     background: radial-gradient(circle, var(--base-green), #5ba783);
@@ -141,11 +145,16 @@
 }
 
 .order-btn {
-    background-color: var(--base-green);
+    background-color: var(--darker-green);
     color: #fff;
     text-align: center;
     align-items: center;
     border-radius: 0.5rem;
+}
+
+.order-btn:hover {
+    background-color: var(--dark-green);
+    cursor: pointer;
 }
 
 .order-btn .fa-cart-shopping {

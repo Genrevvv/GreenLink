@@ -63,9 +63,9 @@ export function productCardModal(productData) {
             </div>
             <div class="container mt-1 product-option">
                 <div>
-                    <button>-</button>
-                    <input type="number" value="1">
-                    <button>+</button>
+                    <button class="rounded-sm qty-btn qty-sub">-</button>
+                    <input class="qty-count" type="number" value="1">
+                    <button class="rounded-sm qty-btn qty-add">+</button>
                 </div>
                 <div class="order-btn">
                     <i class="fa-solid fa-cart-shopping"></i>
