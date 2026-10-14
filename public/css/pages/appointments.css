@@ -1,0 +1,121 @@
+.admin-appointments-page {
+ background-color: var(--clr-background);
+}
+
+
+.summary-cards-grid {
+ display: grid;
+ grid-template-columns: repeat(3, minmax(0, 1fr));
+ gap: var(--space-4);
+ margin-bottom: var(--space-5);
+}
+
+
+.summary-card {
+ display: flex;
+ min-height: 90px;
+ flex-direction: column;
+ align-items: center;
+ justify-content: center;
+ gap: var(--space-1);
+ padding: var(--space-4);
+ background-color: var(--clr-background);
+ border-radius: var(--radius-lg);
+ box-shadow: var(--shadow-sm);
+ border: 1px solid var(--input-border);
+}
+
+
+.summary-card p {
+ margin: 0;
+ color: var(--dark-green);
+ font-size: var(--font-xs);
+}
+
+
+.summary-card strong {
+ color: var(--darker-green);
+ font-size: 1.5rem;
+}
+
+
+.admin-workspace-grid {
+ display: grid;
+ grid-template-columns: 2fr 1fr;
+ gap: var(--space-4);
+ align-items: stretch;
+}
+
+
+.admin-panel {
+ background-color: var(--clr-background);
+ border-radius: var(--radius-lg);
+ box-shadow: var(--shadow-sm);
+ overflow: hidden;
+ border: 1px solid var(--input-border);
+}
+
+
+.admin-panel-header {
+ padding: 0.65rem 1.25rem;
+ color: white;
+}
+
+
+.admin-panel-header h2 {
+ margin: 0;
+ color: white;
+ font-size: var(--font-sm);
+ font-weight: 700;
+ letter-spacing: -0.01em;
+}
+
+
+.table-header-gradient {
+ background: linear-gradient(to right, var(--darker-green), var(--dark-green));
+}
+
+
+.details-header-gradient {
+ background: linear-gradient(to right, var(--dark-green), var(--base-green));
+}
+
+
+.admin-table {
+ width: 100%;
+ border-collapse: collapse;
+ text-align: left;
+}
+
+
+.admin-table th {
+ padding: var(--space-3);
+ font-weight: 700;
+ color: var(--darker-green);
+ background-color: #F8F9FA;
+ border-bottom: 1px solid var(--input-border);
+ font-size: var(--font-xs);
+}
+
+
+.admin-table td {
+ padding: var(--space-3);
+ color: var(--dark-green);
+ border-bottom: 1px solid var(--clr-light);
+ font-size: var(--font-xs);
+ vertical-align: middle;
+}
+
+
+.main-container {
+ display: flex;
+ flex-direction: column;
+ height: 100vh;
+ overflow-y: auto;
+}
+
+
+#main-content {
+ flex: 0 1 auto !important;
+ padding-bottom: var(--space-6) !important;
+}
