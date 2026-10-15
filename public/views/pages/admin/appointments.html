@@ -1,0 +1,76 @@
+<div class="container flex-column">
+    <div class="container p-4 admin-appointments-content" id="main-content">
+        <!-- Summary Cards -->
+        <div class="summary-cards-grid">
+            <div class="summary-card">
+                <span class="summary-card-label">Total Appointments</span>
+                <strong class="summary-card-value" id="total-count">0</strong>
+            </div>
+            <div class="summary-card">
+                <span class="summary-card-label">Pending</span>
+                <strong class="summary-card-value summary-card-value-pending" id="pending-count">0</strong>
+            </div>
+            <div class="summary-card">
+                <span class="summary-card-label">Approved</span>
+                <strong class="summary-card-value summary-card-value-approved" id="approved-count">0</strong>
+            </div>
+        </div>
+
+        <!-- Main Workspace -->
+        <div class="admin-workspace-grid">
+            <!-- Appointment Schedule Panel -->
+            <section class="admin-panel appointments-panel">
+                <div class="admin-panel-header table-header-gradient">
+                    <span class="admin-panel-title">Appointment Schedule</span>
+                </div>
+                <div class="admin-table-wrapper">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Customer</th>
+                                <th>Date &amp; Time</th>
+                                <th>Purpose</th>
+                                <th>Visitors</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="appointments-tbody">
+                            <tr>
+                                <td colspan="6" class="admin-table-empty-cell">
+                                    <div class="admin-empty-state">
+                                        <i class="fa-regular fa-calendar-xmark admin-empty-icon"></i>
+
+                                        <strong class="admin-empty-title">
+                                            No appointments found
+                                        </strong>
+
+                                        <span class="admin-empty-description">
+                                            No appointment requests received yet.
+                                        </span>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Customer Details Panel -->
+            <section class="admin-panel customer-details-panel">
+                <div class="admin-panel-header details-header-gradient">
+                    <span class="admin-panel-title">Customer Details</span>
+                </div>
+
+                <div class="customer-details-content" id="details-content">
+                    <div class="admin-empty-state admin-details-empty-state">
+                        <i class="fa-regular fa-calendar admin-empty-icon"></i>
+                        <span class="admin-empty-description">
+                            Select an appointment to view details
+                        </span>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>

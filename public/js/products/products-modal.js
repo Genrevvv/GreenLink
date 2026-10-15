@@ -72,5 +72,6 @@ export function productCardModal(productData) {
                     <span class="text-xs">Order Now</span>
                 </div>                    
             </div>
+        </div>
     `;
 }

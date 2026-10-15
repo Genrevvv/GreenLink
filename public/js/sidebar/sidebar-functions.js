@@ -30,10 +30,15 @@ export async function loadPage(page) {
 
     mainContent.innerHTML = await response.text();
 
+    let module = null;
     // Initialize the selected page
     if (page === 'products') {
-        const module = await import('../products/products.js');
+        module = await import('../products/products.js');
         cleanupPage = module.initProducts();
+    }
+    else if (page === 'appointments') {
+        module = await import('../appointments/appointments.js');
+        cleanupPage = module.initAppointments();  
     }
 }
 
