@@ -5,19 +5,6 @@
 }
 
 /* Products Table */
-.products-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 0.8rem;
-}
-
-.products-table th,
-.products-table td {
-    padding: 0.6rem 0.8rem;
-    text-align: left;
-    border-bottom: 1px solid var(--input-border);
-}
-
 .products-table td i {
     padding: 0.5rem;
     color: #fff;

@@ -1,0 +1,28 @@
+/* Table Component */
+.table-component {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.8rem;
+}
+
+.table-component th,
+.table-component td {
+    padding: 0.6rem 0.8rem;
+    text-align: left;
+    border-bottom: 1px solid var(--input-border);
+}
+
+/* Table Status */
+.table-component .status {
+    display: inline-block;
+    padding: 0.25rem 0.65rem;
+    border-radius: 0.5rem;
+}
+
+/* Table Actions */
+.table-component .action-icon {
+    padding: 0.5rem;
+    color: #fff;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+}
