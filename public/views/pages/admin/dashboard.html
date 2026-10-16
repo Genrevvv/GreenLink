@@ -1,32 +1,43 @@
-<div class="main-container-dashboard">
+<div class="main-container-dashboard container p-4">
 
-    <!-- STATS CARDS -->
-    <div class="stat-cards-container flex justify-between">
-        <div class="order-card card shadow-bottom">Total Orders</div>
-
-        <div class="appointment-card card shadow-bottom">Total Appointments</div>
-
-        <div class="inquiries-card card shadow-bottom">Total Inquiries</div>
-
-        <div class="products-card card shadow-bottom">Total Products</div>
-    </div>
+    <!-- STATS CARDS (rendered from js/dashboard/dashboard-data.js) -->
+    <div class="stat-cards-container" id="stat-cards"></div>
 
 
     <!-- ACTIVITY CARD -->
-    <div class="activity-container shadow-bottom rounded-lg" >
-        <div class="card-header">Monthly Activity</div>
+    <div class="activity-container shadow-bottom rounded-md">
+        <div class="card-header flex-between">
+            <span class="bold">Monthly Activity</span>
+            <div class="flex gap-4 text-xs">
+                <span class="flex align-center gap-1">
+                    <span class="legend-dot legend-orders"></span>
+                    Orders: <strong id="activity-total-orders">0</strong>
+                </span>
+                <span class="flex align-center gap-1">
+                    <span class="legend-dot legend-appointments"></span>
+                    Appointments: <strong id="activity-total-appointments">0</strong>
+                </span>
+            </div>
+        </div>
+        <div class="activity-chart flex justify-around gap-2 p-4" id="activity-chart"></div>
     </div>
 
     <!-- ORDERS AND APPOINTMENTS CARDS-->
-    <div class="admin-cards flex justify-between">
-        <div class="recent-order-card oaa shadow-bottom rounded-lg">
-            <div class="card-header">Recent Orders</div>
+    <div class="admin-cards grid grid-2 gap-4">
+        <div class="recent-order-card oaa shadow-bottom rounded-md">
+            <div class="card-header flex-between">
+                <span class="bold">Recent Orders</span>
+                <span class="card-header-count" id="recent-orders-count">0</span>
+            </div>
+            <ul class="dashboard-list" id="recent-orders-list"></ul>
         </div>
 
-        <div class="pending-appointment-card oaa shadow-bottom rounded-lg">
-            <div class="card-header">Pending Appointment Requests</div>
+        <div class="pending-appointment-card oaa shadow-bottom rounded-md">
+            <div class="card-header flex-between">
+                <span class="bold">Pending Appointment Requests</span>
+                <span class="card-header-count" id="pending-appointments-count">0</span>
+            </div>
+            <ul class="dashboard-list" id="pending-appointments-list"></ul>
         </div>
     </div>
 </div>
-
-

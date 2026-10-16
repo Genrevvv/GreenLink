@@ -38,7 +38,15 @@ export async function loadPage(page) {
     }
     else if (page === 'appointments') {
         module = await import('../appointments/appointments.js');
-        cleanupPage = module.initAppointments();  
+        cleanupPage = module.initAppointments();
+    }
+    else if (page === 'dashboard') {
+        module = await import('../dashboard/dashboard.js');
+        cleanupPage = module.initDashboard();
+    }
+    else if (page === 'inquiries') {
+        module = await import('../inquiries/inquiries.js');
+        cleanupPage = module.initInquiries();
     }
 }
 
@@ -61,4 +69,4 @@ export async function logout() {
     } catch (error) {
         console.error("Logout failed:", error);
     }
-}
+}
