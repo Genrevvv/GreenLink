@@ -1,0 +1,211 @@
+/* Inquiries page (reuses the admin panel/table styles from appointments.css) */
+.admin-inquiries-content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+}
+
+.admin-inquiries-content p {
+    margin: 0;
+}
+
+/* Summary */
+.inquiries-summary-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.inquiries-summary-icon {
+    color: var(--base-green);
+    font-size: var(--font-md);
+}
+
+.inquiries-value-new {
+    color: #b59f00;
+}
+
+/* Search */
+.inquiries-search {
+    max-width: 220px;
+    padding: 0.2rem 0.6rem;
+    background-color: rgb(255 255 255 / 0.15);
+    border-radius: 1rem;
+    font-size: var(--font-xs);
+}
+
+.inquiries-search input {
+    color: white;
+    background: transparent;
+    border: none;
+    outline: none;
+    font-size: var(--font-xs);
+}
+
+.inquiries-search input::placeholder {
+    color: rgb(255 255 255 / 0.7);
+}
+
+/* Tabs */
+.inquiries-tabs {
+    border-bottom: 1px solid #eef1ef;
+}
+
+.inquiries-tab {
+    padding: 0.2rem 0.8rem;
+    color: var(--dark-green);
+    background: transparent;
+    border: 1px solid var(--input-border);
+    border-radius: 1rem;
+    font-size: var(--font-xs);
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.inquiries-tab:hover {
+    border-color: var(--base-green);
+}
+
+.inquiries-tab.active {
+    color: white;
+    background-color: var(--base-green);
+    border-color: var(--base-green);
+}
+
+/* Table */
+.inquiry-row {
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.inquiry-row:hover {
+    background-color: var(--clr-light);
+}
+
+.inquiry-row-new td:first-child strong {
+    color: var(--darker-green);
+}
+
+.inquiry-row-new td:first-child {
+    box-shadow: inset 3px 0 0 var(--yellow-green);
+}
+
+.inquiry-row-selected,
+.inquiry-row-selected:hover {
+    background-color: color-mix(in srgb, var(--base-green) 12%, transparent);
+}
+
+.inquiry-subject {
+    max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.inquiry-muted {
+    color: #6b7280;
+}
+
+.inquiry-status {
+    display: inline-block;
+    padding: 0.1rem 0.6rem;
+    border-radius: 1rem;
+    font-size: var(--font-xs);
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.inquiry-status-new     { color: var(--darker-green); background-color: var(--yellow-green); }
+.inquiry-status-read    { color: var(--dark-green); background-color: #e5e7eb; }
+.inquiry-status-replied { color: white; background-color: var(--base-green); }
+
+.inquiry-action-btn {
+    width: 1.6rem;
+    height: 1.6rem;
+    color: white;
+    border: none;
+    border-radius: var(--radius-sm);
+    font-size: var(--font-xs);
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+}
+
+.inquiry-action-btn:hover {
+    opacity: 0.8;
+}
+
+.inquiry-view-btn   { background-color: var(--base-green); }
+.inquiry-delete-btn { background-color: var(--clr-failed); }
+
+/* Details */
+.inquiry-avatar {
+    width: 2.75rem;
+    height: 2.75rem;
+    flex-shrink: 0;
+    color: var(--darker-green);
+    background-color: var(--yellow-green);
+    border-radius: 50%;
+    font-weight: 700;
+}
+
+.inquiry-name {
+    color: var(--darker-green);
+}
+
+.inquiry-info {
+    padding: var(--space-3);
+    color: var(--dark-green);
+    background-color: #F8F9FA;
+    border-radius: var(--radius-md);
+}
+
+.inquiry-info i {
+    width: 1rem;
+    color: var(--base-green);
+}
+
+.inquiry-label {
+    color: #6b7280;
+    font-size: var(--font-xs);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.inquiry-message {
+    padding: var(--space-3);
+    color: var(--clr-text);
+    background-color: #F8F9FA;
+    border-left: 3px solid var(--base-green);
+    border-radius: var(--radius-sm);
+    line-height: 1.6;
+    white-space: pre-wrap;
+}
+
+.inquiry-reply {
+    background-color: color-mix(in srgb, var(--base-green) 10%, transparent);
+}
+
+.inquiry-reply-input {
+    padding: var(--space-2);
+    font-size: var(--font-xs);
+    resize: vertical;
+    outline: none;
+}
+
+.inquiry-reply-input:focus {
+    border-color: var(--base-green);
+}
+
+.inquiry-send-btn {
+    padding: var(--space-2);
+    font-size: var(--font-xs);
+}
+
+.inquiry-send-btn:hover {
+    background-color: var(--darker-green);
+}
+
+@media (max-width: 900px) {
+    .inquiries-summary-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}

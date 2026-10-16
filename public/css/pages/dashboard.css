@@ -2,71 +2,245 @@
 .main-container-dashboard * {
     box-sizing: border-box;
     min-width: 0;
-    max-width: 100%;
 }
 
 .main-container-dashboard {
     font-size: 14px;
 }
 
+.main-container-dashboard p {
+    margin: 0;
+}
+
 /* Stat Cards */
 .stat-cards-container {
-    display: flex;
-    flex-wrap: nowrap;
-    gap: 15px;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: var(--space-4);
     width: 100%;
-    margin: 20px 0;
+    margin-bottom: var(--space-5);
 }
 
-<<<<<<< HEAD
-
-/* Cards */
-.stat-cards-container { 
-    height: 1%;
-    margin: 25px 0 25px 0;
-}
-
-.card { 
-    background-color: rgb(255, 255, 255);
-    height: 125 px;
-    width: 350px;
-=======
 .card {
-    flex: 1 1 0;
-    min-width: 0;
-    padding: 15px;
-    min-height: 100px;
+    padding: var(--space-4);
+    min-height: 120px;
     background: white;
->>>>>>> 56fd7f0ebc1e22786767a3bcf4349c652a7da6cb
-    border-radius: 20px;
+    border-radius: var(--radius-lg);
+    border-left: 4px solid var(--base-green);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
+
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px rgb(0 0 0 / 0.12);
+}
+
+.stat-card-label {
+    color: var(--dark-green);
+    font-weight: 500;
+}
+
+.stat-card-icon {
+    width: 2.25rem;
+    height: 2.25rem;
+    color: var(--darker-green);
+    background-color: var(--yellow-green);
+    border-radius: 50%;
+}
+
+.stat-card-value {
+    color: var(--darker-green);
+    font-size: 1.75rem;
+    line-height: 1.1;
+}
+
+.stat-card-sub {
+    color: #6b7280;
+}
+
+.stat-card-sub strong {
+    color: var(--base-green);
+}
+
+.stat-card-orders       { border-left-color: var(--darker-green); }
+.stat-card-appointments { border-left-color: var(--dark-green); }
+.stat-card-inquiries    { border-left-color: var(--base-green); }
+.stat-card-products     { border-left-color: var(--yellow-green); }
 
 /* Activity */
 .activity-container {
     width: 100%;
-    min-height: 250px;
-    margin-bottom: 25px;
+    margin-bottom: var(--space-5);
     background: white;
+    overflow: hidden;
 }
+
+.activity-chart {
+    height: 260px;
+    align-items: flex-end;
+    background-image: repeating-linear-gradient(
+        to top,
+        transparent 0,
+        transparent 49px,
+        #eef1ef 49px,
+        #eef1ef 50px
+    );
+    background-origin: content-box;
+}
+
+.activity-month {
+    flex: 1;
+    justify-content: flex-end;
+}
+
+.activity-bars {
+    flex: 1;
+    align-items: flex-end;
+}
+
+.activity-bar {
+    position: relative;
+    width: 32%;
+    max-width: 28px;
+    min-height: 4px;
+    border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+    transition: opacity 0.2s ease;
+}
+
+.activity-bar:hover {
+    opacity: 0.8;
+}
+
+.activity-bar-orders       { background-color: var(--base-green); }
+.activity-bar-appointments { background-color: var(--yellow-green); }
+
+.activity-bar-value {
+    position: absolute;
+    top: -1.2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    color: var(--darker-green);
+    font-size: var(--font-xs);
+}
+
+.activity-month-label {
+    color: var(--dark-green);
+}
+
+.legend-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+}
+
+.legend-orders       { background-color: var(--base-green); }
+.legend-appointments { background-color: var(--yellow-green); }
 
 /* Card Header */
 .card-header {
-    min-height: 60px;
-    padding: 16px;
+    min-height: 52px;
+    padding: var(--space-3) var(--space-4);
     background: linear-gradient(to right, var(--darker-green), var(--dark-green));
     color: white;
     font-size: 13px;
 }
 
+.card-header-count {
+    min-width: 1.6rem;
+    padding: 0.1rem 0.5rem;
+    color: var(--darker-green);
+    background-color: var(--yellow-green);
+    border-radius: 1rem;
+    font-size: var(--font-xs);
+    font-weight: 700;
+    text-align: center;
+}
+
 /* Other Activity Area */
 .oaa {
-    flex: 1 1 0;
     min-height: 300px;
-    margin: 0 0.5rem;
-    margin-bottom: 25px;
+    margin-bottom: var(--space-5);
     background: white;
-    border-radius: 20px;
+    overflow: hidden;
 }
+
+/* Lists */
+.dashboard-list-item {
+    padding: var(--space-3) var(--space-4);
+    border-bottom: 1px solid #eef1ef;
+    transition: background-color 0.2s ease;
+}
+
+.dashboard-list-item:last-child {
+    border-bottom: none;
+}
+
+.dashboard-list-item:hover {
+    background-color: var(--clr-light);
+}
+
+.dashboard-list-item .text-sm {
+    color: var(--darker-green);
+}
+
+.dashboard-muted {
+    color: #6b7280;
+}
+
+.dashboard-list-icon {
+    width: 2.25rem;
+    height: 2.25rem;
+    flex-shrink: 0;
+    color: var(--dark-green);
+    background-color: color-mix(in srgb, var(--base-green) 15%, transparent);
+    border-radius: var(--radius-md);
+}
+
+.date-badge {
+    width: 2.75rem;
+    height: 2.75rem;
+    flex-shrink: 0;
+    color: white;
+    background-color: var(--dark-green);
+    border-radius: var(--radius-md);
+    line-height: 1.1;
+}
+
+.date-badge-month {
+    font-size: var(--font-xs);
+    text-transform: uppercase;
+}
+
+.date-badge-day {
+    font-size: var(--font-md);
+}
+
+.dashboard-empty {
+    min-height: 200px;
+    color: var(--input-border);
+}
+
+.dashboard-empty i {
+    font-size: 2rem;
+}
+
+/* Status Pills (also used by the inquiries page) */
+.status-pill {
+    display: inline-block;
+    width: fit-content;
+    margin-left: auto;
+    margin-top: 0.15rem;
+    padding: 0.1rem 0.6rem;
+    border-radius: 1rem;
+    font-size: var(--font-xs);
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.status-pending    { color: #7a6a00; background-color: #fdf6c9; }
+.status-processing { color: var(--darker-green); background-color: var(--yellow-green); }
+.status-completed  { color: white; background-color: var(--base-green); }
+.status-cancelled  { color: var(--clr-failed); background-color: #fde8e8; }
 
 /* Headings */
 .main-container-dashboard h1 { font-size: 22px; }
@@ -74,7 +248,19 @@
 .main-container-dashboard h3 { font-size: 16px; }
 .main-container-dashboard small { font-size: 12px; }
 
-/* 
-    Pinaayos ko muna sa AI ung sizing par, 
-    medyo nakaka-bother kasi pag nilo-load ko ung page haha 
+@media (max-width: 1100px) {
+    .stat-cards-container {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 800px) {
+    .admin-cards.grid-2 {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+/*
+    Pinaayos ko muna sa AI ung sizing par,
+    medyo nakaka-bother kasi pag nilo-load ko ung page haha
 */

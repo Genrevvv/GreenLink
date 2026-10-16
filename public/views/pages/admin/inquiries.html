@@ -1,0 +1,73 @@
+<div class="container flex-column">
+    <div class="container p-4 admin-inquiries-content">
+        <!-- Summary Cards (rendered from js/inquiries/inquiries-data.js) -->
+        <div class="grid inquiries-summary-grid gap-4">
+            <div class="summary-card">
+                <i class="fa-regular fa-message inquiries-summary-icon"></i>
+                <span class="summary-card-label">Total Inquiries</span>
+                <strong class="summary-card-value" id="inquiries-total-count">0</strong>
+            </div>
+            <div class="summary-card">
+                <i class="fa-regular fa-envelope inquiries-summary-icon"></i>
+                <span class="summary-card-label">New</span>
+                <strong class="summary-card-value inquiries-value-new" id="inquiries-new-count">0</strong>
+            </div>
+            <div class="summary-card">
+                <i class="fa-regular fa-envelope-open inquiries-summary-icon"></i>
+                <span class="summary-card-label">Read</span>
+                <strong class="summary-card-value" id="inquiries-read-count">0</strong>
+            </div>
+            <div class="summary-card">
+                <i class="fa-solid fa-reply inquiries-summary-icon"></i>
+                <span class="summary-card-label">Replied</span>
+                <strong class="summary-card-value summary-card-value-approved" id="inquiries-replied-count">0</strong>
+            </div>
+        </div>
+
+        <!-- Main Workspace -->
+        <div class="admin-workspace-grid">
+            <!-- Inquiries List Panel -->
+            <section class="admin-panel">
+                <div class="admin-panel-header table-header-gradient flex-between gap-3">
+                    <span class="admin-panel-title">Customer Inquiries</span>
+                    <div class="inquiries-search flex align-center gap-2">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="text" id="inquiries-search" class="w-full" placeholder="Search name or subject">
+                    </div>
+                </div>
+
+                <!-- Filter Tabs -->
+                <div class="inquiries-tabs flex gap-2 px-3 py-2" id="inquiries-tabs">
+                    <button type="button" class="inquiries-tab active" data-filter="All">All</button>
+                    <button type="button" class="inquiries-tab" data-filter="New">New</button>
+                    <button type="button" class="inquiries-tab" data-filter="Read">Read</button>
+                    <button type="button" class="inquiries-tab" data-filter="Replied">Replied</button>
+                </div>
+
+                <div class="admin-table-wrapper">
+                    <table class="admin-table inquiries-table">
+                        <thead>
+                            <tr>
+                                <th>Customer</th>
+                                <th>Subject</th>
+                                <th>Date</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="inquiries-tbody"></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Inquiry Details Panel -->
+            <section class="admin-panel">
+                <div class="admin-panel-header details-header-gradient">
+                    <span class="admin-panel-title">Inquiry Details</span>
+                </div>
+
+                <div class="customer-details-content" id="inquiry-details"></div>
+            </section>
+        </div>
+    </div>
+</div>
