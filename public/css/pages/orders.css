@@ -55,6 +55,11 @@
     color: #fff;
 }
 
+.status-approved {
+    background-color: var(--dark-green);
+    color: #fff;
+}
+
 /* Order Management */
 .order-management-container {
     border-radius: 1rem;

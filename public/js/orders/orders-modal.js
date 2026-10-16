@@ -1,21 +1,26 @@
-export function orderRowModal(orderData) {
+
+export function orderRowModal(orderData, showActions = true) {
     let actions = '';
 
-    if (orderData.status === 'pending') {
-        actions = `
-            <i class="fa-solid fa-square-check text-xl action-approve"
-               title="Approve Order"></i>
-            <i class="fa-solid fa-square-xmark text-xl action-reject"
-               title="Reject Order"></i>
-        `;
-    }
-    else if (orderData.status === 'approved') {
-        actions = `
-            <span class="action-complete">
-                <i class="fa-regular fa-circle-check"></i>
-                <span>Complete</span>
-            </span>
-        `;
+    if (showActions) {
+        if (orderData.status === 'pending') {
+            actions = `
+                <td>
+                    <i class="fa-solid fa-square-check text-xl action-approve"
+                       title="Approve Order"></i>
+                    <i class="fa-solid fa-square-xmark text-xl action-reject"
+                       title="Reject Order"></i>
+                </td>
+            `;
+        } else if (orderData.status === 'approved') {
+            actions = `
+                <td>
+                    <span class="action-complete">Complete</span>
+                </td>
+            `;
+        } else {
+            actions = '<td></td>';
+        }
     }
 
     return `
@@ -30,6 +35,6 @@ export function orderRowModal(orderData) {
                 ${orderData.status}
             </span>
         </td>
-        <td>${actions}</td>
+        ${actions}
     `;
 }

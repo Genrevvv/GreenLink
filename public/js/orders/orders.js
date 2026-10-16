@@ -1,6 +1,7 @@
 
 import { addOrder, filterOrders } from './orders-function.js';
 import { ordersData } from './orders-data.js';
+import { updateOrderSummary } from './orders-summary.js';
 import { getCurrentUser } from '../utils/user.js';
 
 export function initOrders() {
@@ -15,27 +16,24 @@ export function initOrders() {
 }
 
 function adminOrderScript() {
-    // Load orders (pseudo loader for front-end testing, temporary)
     for (const orderData of ordersData) {
         addOrder(orderData);
     }
 
-    // TODO: Add backend integration
+    updateOrderSummary();
 }
 
 function userOrderScript() {
-    // TODO: Load orders belonging to current user
+    // TODO: Load orders belonging to the current user
+    for (const orderData of ordersData) {
+        addOrder(orderData, false);
+    }
 }
 
 function setupOrderFilters() {
     const searchInput = document.querySelector('#search-order');
     const statusFilter = document.querySelector('#filter-order-status');
 
-    if (searchInput) {
-        searchInput.oninput = filterOrders;
-    }
-
-    if (statusFilter) {
-        statusFilter.onchange = filterOrders;
-    }
+    if (searchInput) searchInput.oninput = filterOrders;
+    if (statusFilter) statusFilter.onchange = filterOrders;
 }

@@ -1,18 +1,21 @@
 
 import { createNotificationElement } from '../utils/notification/notification.js';
 import { orderRowModal } from './orders-modal.js';
+import { ordersData } from './orders-data.js';
+import { updateOrderSummary } from './orders-summary.js';
 
 // ORDER MANAGEMENT: Order Row
-export function addOrder(orderData) {
-    /* TODO:
-        - Implement backend
-    */
+export function addOrder(orderData, showActions = true) {
     const row = document.createElement('tr');
-    row.innerHTML = orderRowModal(orderData);
+    row.innerHTML = orderRowModal(orderData, showActions);
 
     document.querySelector('.order-management-table').appendChild(row);
 
-    setupOrderRowActions(row, orderData);
+    if (showActions) {
+        setupOrderRowActions(row, orderData);
+    }
+
+    updateOrderSummary();
     filterOrders();
 }
 
@@ -67,7 +70,7 @@ function setupOrderRowActions(orderRow, orderData) {
 
     if (rejectOrderAct) {
         rejectOrderAct.onclick = () => {
-            rejectOrder(orderRow);
+            rejectOrder(orderRow, orderData);
         };
     }
 
@@ -86,6 +89,8 @@ function updateOrderStatus(orderRow, orderData, status) {
     orderRow.innerHTML = orderRowModal(orderData);
 
     setupOrderRowActions(orderRow, orderData);
+
+    updateOrderSummary();
     filterOrders();
 
     // Testing message only
@@ -95,7 +100,7 @@ function updateOrderStatus(orderRow, orderData, status) {
     });
 }
 
-function rejectOrder(orderRow) {
+function rejectOrder(orderRow, orderData) {
     /* TODO:
         - Implement backend
     */
@@ -103,6 +108,16 @@ function rejectOrder(orderRow) {
     if (!confirmed) return;
 
     orderRow.remove();
+
+    // Remove rejected order from temporary data
+    const orderIndex = ordersData.indexOf(orderData);
+
+    if (orderIndex !== -1) {
+        ordersData.splice(orderIndex, 1);
+    }
+
+    updateOrderSummary();
+    filterOrders();
 
     createNotificationElement({
         status: 'success',
