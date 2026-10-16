@@ -33,7 +33,12 @@
 .products-table td span.out-of-stock    { background-color: lightgray; }
 .products-table td span.limited-stock   { background-color: var(--yellow-green); }
 
-.fa-trash-can { background: var(--clr-danger); }
+.fa-trash-can:hover,
+.fa-pen-to-square:hover {
+    cursor: pointer;
+}
+
+.fa-trash-can { background: var(--clr-failed); }
 .fa-pen-to-square { background: var(--base-green); }
 
 /* Add Product Modal */
@@ -92,4 +97,78 @@
     top: 1rem;
     right: 1rem;
     cursor: pointer;
+}
+
+/* Product Card */
+#product-cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.product-card {
+    width: 300px;
+    background-color: #fff;
+    padding-bottom: 0.7rem;
+    border-radius: 1rem;
+    overflow: hidden;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.product-card .qty-btn:hover {
+    background-color: color-mix(in srgb, var(--base-green) 20%, transparent);
+}
+
+.product-image {
+    height: 7rem;
+    background: radial-gradient(circle, var(--base-green), #5ba783);
+}
+
+.product-image .fa-leaf {
+    color: #fff;
+    font-size: 2.5rem;
+}
+
+.product-option {
+    display: grid;
+    grid-template-columns: 40% 60%;
+    padding-inline: 0;
+}
+
+.product-option input[type="number"] {
+    width: 2.5rem;
+    text-align: center;
+    border: none;
+    outline: none;
+}
+
+.product-option input[type="number"]::-webkit-inner-spin-button,
+.product-option input[type="number"]::-webkit-outer-spin-button {
+    transform: scale(0.8);
+}
+
+.product-option button {
+    background: transparent;
+    border: none;
+    padding-inline: 0.5rem;
+    cursor: pointer;
+}
+
+.order-btn {
+    background-color: var(--darker-green);
+    color: #fff;
+    text-align: center;
+    align-items: center;
+    border-radius: 0.5rem;
+    user-select: none;
+}
+
+.order-btn:hover {
+    background-color: var(--dark-green);
+    cursor: pointer;
+}
+
+.order-btn .fa-cart-shopping {
+    font-size: 0.7rem;
+    margin-right: 0.5rem;
 }

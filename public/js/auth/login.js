@@ -20,6 +20,10 @@ login.addEventListener('click', async (e) => {
             return;
         }
 
+        /*
+            Set user-data (for front-end use)
+            user = {id, username, user_type}    // user data content, for reference
+        */
         sessionStorage.setItem('user', JSON.stringify(data.user));
         window.location.href = '/';
 

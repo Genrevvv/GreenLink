@@ -5,12 +5,16 @@ const mainContent = document.querySelector('#main-content');
 const headerText = document.querySelector('#header-text');
 const user = getCurrentUser();
 
+let cleanupPage = null;
+
 export async function loadPage(page) {
-    // js for testing, remove the products page specific constraint later
-    // const pagePath = page === 'products' ? `/views/pages/${user.user_type}/${page}.html` : '/views/dummy.html';
-    
+    // Clean up the previous page's script
+    if (cleanupPage) {
+        cleanupPage();
+        cleanupPage = null;
+    }
+
     const pagePath = `/views/pages/${user.user_type}/${page}.html`;
-    
     console.log(pagePath)
 
     const response = await fetch(pagePath);
@@ -26,9 +30,15 @@ export async function loadPage(page) {
 
     mainContent.innerHTML = await response.text();
 
-    // Import scripts everytime page is loaded
+    let module = null;
+    // Initialize the selected page
     if (page === 'products') {
-        import('../products/products.js');
+        module = await import('../products/products.js');
+        cleanupPage = module.initProducts();
+    }
+    else if (page === 'appointments') {
+        module = await import('../appointments/appointments.js');
+        cleanupPage = module.initAppointments();  
     }
 }
 
@@ -47,7 +57,7 @@ export function updateHeaderText(text) {
 export async function logout() {
     try {
         await apiFetch('/logout', 'POST');
-        window.location.href = "/login";
+        window.location.href = "/";
     } catch (error) {
         console.error("Logout failed:", error);
     }
