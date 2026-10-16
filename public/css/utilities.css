@@ -130,11 +130,28 @@
 .rounded-lg     { border-radius: 2rem; }
 .shadow-bottom  { box-shadow: var(--shadow-bottom); }
 
-/* Background */
-.bg-darker-green { background-color: var(--darker-green); }
-.bg-dark-green   { background-color: var(--dark-green); }
-.bg-base-green   { background-color: var(--base-green); }
-.bg-yellow-green { background-color: var(--yellow-green) }
+/* Text Colors */
+.text-drg { color: var(--darker-green); }
+.text-dg  { color: var(--dark-green); }
+.text-bg  { color: var(--base-green); }
+.text-yg  { color: var(--yellow-green); }
+
+/* Background Colors */
+.bg-drg { background-color: var(--darker-green); }
+.bg-dg  { background-color: var(--dark-green); }
+.bg-bg  { background-color: var(--base-green); }
+.bg-yg  { background-color: var(--yellow-green); }
+
+/* Background Gradients */
+.bg-g-drd   { background: linear-gradient(to right, var(--darker-green), var(--dark-green)); }  /* green: darker to dark */
+.bg-g-db    { background: linear-gradient(to right, var(--dark-green), var(--base-green)); }    /* green: dark to base */
+
+/* Border */
+.bd-lg  {     border: 1px solid #cbcccf; }
+.bd-drg { border: 1px solid var(--darker-green); }
+.bd-dg  { border: 1px solid var(--dark-green); }
+.bd-bg  { border: 1px solid var(--base-green); }
+.bd-yg  { border: 1px solid var(--yellow-green); }
 
 /* Text Color */
 .text-white { color: #fff; }

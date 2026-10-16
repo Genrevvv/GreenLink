@@ -48,6 +48,11 @@ export async function loadPage(page) {
         module = await import('../inquiries/inquiries.js');
         cleanupPage = module.initInquiries();
     }
+    else if (page === 'orders') {
+        module = await import('../orders/orders.js');
+        cleanupPage = module.initOrders();
+    }
+
 }
 
 export function selectOption(selectedOption, options) {
@@ -69,4 +74,4 @@ export async function logout() {
     } catch (error) {
         console.error("Logout failed:", error);
     }
-}
+}

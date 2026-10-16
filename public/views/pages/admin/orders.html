@@ -1,35 +1,48 @@
 <div class="container p-4">
     <!-- SUMMARY CARDS -->
     <div class="container flex-center gap-4 mt-4">
-        <div class="container flex-column align-center shadow-bottom rounded-sm">
+        <div class="container flex-column align-center shadow-bottom rounded-sm py-4 bd-lg">
             <span class="text-xs">Total Orders</span>
             <h2 id="total-orders" class="text-lg">7</h2>
         </div>
-        <div class="container flex-column align-center shadow-bottom rounded-sm">
+        <div class="container flex-column align-center shadow-bottom rounded-sm py-4 bd-lg">
             <span class="text-xs">Pending</span>
-            <h2 id="pending-orders" class="text-lg">3</h2>
+            <h2 id="pending-orders" class="text-lg text-yg">3</h2>
         </div>
-        <div class="container flex-column align-center shadow-bottom rounded-sm">
+        <div class="container flex-column align-center shadow-bottom rounded-sm py-4 bd-lg">
             <span class="text-xs">Approved</span>
-            <h2 id="approved-orders" class="text-lg">2</h2>
+            <h2 id="approved-orders" class="text-lg text-dg">2</h2>
         </div>
-        <div class="container flex-column align-center shadow-bottom rounded-sm">
+        <div class="container flex-column align-center shadow-bottom rounded-sm py-4 bd-lg">
             <span class="text-xs">Completed</span>
-            <h2 id="completed-orders" class="text-lg">2</h2>
+            <h2 id="completed-orders" class="text-lg text-bg">2</h2>
         </div>
     </div>
     
     <!-- ORDER MANAGEMENT -->
-     <div class="container mt-4">
+     <div class="mt-4 order-management-container bd-lg">
         <!-- Container Header -->
-        <div class="container flex-between bg-darker-green text-white p-2">
+        <div class="container flex-between bg-g-drd text-white p-2">
             <h2 class="text-sm w-full">Order Management</h2>
-            <div class="container flex justify-end">
-                <!-- <span class="text-sm bg-base-green p-1 px-2 rounded-sm" id="add-product">+ Add product</span> -->
+
+            <div class="container flex justify-end align-center gap-2 order-header-actions">
+                <!-- Search Bar -->
+                <div class="order-search">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" id="search-order" placeholder="Search orders...">
+                </div>
+
+                <!-- Status Filter -->
+                <select id="filter-order-status">
+                    <option value="all">All Status</option>
+                    <option value="pending">Pending</option>
+                    <option value="approved">Approved</option>
+                    <option value="completed">Completed</option>
+                </select>
             </div>
         </div>
 
-        <!-- Products List -->
+        <!-- Order List -->
         <div class="container mt-4">
             <table class="table-component order-management-table">
                 <tr>
@@ -42,20 +55,7 @@
                     <th>Status</th>
                     <th>Actions</th>
                 </tr>
-                <!-- product rows -->
-                <tr>
-                    <td>ORD-667</td>
-                    <td>Juan Dela Cruz</td>
-                    <td>Lettuce</td>
-                    <td>5</td>
-                    <td>2026-05-29</td>
-                    <td>₱225.00</td>
-                    <td>Pending</td>
-                    <td>
-                        <i class="fa-solid fa-square-check text-xl"></i>
-                        <i class="fa-solid fa-square-xmark text-xl"></i>
-                    </td>
-                </tr>
+                <!-- Orders rows -->
             </table>
         </div>
      </div>
