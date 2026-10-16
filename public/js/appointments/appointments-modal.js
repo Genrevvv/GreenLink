@@ -124,3 +124,54 @@ export function appointmentDetailsModal(appointment) {
         </div>
     `;
 }
+// USER APPOINTMENTS
+export function emptyUserAppointmentsModal() {
+    return `
+        <div class="admin-empty-state user-appointments-empty">
+            <i class="fa-regular fa-calendar admin-empty-icon"></i>
+            <strong class="admin-empty-title">
+                No upcoming appointments
+            </strong>
+            <span class="admin-empty-description">
+                Your appointment requests will appear here.
+            </span>
+        </div>
+    `;
+}
+
+export function userAppointmentCardModal(appointment) {
+    const purpose = escapeHtml(appointment.purpose);
+    const date = escapeHtml(appointment.date);
+    const time = escapeHtml(appointment.time);
+    const visitors = escapeHtml(appointment.visitors);
+    const status = escapeHtml(appointment.status);
+
+    const statusClass = {
+        Approved: 'user-appointment-status-approved',
+        Pending: 'user-appointment-status-pending',
+        Rejected: 'user-appointment-status-rejected'
+    }[appointment.status] || 'user-appointment-status-pending';
+
+    return `
+        <article class="user-appointment-card">
+            <div class="user-appointment-card-header">
+                <h3 class="user-appointment-card-title">${purpose}</h3>
+                <span class="user-appointment-status ${statusClass}">
+                    ${status}
+                </span>
+            </div>
+
+            <div class="user-appointment-card-details">
+                <i class="fa-regular fa-calendar" aria-hidden="true"></i>
+                <span>${date}</span>
+                <i class="fa-regular fa-clock" aria-hidden="true"></i>
+                <span>${time}</span>
+            </div>
+
+            <div class="user-appointment-card-details">
+                <i class="fa-solid fa-users" aria-hidden="true"></i>
+                <span>${visitors} visitors</span>
+            </div>
+        </article>
+    `;
+}

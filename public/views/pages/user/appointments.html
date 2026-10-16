@@ -1,0 +1,213 @@
+<div class="container flex-column user-appointments-content" id="user-appointments-content">
+    <div class="user-appointments-grid">
+
+        <!-- BOOK APPOINTMENT -->
+        <section class="admin-panel user-appointment-booking-panel">
+            <div class="admin-panel-header user-booking-header">
+                <span class="admin-panel-title">
+                    <i class="fa-regular fa-calendar"></i>
+                    Book Farm Visit
+                </span>
+            </div>
+
+            <div class="user-appointment-form-content">
+                <form id="appointment-booking-form" class="flex-column gap-4">
+
+                    
+            <div class="user-appointment-field">
+                <label class="user-appointment-label" for="appointment-date">
+                    Select Date
+                </label>
+
+                <input
+                    type="hidden"
+                    id="appointment-date"
+                    name="appointment-date"
+                >
+
+                <div class="custom-calendar">
+                    <div class="custom-calendar-header">
+                        <button
+                            type="button"
+                            class="custom-calendar-nav"
+                            id="calendar-prev"
+                            aria-label="Previous month"
+                        >
+                        </button>
+
+                        <strong
+                            class="custom-calendar-month"
+                            id="calendar-month-year"
+                            aria-live="polite"
+                        ></strong>
+
+                        <button
+                            type="button"
+                            class="custom-calendar-nav"
+                            id="calendar-next"
+                            aria-label="Next month"
+                        >
+                        </button>
+                    </div>
+
+                    <div class="custom-calendar-weekdays" aria-hidden="true">
+                        <span>Sun</span>
+                        <span>Mon</span>
+                        <span>Tue</span>
+                        <span>Wed</span>
+                        <span>Thu</span>
+                        <span>Fri</span>
+                        <span>Sat</span>
+                    </div>
+
+                    <div
+                        class="custom-calendar-days"
+                        id="calendar-days"
+                        role="group"
+                        aria-label="Choose an appointment date"
+                    ></div>
+
+                    <p
+                        class="custom-calendar-selected"
+                        id="calendar-selected-date"
+                        aria-live="polite"
+                    >
+                        Please select a date.
+                    </p>
+                </div>
+            </div>
+
+                    <div class="user-appointment-field">
+                        <label for="appointment-time" class="user-appointment-label">
+                            <i class="fa-regular fa-clock"></i>
+                            Time Slot
+                        </label>
+                        <select
+                            id="appointment-time"
+                            name="appointment-time"
+                            class="input"
+                            required
+                        >
+                            <option value="">Select a time</option>
+                            <option value="08:00 AM">8:00 AM</option>
+                            <option value="09:00 AM">9:00 AM</option>
+                            <option value="10:00 AM">10:00 AM</option>
+                            <option value="11:00 AM">11:00 AM</option>
+                            <option value="01:00 PM">1:00 PM</option>
+                            <option value="02:00 PM">2:00 PM</option>
+                            <option value="03:00 PM">3:00 PM</option>
+                            <option value="04:00 PM">4:00 PM</option>
+                        </select>
+                    </div>
+
+                    <div class="user-appointment-field">
+                        <label for="appointment-purpose" class="user-appointment-label">
+                            Visit Purpose
+                        </label>
+                        <select
+                            id="appointment-purpose"
+                            name="appointment-purpose"
+                            class="input"
+                            required
+                        >
+                            <option value="">Select a purpose</option>
+                            <option value="Farm Tour">Farm Tour</option>
+                            <option value="Educational Visit">Educational Visit</option>
+                            <option value="Training Inquiry">Training Inquiry</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+
+                    <div class="user-appointment-field">
+                        <label for="appointment-visitors" class="user-appointment-label">
+                            <i class="fa-solid fa-users"></i>
+                            Number of Visitors
+                        </label>
+                        <input
+                            type="number"
+                            id="appointment-visitors"
+                            name="appointment-visitors"
+                            class="input"
+                            min="1"
+                            step="1"
+                            placeholder="e.g., 4"
+                            required
+                        >
+                    </div>
+
+                    <div class="user-appointment-field">
+                        <label for="appointment-notes" class="user-appointment-label">
+                            Notes (Optional)
+                        </label>
+                        <textarea
+                            id="appointment-notes"
+                            name="appointment-notes"
+                            class="input user-appointment-notes"
+                            rows="4"
+                            placeholder="Special requests or additional information..."
+                        ></textarea>
+                    </div>
+
+                    <p
+                        id="appointment-form-message"
+                        class="user-appointment-message hidden"
+                        role="status"
+                        aria-live="polite"
+                    ></p>
+
+                    <button
+                        type="submit"
+                        id="submit-appointment-btn"
+                        class="btn btn-primary user-appointment-submit"
+                    >
+                        Submit Appointment Request
+                    </button>
+
+                </form>
+            </div>
+        </section>
+
+        <!-- USER APPOINTMENTS SIDEBAR -->
+        <div class="user-appointments-sidebar">
+
+            <!-- UPCOMING APPOINTMENTS -->
+            <section class="admin-panel upcoming-appointments-panel">
+                <div class="admin-panel-header user-upcoming-header">
+                    <span class="admin-panel-title">
+                        <i class="fa-regular fa-calendar-check"></i>
+                        Upcoming Appointments
+                    </span>
+                </div>
+
+                <div class="upcoming-appointments-list" id="user-appointments-list">
+                    <div class="admin-empty-state user-appointments-empty">
+                        <i class="fa-regular fa-calendar admin-empty-icon"></i>
+                        <strong class="admin-empty-title">
+                            No upcoming appointments
+                        </strong>
+                        <span class="admin-empty-description">
+                            Your appointment requests will appear here.
+                        </span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- APPOINTMENT REMINDERS -->
+            <section class="user-appointment-reminders">
+                <div class="user-reminders-content">
+                    <h3 class="user-reminders-title">
+                        Appointment Reminders
+                    </h3>
+
+                    <ul class="user-reminders-list">
+                        <li>Please arrive 10 minutes before your scheduled time.</li>
+                        <li>Wear comfortable clothing and closed-toe shoes.</li>
+                        <li>Farm tours are weather-dependent.</li>
+                        <li>Contact us 24 hours in advance for cancellations.</li>
+                    </ul>
+                </div>
+            </section>
+
+        </div>
+    </div>
+</div>

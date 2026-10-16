@@ -4,7 +4,8 @@ import { appointmentsData } from './appointments-data.js';
 import {
     updateSummaryCards,
     addAppointmentRow,
-    showAppointmentDetails
+    showAppointmentDetails,
+    initUserAppointments
 } from './appointments-function.js';
 
 export function initAppointments() {
@@ -20,10 +21,10 @@ export function initAppointments() {
 }
 
 function adminAppointmentsScript() {
-    // Setup appointment summary
+    // Setup appointment summary.
     updateSummaryCards(appointmentsData);
 
-    // Load appointments (temporary front-end testing)
+    // Load appointments (temporary front-end testing).
     const tbody = document.querySelector('#appointments-tbody');
 
     if (tbody) {
@@ -34,10 +35,12 @@ function adminAppointmentsScript() {
         addAppointmentRow(appointmentData, appointmentsData);
     }
 
-    // Setup initial appointment details panel
+    // Setup initial appointment details panel.
     showAppointmentDetails(appointmentsData);
 }
 
 function userAppointmentsScript() {
-    // TODO: Implement user appointments.
+    const userAppointmentsData = [];
+
+    initUserAppointments(userAppointmentsData);
 }
