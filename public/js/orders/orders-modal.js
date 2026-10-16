@@ -10,7 +10,12 @@ export function orderRowModal(orderData) {
         `;
     }
     else if (orderData.status === 'approved') {
-        actions = `<span class="action-complete">Complete</span>`;
+        actions = `
+            <span class="action-complete">
+                <i class="fa-regular fa-circle-check"></i>
+                <span>Complete</span>
+            </span>
+        `;
     }
 
     return `

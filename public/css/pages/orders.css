@@ -63,17 +63,17 @@
 
 /* Order Management Table */
 .order-management-table .fa-square-check {
-    color: green;
+    color: var(--base-green);
 }
 
 .order-management-table .fa-square-xmark {
-    color: red;
+    color: var(--clr-failed);
 }
 
 .order-management-table .action-complete {
     background-color: var(--dark-green);
     color: #fff;
-    padding: 0.25rem 0.65rem;
+    padding: 0.2rem 0.4rem;
     border-radius: var(--radius-sm);
     cursor: pointer;
     user-select: none;

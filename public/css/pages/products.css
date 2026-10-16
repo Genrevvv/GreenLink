@@ -1,3 +1,9 @@
+/* Product Managment */
+.product-management-container {
+    border-radius: 1rem;
+    overflow: hidden;
+}
+
 /* Products Management - Header */
 #add-product {
     cursor: pointer;

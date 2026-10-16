@@ -147,7 +147,7 @@
 .bg-g-db    { background: linear-gradient(to right, var(--dark-green), var(--base-green)); }    /* green: dark to base */
 
 /* Border */
-.bd-lg  {     border: 1px solid #cbcccf; }
+.bd-lg  {     border: 1px solid var(--input-border); }
 .bd-drg { border: 1px solid var(--darker-green); }
 .bd-dg  { border: 1px solid var(--dark-green); }
 .bd-bg  { border: 1px solid var(--base-green); }
