@@ -1,42 +1,39 @@
+import { productsData } from './products-data.js';
+
 const totalProducts = document.querySelector('#total-products');
 const inStock = document.querySelector('#in-stock');
-const limitedStock = document.querySelector('#limited-stock');
-const totalValue = document.querySelector('#total-value');
+const outOfStock = document.querySelector('#out-of-stock');
 
-/* TODO:
-    - Make product summary update everytime there are changes on the table
-*/
+// Refresh all summary cards
+export function updateProductSummary() {
+    setTotalProducts(getTotalProducts());
+    setInStock(getInStock());
+    setOutofStock(getOutofStock());
+}
 
+// Update product summary cards
 export function setTotalProducts(n) {
-    totalProducts.innerHTML = n;
+    if (totalProducts) totalProducts.textContent = n;
 }
 
 export function setInStock(n) {
-    inStock.innerHTML = n;
+    if (inStock) inStock.textContent = n;
 }
 
-export function setLimitedStock(n) {
-    limitedStock.innerHTML = n;
+export function setOutofStock(n) {
+    if (outOfStock) outOfStock.textContent = n;
 }
 
-export function setTotalValue(n) {
-    totalValue.innerHTML = `₱${n}`;
+// Get product counts (exclude archived products)
+export function getTotalProducts() {
+    return productsData.filter(product => !product.isArchived).length;
 }
 
-export function getTotalProducts(productsData) {
-    return productsData.length;
+export function getInStock() {
+    return productsData.filter(product => !product.isArchived && product.inStock).length;
 }
 
-export function getInStock(productsData) {
-    return productsData.filter(product => product.stock > 10).length;
+export function getOutofStock() {
+    return productsData.filter(product => !product.isArchived && !product.inStock).length;
 }
 
-export function getLimitedStock(productsData) {
-    return productsData.filter(product => product.stock < 10 && product.stock !== 0).length;
-}
-
-export function getTotalValue(productsData) {
-    return productsData.reduce((sum, product) => {
-        return sum + (product.price * product.stock);
-    },0);
-}

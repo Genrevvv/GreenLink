@@ -27,6 +27,7 @@ export function addProduct(productDataInput = null) {
 }
 
 function setupProductRowActions(productRow, productData) {
+    // Update it to hadnle archive and edit
     const deleteProductAct = productRow.querySelector('.delete-product');
     deleteProductAct.onclick = () => { deleteProduct(productRow) };
 

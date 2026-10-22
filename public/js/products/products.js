@@ -19,10 +19,7 @@ export function initProducts() {
 
 function adminProductScript() {
     // Setup product summary
-    prodSum.setTotalProducts(prodSum.getTotalProducts(productsData));
-    prodSum.setInStock(prodSum.getInStock(productsData));
-    prodSum.setLimitedStock(prodSum.getLimitedStock(productsData));
-    prodSum.setTotalValue(prodSum.getTotalValue(productsData));
+    prodSum.updateProductSummary();
 
     // Load products (pseudo loader for front end testing, temporary)
     for (let productData of productsData) {

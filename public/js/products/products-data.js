@@ -1,20 +1,26 @@
 export const productsData = [
     {
-        name: 'lettuce',
-        price: 45,
-        unit: 'per kg',
-        stock: 120
+        id: 1,
+        name: 'Lettuce',
+        category: 'Leafy Vegetables',
+        description: 'Fresh, crisp lettuce grown for salads and everyday meals.',
+        inStock: true,
+        isArchived: false
     },
     {
-        name: 'kangkong',
-        price: 35,
-        unit: 'per bundle',
-        stock: 7
+        id: 2,
+        name: 'Kangkong',
+        category: 'Leafy Vegetables',
+        description: 'Fresh kangkong, perfect for stir-frying and home-cooked dishes.',
+        inStock: true,
+        isArchived: false
     },
     {
-        name: 'organic eggs',
-        price: 120,
-        unit: 'per dozen',
-        stock: 0
+        id: 3,
+        name: 'Organic Eggs',
+        category: 'Eggs',
+        description: 'Farm-fresh eggs suitable for everyday cooking and meals.',
+        inStock: false,
+        isArchived: false
     }
-]; // Dummy data for loader testing
+];

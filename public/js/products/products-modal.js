@@ -36,15 +36,11 @@ export function addEditProductModal(productData = null) {
 export function productRowModal(productData) {
     return `
         <td>${productData.name}</td>
-        <td>₱${productData.price}</td>
-        <td>${productData.unit}</td>
-        <td>${productData.stock}</td>
+        <td>${productData.category}</td>
+        <td>${productData.status}</td>
         <td>
-            <span class="${productData.statusClass}">${productData.status}</span>
-        </td>
-        <td>
-            <i class="fa-solid fa-pen-to-square edit-product"></i>
-            <i class="fa-solid fa-trash-can delete-product"></i>
+            <i class="fa-solid fa-pen-to-square"></i>
+            <i class="fa-solid fa-box-archive"></i>
         </td>
     `;
 }

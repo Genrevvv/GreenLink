@@ -10,22 +10,43 @@
             <h2 id="in-stock" class="text-lg text-bg">5</h2>
         </div>
         <div class="container flex-column align-center shadow-bottom rounded-sm py-4 bd-lg">
-            <span class="text-xs">Limited Stock</span>
-            <h2 id="limited-stock" class="text-lg text-yg">1</h2>
-        </div>
-        <div class="container flex-column align-center shadow-bottom rounded-sm py-4 bd-lg">
-            <span class="text-xs">Total Value</span>
-            <h2 id="total-value" class="text-lg">₱6700</h2>
+            <span class="text-xs">Out of Stock</span>
+            <h2 id="out-of-stock" class="text-lg">1</h2>
         </div>
     </div>
     
     <!-- PRODUCT MANAGEMENT -->
-     <div class="mt-4  bd-lg product-management-container">
+     <div class="mt-4 p-4 product-management-container">
+        <h2 class="text-sm w-full">Product Inventory</h2>
+
         <!-- Container Header -->
-        <div class="container flex-between bg-g-drd  text-white p-2">
-            <h2 class="text-xs w-full">Product Management</h2>
-            <div class="container flex justify-end">
-                <span class="text-sm bg-bg p-1 px-2 rounded-sm" id="add-product">+ Add product</span>
+        <div class="container flex-between text-white gap-1 p-2">
+
+            <!-- Search Bar -->
+            <div class="product-search">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" id="product-search" placeholder="Search products...">
+            </div>
+            
+            <!-- Category Filter -->
+            <select class="product-filter" id="filter-product-category">
+                <option value="all">All Category</option>
+                <option value="approved">Vegetables</option>
+                <option value="completed">Poultry</option>
+                <option value="completed">Fruits</option>
+            </select>
+
+            <!-- Status Filter -->
+            <select class="product-filter" id="filter-product-status">
+                <option value="all">All Statuses</option>
+                <option value="pending">In Stock</option>
+                <option value="approved">Out of Stock</option>
+            </select>
+
+            <!-- Product Inventory Actions -->
+            <div class="container flex justify-end gap-1">
+                <div class="inventory-action" id="view-archieved">View Archived</div>
+                <div class="inventory-action" id="add-product">+ Add Product</div>
             </div>
         </div>
 
@@ -34,13 +55,22 @@
             <table class="table-component products-table">
                 <tr>
                     <th>Product Name</th>
-                    <th>Price</th>
-                    <th>Unit</th>
-                    <th>Stock</th>
+                    <th>Category</th>
                     <th>Availability</th>
                     <th>Actions</th>
                 </tr>
                 <!-- product rows -->
+                 <!-- <tr>
+                    <td>Lettuce</td>
+                    <td>Vegatable</td>
+                    <td>
+                        <span class="in-stock">In stock</span>
+                    </td>
+                    <td>
+                        <i class="fa-solid fa-pen-to-square"></i>
+                        <i class="fa-solid fa-box-archive"></i>
+                    </td>
+                 </tr> -->
             </table>
         </div>
      </div>
