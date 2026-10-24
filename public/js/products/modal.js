@@ -1,46 +1,85 @@
+import { titleCase } from '../utils/string.js';
+
 export function addEditProductModal(productData = null) {
     const isEdit = productData !== null;
     const buttonId = isEdit ? 'update-product-btn' : 'add-product-btn';
     const buttonText = isEdit ? 'Update Product' : 'Add Product';
 
     const name = productData?.name ?? '';
-    const price = productData?.price ?? '';
-    const unit = productData?.unit ?? '';
-    const stock = productData?.stock ?? '';
+    const category = (productData?.category ?? '').toLowerCase();
 
     return `
         <div class="add-edit-product-form flex-column gap-1">
             <i id="close-add-product" class="fa-solid fa-x close-overlay"></i>
             <h4>${isEdit ? 'Edit Product' : 'Add New Product'}</h4>
+
             <div>
                 <span>Product Name</span>
-                <input id="product-name" type="text" class="focus-input" value="${name}">
+                <input
+                    id="product-name"
+                    type="text"
+                    class="focus-input"
+                    value="${name}"
+                >
             </div>
+
             <div>
-                <span>Price (₱)</span>
-                <input id="product-price" type="number" value="${price}">
+                <span>Category</span>
+                <select class="product-filter" id="product-category">
+                    <option value="vegetables" ${category === 'vegetables' ? 'selected' : ''}>Vegetables</option>
+                    <option value="fruits" ${category === 'fruits' ? 'selected' : ''}>Fruits</option>
+                    <option value="poultry" ${category === 'poultry' ? 'selected' : ''}>Poultry</option>
+                </select>
             </div>
-            <div>
-                <span>Unit</span>
-                <input id="product-unit" type="text" placeholder="e.g. per kg, per dozen" value="${unit}">
-            </div>
-            <div>
-                <span>Stock Quantity</span>
-                <input id="product-stock" type="number" value="${stock}">
-            </div>
+
             <div id="${buttonId}" class="add-edit-btn">${buttonText}</div>
         </div>
     `;
 }
 
 export function productRowModal(productData) {
+    const actionButtons = productData.isArchived
+        ? `
+            <i
+                class="fa-solid fa-pen-to-square edit-product"
+                title="Edit Product"
+                role="button"
+                aria-label="Edit Product"
+                tabindex="0"
+            ></i>
+
+            <i
+                class="fa-solid fa-rotate-left restore-product"
+                title="Restore Product"
+                role="button"
+                aria-label="Restore Product"
+                tabindex="0"
+            ></i>
+        `
+        : `
+            <i
+                class="fa-solid fa-pen-to-square edit-product"
+                title="Edit Product"
+                role="button"
+                aria-label="Edit Product"
+                tabindex="0"
+            ></i>
+
+            <i
+                class="fa-solid fa-box-archive archive-product"
+                title="Archive Product"
+                role="button"
+                aria-label="Archive Product"
+                tabindex="0"
+            ></i>
+        `;
+
     return `
         <td>${productData.name}</td>
-        <td>${productData.category}</td>
+        <td>${titleCase(productData.category)}</td>
         <td>${productData.status}</td>
-        <td>
-            <i class="fa-solid fa-pen-to-square"></i>
-            <i class="fa-solid fa-box-archive"></i>
+        <td class="${productData.isArchived ? 'archived-actions' : 'product-actions'}">
+            ${actionButtons}
         </td>
     `;
 }
@@ -66,7 +105,7 @@ export function productCardModal(productData) {
                 <div class="order-btn">
                     <i class="fa-solid fa-cart-shopping"></i>
                     <span class="text-xs">Order Now</span>
-                </div>                    
+                </div>
             </div>
         </div>
     `;

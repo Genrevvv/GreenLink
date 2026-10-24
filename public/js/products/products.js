@@ -1,43 +1,57 @@
-import { createProductCard, getStatus, showAddProductForm } from './products-function.js';
-import { addProduct } from './products-function.js';
-import { productsData } from './products-data.js';
-import * as prodSum from './products-summary.js';
+
+import { createProductCard } from './products-function-legacy.js';
+import { productsData } from './data.js';
+import * as prodSum from './summary.js';
 import { getCurrentUser } from '../utils/user.js';
+import { initProductFilters } from './filter.js';
+import { renderProducts } from './table.js';
+import { showAddProductForm } from './form.js';
+import { toggleArchivedProducts } from './archive.js';
 
 export function initProducts() {
     const user = getCurrentUser();
 
     if (user.user_type === 'admin') {
-        adminProductScript()
-    }
-    else if (user.user_type === 'user') {
+        adminProductScript();
+    } else if (user.user_type === 'user') {
         userProductScript();
     }
 
-    console.log('products.js has been imported');    
+    console.log('products.js has been imported');
 }
 
 function adminProductScript() {
-    // Setup product summary
     prodSum.updateProductSummary();
+    initProductFilters();
+    renderProducts();
 
-    // Load products (pseudo loader for front end testing, temporary)
-    for (let productData of productsData) {
-        const { status, statusClass } = getStatus(productData.stock);
-        productData = { ...productData, status, statusClass };
-        addProduct(productData);
+    const addProductBtn = document.querySelector('#add-product');
+
+    if (addProductBtn) {
+        addProductBtn.onclick = () => {
+            showAddProductForm();
+        };
     }
 
-    // Add a product
-    const addProductBtn = document.querySelector('#add-product');
-    addProductBtn.onclick = () => {
-        showAddProductForm();
+    const viewArchivedBtn = document.querySelector('#view-archieved');
+
+    if (viewArchivedBtn) {
+        viewArchivedBtn.onclick = () => {
+            toggleArchivedProducts();
+        };
     }
 }
 
 function userProductScript() {
-    // Load product cards (currently only for front end testing)
-    for (const productData of productsData) {
-        createProductCard(productData);
-    }
+    const productCards = document.querySelector('#product-cards');
+
+    if (!productCards) return;
+
+    productCards.innerHTML = '';
+
+    productsData
+        .filter(product => !product.isArchived && product.inStock)
+        .forEach(productData => {
+            createProductCard(productData);
+        });
 }

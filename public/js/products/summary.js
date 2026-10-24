@@ -1,4 +1,4 @@
-import { productsData } from './products-data.js';
+import { productsData } from './data.js';
 
 const totalProducts = document.querySelector('#total-products');
 const inStock = document.querySelector('#in-stock');
