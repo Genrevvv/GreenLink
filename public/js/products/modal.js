@@ -38,7 +38,21 @@ export function addEditProductModal(productData = null) {
 }
 
 export function productRowModal(productData) {
-    const actionButtons = productData.isArchived
+    const isArchived = Boolean(productData.isArchived);
+    const isInStock = Boolean(productData.inStock);
+
+    const availabilityBadge = `
+        <button
+            type="button"
+            class="stock-status ${isInStock ? 'status-in-stock' : 'status-out-of-stock'}"
+            title="Click to change availability"
+            aria-label="Change availability from ${isInStock ? 'In Stock' : 'Out of Stock'}"
+        >
+            ${isInStock ? 'In Stock' : 'Out of Stock'}
+        </button>
+    `;
+
+    const actionButtons = isArchived
         ? `
             <i
                 class="fa-solid fa-pen-to-square edit-product"
@@ -77,8 +91,8 @@ export function productRowModal(productData) {
     return `
         <td>${productData.name}</td>
         <td>${titleCase(productData.category)}</td>
-        <td>${productData.status}</td>
-        <td class="${productData.isArchived ? 'archived-actions' : 'product-actions'}">
+        <td>${availabilityBadge}</td>
+        <td class="${isArchived ? 'archived-actions' : 'product-actions'}">
             ${actionButtons}
         </td>
     `;

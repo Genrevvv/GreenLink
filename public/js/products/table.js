@@ -9,6 +9,7 @@ import { filterProducts } from './filter.js';
 import { getProductData } from './form.js';
 import { addEditProductModal, productRowModal } from './modal.js';
 import { createNotificationElement } from '../utils/notification/notification.js';
+import { updateProductSummary } from './summary.js';
 
 export function renderProducts() {
     const productTable = document.querySelector('.products-table');
@@ -51,6 +52,7 @@ export function setupProductRowActions(productRow, productData) {
     const editProductAct = productRow.querySelector('.edit-product');
     const archiveProductAct = productRow.querySelector('.archive-product');
     const restoreProductAct = productRow.querySelector('.restore-product');
+    const stockStatusBtn = productRow.querySelector('.stock-status');
 
     if (editProductAct) {
         editProductAct.onclick = () => {
@@ -69,6 +71,30 @@ export function setupProductRowActions(productRow, productData) {
             restoreProduct(productData.id);
         };
     }
+
+    if (stockStatusBtn) {
+        stockStatusBtn.onclick = () => {
+            toggleProductAvailability(productData.id);
+        };
+    }
+}
+
+export function toggleProductAvailability(id) {
+    const product = productsData.find(
+        product => product.id === id
+    );
+
+    if (!product) return;
+
+    product.inStock = !product.inStock;
+
+    renderProducts();
+    updateProductSummary();
+
+    createNotificationElement({
+        status: 'success',
+        message: `${product.name} marked as ${product.inStock ? 'In Stock' : 'Out of Stock'}`
+    });
 }
 
 export function editProduct(productData) {
@@ -104,6 +130,7 @@ export function updateProduct(id) {
 
     hideOverlay();
     renderProducts();
+    updateProductSummary();
 
     createNotificationElement({
         status: 'success',
