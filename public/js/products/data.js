@@ -22,5 +22,29 @@ export const productsData = [
         description: 'Farm-fresh eggs suitable for everyday cooking and meals.',
         inStock: false,
         isArchived: false
+    },
+    {
+        id: 4,
+        name: 'Tomatoes',
+        category: 'Vegetables',
+        description: 'Ripe, juicy tomatoes for salads, sauces, and home cooking.',
+        inStock: true,
+        isArchived: false
+    },
+    {
+        id: 5,
+        name: 'Free-Range Chicken',
+        category: 'Poultry',
+        description: 'Farm-raised chicken suitable for a variety of home-cooked meals.',
+        inStock: false,
+        isArchived: false
+    },
+    {
+        id: 6,
+        name: 'Eggplant',
+        category: 'Vegetables',
+        description: 'Fresh eggplants ideal for grilling, frying, and traditional dishes.',
+        inStock: true,
+        isArchived: false
     }
 ];

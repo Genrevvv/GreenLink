@@ -1,9 +1,9 @@
 
-import { createProductCard } from './products-function-legacy.js';
+import { createProductCard } from './card.js';
 import { productsData } from './data.js';
 import * as prodSum from './summary.js';
 import { getCurrentUser } from '../utils/user.js';
-import { initProductFilters } from './filter.js';
+import { initProductCardFilters, initProductFilters } from './filter.js';
 import { renderProducts } from './table.js';
 import { showAddProductForm } from './form.js';
 import { toggleArchivedProducts } from './archive.js';
@@ -43,14 +43,13 @@ function adminProductScript() {
 }
 
 function userProductScript() {
+    initProductCardFilters();
+
     const productCards = document.querySelector('#product-cards');
-
-    if (!productCards) return;
-
     productCards.innerHTML = '';
 
     productsData
-        .filter(product => !product.isArchived && product.inStock)
+        .filter(product => !product.isArchived)
         .forEach(productData => {
             createProductCard(productData);
         });

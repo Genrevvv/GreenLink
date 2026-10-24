@@ -1,7 +1,37 @@
 <div class="container p-4">
     <p>Browse our fresh, locally-grown products</p>
-    <!-- PRODUCT CARDS CONTAINER -->
-    <div id="product-cards" class="container">
-        <!-- product cards -->
+
+    <!-- PRODUCT FILTERS -->
+    <div class="container flex-between gap-1 p-2 product-card-filter-bar">
+        <div class="product-search">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input
+                type="text"
+                id="card-product-search"
+                placeholder="Search products..."
+            >
+        </div>
+
+        <select class="product-filter" id="card-category-filter">
+            <option value="all">All Categories</option>
+            <option value="vegetables">Vegetables</option>
+            <option value="fruits">Fruits</option>
+            <option value="poultry">Poultry</option>
+        </select>
+
+        <select class="product-filter" id="card-availability-filter">
+            <option value="all">All Availability</option>
+            <option value="available">Available</option>
+            <option value="unavailable">Unavailable</option>
+        </select>
     </div>
+
+    <!-- PRODUCT CARDS -->
+    <div id="product-cards" class="container">
+        <!-- Product cards rendered by JS -->
+    </div>
+
+    <p id="no-products-found" class="no-products-found" hidden>
+        No products match your filters.
+    </p>
 </div>

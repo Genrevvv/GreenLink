@@ -99,26 +99,26 @@ export function productRowModal(productData) {
 }
 
 export function productCardModal(productData) {
+    const isInStock = productData.inStock;
+
     return `
         <div class="container flex-center product-image">
             <i class="fa-solid fa-leaf"></i>
         </div>
+
         <div class="container mt-3 product-content">
             <h4 class="text-sm">${productData.name}</h4>
-            <span class="text-xs">currently no description data</span>
-            <div class="container flex gap-1 px-0 mt-1">
-                <h3 class="text-base">₱${productData.price}</h3>
-                <span class="text-sm px-1 mt-1">${productData.unit}</span>
-            </div>
-            <div class="container mt-1 product-option">
+
+            <p class="text-xs product-description">
+                ${productData.description || 'No description available.'}
+            </p>
+
+            <div class="product-availability ${isInStock ? 'available' : 'unavailable'}">
+                <i class="fa-solid ${isInStock ? 'fa-circle-check' : 'fa-circle-xmark'}"></i>
+
                 <div>
-                    <button class="rounded-sm qty-btn qty-sub">-</button>
-                    <input class="text-xs qty-count" type="number" min="1" max="999" value="1">
-                    <button class="rounded-sm qty-btn qty-add">+</button>
-                </div>
-                <div class="order-btn">
-                    <i class="fa-solid fa-cart-shopping"></i>
-                    <span class="text-xs">Order Now</span>
+                    <span class="availability-label">Availability</span>
+                    <strong>${isInStock ? 'Available' : 'Unavailable'}</strong>
                 </div>
             </div>
         </div>
