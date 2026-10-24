@@ -37,7 +37,6 @@ export function filterProducts() {
     });
 }
 
-
 export function initProductCardFilters() {
     const searchInput = document.querySelector('#card-product-search');
     const categoryFilter = document.querySelector('#card-category-filter');
@@ -106,7 +105,7 @@ export function filterProductCards() {
         if (isVisible) visibleCount++;
     });
 
-    if (emptyMessage) {
-        emptyMessage.hidden = visibleCount > 0;
+    if (visibleCount > 0) {
+        emptyMessage.style.display = 'block';
     }
 }
