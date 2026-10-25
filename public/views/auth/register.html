@@ -1,49 +1,148 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/main.css">
-    <link rel="stylesheet" href="fontawsome/css/all.min.css">
-    <link rel="stylesheet" href="fontawsome/css/fontawesome.min.css">
-    <title>Register</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#1B4332">
+    <title>Create Account | GreenLink</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/fontawsome/css/all.min.css">
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/pages/auth.css">
 </head>
-<body>
-    <main>
-        <div class="page grid auth">
-            <div class="flex-column flex-center left-div">
-                <i class="logo fa-solid fa-leaf"></i>
-                <div class="container container-xxs">
-                    <h2 class="text-center">GREENS FOR GROWTH FARMING SCHOOL</h2>
-                    <p class="text-center"><strong>Farm Order and Appointment System</strong></p>
-                    <p class="text-center">Connecting you to fresh produce and meaningful farm experiences.</p>
-                </div>
+<body class="auth-page">
+    <main class="auth-layout auth-layout-register">
+        <section class="auth-brand" aria-label="Greens for Growth">
+            <a href="/" class="brand-mark" aria-label="GreenLink home">
+                <i class="fa-solid fa-leaf" aria-hidden="true"></i>
+            </a>
 
+            <div class="brand-copy">
+                <span class="brand-eyebrow">A greener future starts here</span>
+                <h1>Greens for<br>Growth</h1>
+                <p class="brand-school">Farming School</p>
+                <div class="brand-divider"></div>
             </div>
 
-            <div class="flex-center right-div">
-                <div class="container container-xs">
-                    <h3>Join Us</h3>
-                    <p class="text-sm">Enter your credentials to create your account</p>
-                    
-                    <div class="flex-column mb-2">
-                        <span class="text-xs mb-1"><strong>Username</strong></span>
-                        <input id="username" class="input" type="text" placeholder="username">
-                    </div>
-                    <div class="flex-column mb-2">
-                        <span class="text-xs mb-1"><strong>Password</strong></span>
-                        <input id="password" class="input" type="password" placeholder="••••••••">  
-                    </div>
-                    <div class="flex-column mb-2">
-                        <span class="text-xs mb-1"><strong>Confirm Password</strong></span>
-                        <input id="confirm-password" class="input" type="password" placeholder="••••••••">  
-                    </div>
-                    <p class="text-xs text-right">Already have an account? <a href="/login">Login</a></p>
-                    <button id="register" class="btn btn-primary w-full">Register</button>
+            <p class="brand-tagline">
+                Connecting people with fresh produce and meaningful farm experiences.
+            </p>
+        </section>
+
+        <section class="auth-form-side" aria-labelledby="register-title">
+            <div class="auth-card">
+                <div class="card-heading">
+                    <span class="card-eyebrow">BECOME PART OF OUR COMMUNITY</span>
+                    <h2 id="register-title">Let's grow<span>.</span></h2>
+                    <p>Create your GreenLink account to get started.</p>
                 </div>
+
+                <form id="register-form" class="auth-form" novalidate>
+                    <div class="auth-message" role="alert" aria-live="polite"></div>
+
+                    <div class="auth-field">
+                        <label for="username">Choose a username</label>
+                        <div class="auth-input-wrap">
+                            <i class="fa-regular fa-user" aria-hidden="true"></i>
+                            <input
+                                id="username"
+                                name="username"
+                                type="text"
+                                placeholder="Create a username"
+                                autocomplete="username"
+                                minlength="3"
+                                maxlength="50"
+                                pattern="[A-Za-z0-9_.-]+"
+                                title="Use letters, numbers, underscores, dots, or hyphens only."
+                                required
+                            >
+                        </div>
+                    </div>
+
+                    <div class="auth-field">
+                        <label for="email">Email address</label>
+                        <div class="auth-input-wrap">
+                            <i class="fa-regular fa-envelope" aria-hidden="true"></i>
+                            <input
+                                id="email"
+                                name="email"
+                                type="email"
+                                placeholder="Enter your email address"
+                                autocomplete="email"
+                                maxlength="255"
+                                required
+                            >
+                        </div>
+                    </div>
+
+                    <div class="auth-field">
+                        <label for="password">Create password</label>
+                        <div class="auth-input-wrap">
+                            <i class="fa-solid fa-lock" aria-hidden="true"></i>
+                            <input
+                                id="password"
+                                name="password"
+                                type="password"
+                                placeholder="At least 8 characters"
+                                autocomplete="new-password"
+                                minlength="8"
+                                required
+                            >
+                            <button
+                                type="button"
+                                class="password-toggle"
+                                aria-label="Show password"
+                                aria-pressed="false"
+                            >Show</button>
+                        </div>
+                        <span class="auth-hint">Use at least 8 characters.</span>
+                    </div>
+
+                    <div class="auth-field">
+                        <label for="confirm-password">Confirm password</label>
+                        <div class="auth-input-wrap">
+                            <i class="fa-solid fa-shield-halved" aria-hidden="true"></i>
+                            <input
+                                id="confirm-password"
+                                name="confirmPassword"
+                                type="password"
+                                placeholder="Enter your password again"
+                                autocomplete="new-password"
+                                minlength="8"
+                                required
+                            >
+                            <button
+                                type="button"
+                                class="password-toggle"
+                                aria-label="Show password"
+                                aria-pressed="false"
+                            >Show</button>
+                        </div>
+                    </div>
+
+                    <button type="submit" id="register" class="auth-submit">
+                        <span>Create Account</span>
+                        <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+                    </button>
+                </form>
+
+                <div class="auth-switch">
+                    <span>Already have an account?</span>
+                    <a href="/login">Sign in</a>
+                </div>
+
+                <p class="auth-privacy">
+                    <i class="fa-solid fa-seedling" aria-hidden="true"></i>
+                    Every greener journey begins somewhere.
+                </p>
             </div>
-        </div>
+        </section>
     </main>
-    <script src="/js/auth/register.js"></script>
+
+    <script src="/js/auth/register.js" defer></script>
 </body>
 </html>

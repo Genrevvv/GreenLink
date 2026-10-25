@@ -3,17 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Explore Greens for Growth farm products, services, appointments, and training opportunities through GreenLink.">
     <title>GreenLink | Greens for Growth</title>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/pages/landing.css">
 </head>
-
 <body>
-<nav class="navbar">
-    <a href="/" class="logo">
-        <img src="images/erm.png" alt="GreenLink">
+
+<nav class="navbar" aria-label="Main navigation">
+    <a href="#home" class="logo" aria-label="GreenLink home">
+        <img src="images/greenslogo.png" alt="Greens for Growth official logo">
     </a>
 
     <ul class="nav-links">
@@ -23,13 +25,13 @@
     </ul>
 
     <div class="auth-buttons">
-        <a href="/login" class="login-btn">Login</a>
+        <a href="/login" class="login-btn">Log In</a>
         <a href="/register" class="signup-btn">Sign Up</a>
     </div>
 </nav>
 
 <section id="home" class="hero">
-    <div class="background-image" style="background-image: url('images/tanim.webp');"></div>
+    <div class="background-image hero-background"></div>
     <div class="section-overlay"></div>
 
     <div class="section-content">
@@ -37,13 +39,13 @@
             <div class="eyebrow">Greens for Growth</div>
             <h1>Welcome to <span>GreenLink.</span></h1>
             <p>
-                Connecting people with greener opportunities,
-                products, and services through one convenient
-                and accessible platform.
+                Explore available farm products, discover agricultural
+                services, and connect with Greens for Growth through
+                one convenient platform.
             </p>
             <a href="#products" class="primary-btn">
-                Explore GreenLink
-                <span class="arrow">→</span>
+                Explore Products &amp; Services
+                <span class="arrow" aria-hidden="true">→</span>
             </a>
         </div>
     </div>
@@ -55,59 +57,65 @@
 </section>
 
 <section id="about" class="about">
-    <div class="background-image" style="background-image: url('images/tanim.webp');"></div>
+    <div class="background-image about-background"></div>
     <div class="section-overlay"></div>
 
     <div class="section-content">
         <div class="about-image-box">
-            <div class="about-slide active" style="background-image: url('images/grin.jpg');"></div>
-            <div class="about-slide" style="background-image: url('images/bs.jpg');"></div>
-            <div class="about-slide" style="background-image: url('images/g3.jpg');"></div>
+            <div class="about-slide active about-slide-farm"></div>
+            <div class="about-slide about-slide-training"></div>
+            <div class="about-slide about-slide-products"></div>
         </div>
 
         <div class="about-card">
-            <div class="about-tabs">
-                <button class="about-tab-btn active" data-tab="tab1">Who We Are</button>
-                <button class="about-tab-btn" data-tab="tab2">TESDA Partnership</button>
-                <button class="about-tab-btn" data-tab="tab3">Our Farm & Hub</button>
+            <div class="about-tabs" role="tablist" aria-label="About Greens for Growth">
+                <button type="button" class="about-tab-btn active" data-tab="tab1" role="tab" aria-selected="true" aria-controls="tab1">Who We Are</button>
+                <button type="button" class="about-tab-btn" data-tab="tab2" role="tab" aria-selected="false" aria-controls="tab2">Training</button>
+                <button type="button" class="about-tab-btn" data-tab="tab3" role="tab" aria-selected="false" aria-controls="tab3">Our Farm &amp; Hub</button>
             </div>
 
-            <div class="about-panel active" id="tab1">
-                <div class="eyebrow" style="color: #52796F;">About Greens for Growth</div>
+            <div class="about-panel active" id="tab1" role="tabpanel">
+                <div class="eyebrow about-eyebrow">About Greens for Growth</div>
                 <h2>Rooted in <span>Growth.</span></h2>
                 <p>
-                    Greens for Growth Farming School is an accredited organic training farm located in Indang, Cavite. 
-                    We are dedicated to building a sustainable future by empowering communities through practical ecological practices.
+                    Greens for Growth is an organization based in Indang,
+                    Cavite, dedicated to sustainable agriculture, farming,
+                    and community development.
                 </p>
                 <p>
-                    Whether you are an aspiring agripreneur or a conscious consumer, our mission is to make sustainable farming 
-                    accessible, educational, and deeply rewarding.
-                </p>
-            </div>
-
-            <div class="about-panel" id="tab2">
-                <div class="eyebrow" style="color: #52796F;">Education & Training</div>
-                <h2>Empowering <span>Agripreneurs.</span></h2>
-                <p>
-                    Through strategic partnerships with TESDA and the Department of Agriculture, we offer certified programs 
-                    designed to equip students with top-tier sustainable farming techniques and agribusiness management skills.
-                </p>
-                <p>
-                    Our curriculum bridges traditional land stewardship with modern agricultural standards, guiding learners from seed 
-                    to market success.
+                    Through its farm products and services, the organization
+                    aims to make agricultural opportunities more accessible
+                    to customers, learners, and the local community.
                 </p>
             </div>
 
-            <div class="about-panel" id="tab3">
-                <div class="eyebrow" style="color: #52796F;">Platform & Produce</div>
-                <h2>Connected <span>Convenience.</span></h2>
+            <div class="about-panel" id="tab2" role="tabpanel" hidden>
+                <div class="eyebrow about-eyebrow">Education &amp; Training</div>
+                <h2>Growing <span>Knowledge.</span></h2>
                 <p>
-                    Beyond training, our facility functions as an active organic farm supplying fresh, chemical-free produce directly 
-                    to our local community.
+                    Greens for Growth also supports agricultural learning
+                    and training opportunities for people interested in
+                    sustainable farming and agribusiness.
                 </p>
                 <p>
-                    Through GreenLink, you can seamlessly explore available farm harvest items, book school appointments, 
-                    and submit direct inquiries all in one unified digital space.
+                    Contact the organization to inquire about available
+                    training programs, enrollment requirements, and
+                    related educational services.
+                </p>
+            </div>
+
+            <div class="about-panel" id="tab3" role="tabpanel" hidden>
+                <div class="eyebrow about-eyebrow">Farm &amp; Products</div>
+                <h2>Fresh from <span>the Farm.</span></h2>
+                <p>
+                    Discover the organization's farm products and learn
+                    more about its agricultural activities and services.
+                    Product availability may vary.
+                </p>
+                <p>
+                    GreenLink provides a convenient place to explore
+                    available products, submit orders, arrange appointments,
+                    and contact Greens for Growth.
                 </p>
             </div>
         </div>
@@ -115,49 +123,61 @@
 </section>
 
 <section id="products" class="products">
-    <div class="background-image" style="background-image: url('images/gfgs.webp');"></div>
+    <div class="background-image products-background"></div>
     <div class="section-overlay"></div>
 
     <div class="section-content">
         <div class="products-heading">
             <div class="eyebrow">What GreenLink Offers</div>
-            <h2>Grow with us.</h2>
-            <p>Everything you need to connect with Greens for Growth, all in one place.</p>
+            <h2>Explore our <span>services.</span></h2>
+            <p>
+                Discover available farm products, connect with the
+                organization, and explore its services in one place.
+            </p>
         </div>
 
         <div class="service-grid">
             <div class="service-card" data-image="products">
-                <div class="service-icon">🛒</div>
+                <div class="service-icon" aria-hidden="true">🌱</div>
                 <div class="service-card-text">
-                    <h3>Farm Products/Services</h3>
-                    <p>Browse available products and conveniently place your orders through the GreenLink platform.</p>
+                    <h3>Farm Products</h3>
+                    <p>
+                        Explore available farm products and submit orders
+                        for items offered by Greens for Growth.
+                    </p>
                 </div>
-                <a href="login.html?mode=login" class="service-link">Order Now →</a>
+                <a href="/login" class="service-link">Explore Products →</a>
             </div>
 
             <div class="service-card" data-image="appointments">
-                <div class="service-icon">📅</div>
+                <div class="service-icon" aria-hidden="true">📅</div>
                 <div class="service-card-text">
-                    <h3>Appointments</h3>
-                    <p>Schedule appointments with Greens for Growth quickly and conveniently through the system.</p>
+                    <h3>Appointments &amp; Enrollment</h3>
+                    <p>
+                        Arrange a visit, inquire about training,
+                        or ask about enrollment opportunities.
+                    </p>
                 </div>
-                <a href="login.html?mode=login" class="service-link">Book an Appointment →</a>
+                <a href="/login" class="service-link">Book an Appointment →</a>
             </div>
 
             <div class="service-card" data-image="inquiries">
-                <div class="service-icon">💬</div>
+                <div class="service-icon" aria-hidden="true">💬</div>
                 <div class="service-card-text">
-                    <h3>Inquiries</h3>
-                    <p>Have questions? Send an inquiry and connect with Greens for Growth directly.</p>
+                    <h3>Inquiries &amp; Assistance</h3>
+                    <p>
+                        Get in touch with Greens for Growth to ask
+                        about products, services, and availability.
+                    </p>
                 </div>
-                <a href="login.html?mode=login" class="service-link">Send an Inquiry →</a>
+                <a href="/login" class="service-link">Contact Us →</a>
             </div>
         </div>
     </div>
 </section>
 
 <section id="contact" class="contact">
-    <div class="background-image" style="background-image: url('images/wow.jpg');"></div>
+    <div class="background-image contact-background"></div>
     <div class="section-overlay"></div>
 
     <div class="section-content">
@@ -165,17 +185,17 @@
             <div class="eyebrow">Get in Touch</div>
             <h2>Let's grow <span>together.</span></h2>
             <p>
-                Have a question about our products, services,
-                appointments, or the farm? We'd love to hear
-                from you.
+                Have a question about farm products, services,
+                appointments, or training opportunities?
+                Connect with Greens for Growth.
             </p>
-            <a href="login.html" class="primary-btn">
-                Connect with Greens for Growth
-                <span class="arrow">→</span>
+            <a href="/login" class="primary-btn">
+                Connect with Us
+                <span class="arrow" aria-hidden="true">→</span>
             </a>
 
             <div class="contact-info">
-                <div class="contact-item">📍 Brgy Calumpang Lejos 1 Purok 1, Indang, 4122 Cavite</div>
+                <div class="contact-item">📍 Brgy Calumpang Lejos 1, Purok 1, Indang, Cavite 4122</div>
                 <div class="contact-item">✉️ greensforgrowth@example.com</div>
                 <div class="contact-item">☎️ +63 917 156 7307</div>
             </div>
@@ -183,8 +203,10 @@
     </div>
 </section>
 
-<footer>
-    © 2026 GreenLink — Greens for Growth. All Rights Reserved.
+<footer class="site-footer">
+    <p>GreenLink — Connecting people with Greens for Growth.</p>
+    <p class="footer-copyright">© 2026 GreenLink. All Rights Reserved.</p>
+    <p class="footer-group">Developed by Aura Farmers</p>
 </footer>
 
 <script src="js/landing/landing.js"></script>
