@@ -66,7 +66,7 @@ export function initProductCardFilters() {
     categoryFilter.addEventListener('change', filterProductCards);
     availabilityFilter.addEventListener('change', filterProductCards);
 
-    filterProductCards();
+    // filterProductCards();
 }
 
 export function filterProductCards() {
@@ -105,7 +105,7 @@ export function filterProductCards() {
         if (isVisible) visibleCount++;
     });
 
-    if (visibleCount > 0) {
-        emptyMessage.style.display = 'block';
+    if (emptyMessage) {
+        emptyMessage.style.display = visibleCount === 0 ? 'block' : 'none';
     }
 }
