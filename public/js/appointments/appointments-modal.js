@@ -101,22 +101,26 @@ export function appointmentDetailsModal(appointment) {
                 <span class="appointment-detail-label">Customer Name</span>
                 <strong class="appointment-detail-value">${customer}</strong>
             </div>
+
             <div class="appointment-detail-item">
                 <span class="appointment-detail-label">Email</span>
                 <strong class="appointment-detail-value">${email}</strong>
             </div>
+
             <div class="appointment-detail-item">
                 <span class="appointment-detail-label">Date &amp; Time</span>
                 <strong class="appointment-detail-value">
                     ${date} at ${time}
                 </strong>
             </div>
+
             <div class="appointment-detail-item">
                 <span class="appointment-detail-label">Visitors &amp; Purpose</span>
                 <strong class="appointment-detail-value">
                     ${visitors} visitors - ${purpose}
                 </strong>
             </div>
+
             <div class="appointment-detail-item">
                 <span class="appointment-detail-label">Notes</span>
                 <span class="appointment-detail-notes">${notes}</span>
@@ -124,6 +128,7 @@ export function appointmentDetailsModal(appointment) {
         </div>
     `;
 }
+
 // USER APPOINTMENTS
 export function emptyUserAppointmentsModal() {
     return `
@@ -146,6 +151,8 @@ export function userAppointmentCardModal(appointment) {
     const visitors = escapeHtml(appointment.visitors);
     const status = escapeHtml(appointment.status);
 
+    const notes = String(appointment.notes ?? '').trim();
+
     const statusClass = {
         Approved: 'user-appointment-status-approved',
         Pending: 'user-appointment-status-pending',
@@ -156,6 +163,7 @@ export function userAppointmentCardModal(appointment) {
         <article class="user-appointment-card">
             <div class="user-appointment-card-header">
                 <h3 class="user-appointment-card-title">${purpose}</h3>
+
                 <span class="user-appointment-status ${statusClass}">
                     ${status}
                 </span>
@@ -164,6 +172,7 @@ export function userAppointmentCardModal(appointment) {
             <div class="user-appointment-card-details">
                 <i class="fa-regular fa-calendar" aria-hidden="true"></i>
                 <span>${date}</span>
+
                 <i class="fa-regular fa-clock" aria-hidden="true"></i>
                 <span>${time}</span>
             </div>
@@ -172,6 +181,17 @@ export function userAppointmentCardModal(appointment) {
                 <i class="fa-solid fa-users" aria-hidden="true"></i>
                 <span>${visitors} visitors</span>
             </div>
+
+            ${notes ? `
+                <div class="user-appointment-card-notes">
+                    <span class="user-appointment-card-notes-label">
+                        <i class="fa-regular fa-note-sticky" aria-hidden="true"></i>
+                        Notes
+                    </span>
+
+                    <p class="user-appointment-card-notes-text">${escapeHtml(notes)}</p>
+                </div>
+            ` : ''}
         </article>
     `;
 }

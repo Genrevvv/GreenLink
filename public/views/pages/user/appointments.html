@@ -1,3 +1,4 @@
+
 <div class="container flex-column user-appointments-content" id="user-appointments-content">
     <div class="user-appointments-grid">
 
@@ -13,75 +14,81 @@
             <div class="user-appointment-form-content">
                 <form id="appointment-booking-form" class="flex-column gap-4">
 
-                    
-            <div class="user-appointment-field">
-                <label class="user-appointment-label" for="appointment-date">
-                    Select Date
-                </label>
+                    <!-- DATE PICKER -->
+                    <div class="user-appointment-field">
+                        <label class="user-appointment-label" for="appointment-date">
+                            Select Date
+                        </label>
 
-                <input
-                    type="hidden"
-                    id="appointment-date"
-                    name="appointment-date"
-                >
-
-                <div class="custom-calendar">
-                    <div class="custom-calendar-header">
-                        <button
-                            type="button"
-                            class="custom-calendar-nav"
-                            id="calendar-prev"
-                            aria-label="Previous month"
+                        <input
+                            type="hidden"
+                            id="appointment-date"
+                            name="appointment-date"
                         >
-                        </button>
 
-                        <strong
-                            class="custom-calendar-month"
-                            id="calendar-month-year"
-                            aria-live="polite"
-                        ></strong>
+                        <div class="custom-calendar">
+                            <div class="custom-calendar-header">
+                                <button
+                                    type="button"
+                                    class="custom-calendar-nav"
+                                    id="calendar-prev"
+                                    aria-label="Previous month"
+                                    title="Previous month"
+                                >
+                                    <i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
+                                </button>
 
-                        <button
-                            type="button"
-                            class="custom-calendar-nav"
-                            id="calendar-next"
-                            aria-label="Next month"
-                        >
-                        </button>
+                                <strong
+                                    class="custom-calendar-month"
+                                    id="calendar-month-year"
+                                    aria-live="polite"
+                                ></strong>
+
+                                <button
+                                    type="button"
+                                    class="custom-calendar-nav"
+                                    id="calendar-next"
+                                    aria-label="Next month"
+                                    title="Next month"
+                                >
+                                    <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
+                                </button>
+                            </div>
+
+                            <div class="custom-calendar-weekdays" aria-hidden="true">
+                                <span>Sun</span>
+                                <span>Mon</span>
+                                <span>Tue</span>
+                                <span>Wed</span>
+                                <span>Thu</span>
+                                <span>Fri</span>
+                                <span>Sat</span>
+                            </div>
+
+                            <div
+                                class="custom-calendar-days"
+                                id="calendar-days"
+                                role="group"
+                                aria-label="Choose an appointment date"
+                            ></div>
+
+                            <p
+                                class="custom-calendar-selected"
+                                id="calendar-selected-date"
+                                aria-live="polite"
+                            >
+                                Please select a date.
+                            </p>
+                        </div>
                     </div>
 
-                    <div class="custom-calendar-weekdays" aria-hidden="true">
-                        <span>Sun</span>
-                        <span>Mon</span>
-                        <span>Tue</span>
-                        <span>Wed</span>
-                        <span>Thu</span>
-                        <span>Fri</span>
-                        <span>Sat</span>
-                    </div>
-
-                    <div
-                        class="custom-calendar-days"
-                        id="calendar-days"
-                        role="group"
-                        aria-label="Choose an appointment date"
-                    ></div>
-
-                    <p
-                        class="custom-calendar-selected"
-                        id="calendar-selected-date"
-                        aria-live="polite"
-                    >
-                        Please select a date.
-                    </p>
-                </div>
-            </div>
-
+                    <!-- TIME SLOT -->
                     <div class="user-appointment-field">
                         <label for="appointment-time" class="user-appointment-label">
                             <i class="fa-regular fa-clock"></i>
                             Time Slot
                         </label>
+
                         <select
                             id="appointment-time"
                             name="appointment-time"
@@ -100,10 +107,12 @@
                         </select>
                     </div>
 
+                    <!-- VISIT PURPOSE -->
                     <div class="user-appointment-field">
                         <label for="appointment-purpose" class="user-appointment-label">
                             Visit Purpose
                         </label>
+
                         <select
                             id="appointment-purpose"
                             name="appointment-purpose"
@@ -118,11 +127,13 @@
                         </select>
                     </div>
 
+                    <!-- NUMBER OF VISITORS -->
                     <div class="user-appointment-field">
                         <label for="appointment-visitors" class="user-appointment-label">
                             <i class="fa-solid fa-users"></i>
                             Number of Visitors
                         </label>
+
                         <input
                             type="number"
                             id="appointment-visitors"
@@ -135,10 +146,12 @@
                         >
                     </div>
 
+                    <!-- OPTIONAL NOTES -->
                     <div class="user-appointment-field">
                         <label for="appointment-notes" class="user-appointment-label">
                             Notes (Optional)
                         </label>
+
                         <textarea
                             id="appointment-notes"
                             name="appointment-notes"

@@ -1,3 +1,4 @@
+
 import { getCurrentUser } from '../utils/user.js';
 
 import {
@@ -8,10 +9,13 @@ import {
     userAppointmentsData,
     userInquiriesData,
     getUserStatsData,
+    getUpcomingUserAppointments,
+    productAvailabilityData,
+    getRecentUserInquiries,
     userDashboardLimits
 } from './dashboard-data.js';
 
-import { 
+import {
     renderAdminStatCards,
     renderInventoryChart,
     renderStockAlerts,
@@ -19,17 +23,23 @@ import {
     setupDashboardLinks,
     renderUserStatCards,
     renderUserAppointmentStatus,
-    renderUserInquiryUpdates
-} from './dashboard-functions.js'
+    renderUserInquiryUpdates,
+    renderUserProductAvailability,
+    renderUserWelcome
+} from './dashboard-functions.js';
 
 export function initDashboard() {
     const user = getCurrentUser();
 
+    if (!user) {
+        console.error('Unable to load dashboard: no current user found.');
+        return;
+    }
+
     if (user.user_type === 'admin') {
         adminDashboardScript();
-    }
-    else if (user.user_type === 'user') {
-        userDashboardScript();
+    } else if (user.user_type === 'user') {
+        userDashboardScript(user);
     }
 
     console.log('dashboard.js has been imported');
@@ -43,8 +53,27 @@ function adminDashboardScript() {
     setupDashboardLinks();
 }
 
-function userDashboardScript() {
-    renderUserStatCards(getUserStatsData(userAppointmentsData, userInquiriesData));
-    renderUserAppointmentStatus(userAppointmentsData.slice(0, userDashboardLimits.appointments));
-    renderUserInquiryUpdates(userInquiriesData.slice(0, userDashboardLimits.inquiries));
+function userDashboardScript(user) {
+    const today = new Date();
+
+    const upcomingAppointments = getUpcomingUserAppointments(
+        userAppointmentsData,
+        userDashboardLimits.appointments,
+        today
+    );
+
+    const recentInquiries = getRecentUserInquiries(
+        userInquiriesData,
+        userDashboardLimits.inquiries
+    );
+
+    renderUserWelcome(user);
+
+    renderUserStatCards(
+        getUserStatsData(userAppointmentsData, userInquiriesData, today)
+    );
+
+    renderUserAppointmentStatus(upcomingAppointments);
+    renderUserProductAvailability(productAvailabilityData);
+    renderUserInquiryUpdates(recentInquiries);
 }

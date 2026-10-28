@@ -1,24 +1,23 @@
-// Dashboard data (temporary front-end data, replace with API data later)
+
 import { productsData } from '../products/data.js';
+import { userInquiriesData } from '../inquiries/inquiries-data.js';
 
-// Products that are not archived
+/* ===================== SHARED PRODUCT DATA ===================== */
+
 const activeProducts = productsData.filter(product => !product.isArchived);
-
-/* ===================== ADMIN DASHBOARD ===================== */
 
 const inStockProducts = activeProducts.filter(product => product.inStock);
 const outOfStockProducts = activeProducts.filter(product => !product.inStock);
 
-// Icon shown beside a product in Stock Alerts (by product name, then by category)
 const productIcons = {
-    'Lettuce': '🥬',
-    'Kangkong': '🌿',
+    Lettuce: '🥬',
+    Kangkong: '🌿',
     'Free-Range Chicken': '🐔',
     'Organic Eggs': '🥚',
-    'Tomatoes': '🍅',
-    'Eggplant': '🍆',
-    'Mushroom': '🍄',
-    'Honey': '🍯'
+    Tomatoes: '🍅',
+    Eggplant: '🍆',
+    Mushroom: '🍄',
+    Honey: '🍯'
 };
 
 const categoryIcons = {
@@ -29,7 +28,8 @@ const categoryIcons = {
     Apiary: '🍯'
 };
 
-// Summary cards
+/* ===================== ADMIN DASHBOARD ===================== */
+
 export const statsData = [
     {
         key: 'total',
@@ -51,13 +51,21 @@ export const statsData = [
     }
 ];
 
-// Inventory Availability donut chart
 export const inventoryData = [
-    { key: 'in-stock', label: 'In Stock', value: inStockProducts.length, color: '#40916C' },
-    { key: 'out-of-stock', label: 'Out of Stock', value: outOfStockProducts.length, color: '#E9ECEF' }
+    {
+        key: 'in-stock',
+        label: 'In Stock',
+        value: inStockProducts.length,
+        color: '#40916C'
+    },
+    {
+        key: 'out-of-stock',
+        label: 'Out of Stock',
+        value: outOfStockProducts.length,
+        color: '#E9ECEF'
+    }
 ];
 
-// Stock Alerts (products needing attention)
 export const stockAlertsData = outOfStockProducts.map(product => ({
     name: product.name,
     category: product.category,
@@ -66,7 +74,6 @@ export const stockAlertsData = outOfStockProducts.map(product => ({
     status: 'Out of Stock'
 }));
 
-// Upcoming Appointments
 export const upcomingAppointmentsData = [
     {
         id: 1,
@@ -100,18 +107,19 @@ export const upcomingAppointmentsData = [
         time: '11:00 AM',
         status: 'Pending'
     }
-]; // Dummy data for front-end testing.
-
+];
 
 /* ===================== USER DASHBOARD ===================== */
 
-// Appointments of the logged-in user
+// Temporary appointment data for front-end testing.
+// Replace this array with appointments fetched for the logged-in user.
 export const userAppointmentsData = [
     {
         id: 1,
         date: '2026-06-05',
         time: '10:00 AM',
         visitors: 4,
+        purpose: 'Farm Tour',
         status: 'Approved'
     },
     {
@@ -119,6 +127,7 @@ export const userAppointmentsData = [
         date: '2026-06-12',
         time: '2:00 PM',
         visitors: 2,
+        purpose: 'Educational Visit',
         status: 'Pending'
     },
     {
@@ -126,33 +135,133 @@ export const userAppointmentsData = [
         date: '2026-05-20',
         time: '9:00 AM',
         visitors: 3,
+        purpose: 'Farm Tour',
         status: 'Approved'
     }
 ];
 
-// Inquiries of the logged-in user (shared with the Inquiries page)
-export { userInquiriesData } from '../inquiries/inquiries-data.js';
+// Inquiries are shared with the existing Inquiries page.
+export { userInquiriesData };
 
-// Summary cards (values are counted from the data above)
-export function getUserStatsData(appointments, inquiries) {
+/* ===================== USER DASHBOARD HELPERS ===================== */
+
+function getAppointmentDate(appointment) {
+    if (!appointment.date) return null;
+
+    const date = new Date(`${appointment.date}T00:00:00`);
+
+    return Number.isNaN(date.getTime()) ? null : date;
+}
+
+function getInquiryStatus(inquiry) {
+    return String(inquiry.status ?? '').trim().toLowerCase();
+}
+
+function isRespondedInquiry(inquiry) {
+    return ['responded', 'answered', 'resolved', 'closed'].includes(
+        getInquiryStatus(inquiry)
+    );
+}
+
+function isOpenInquiry(inquiry) {
+    return !isRespondedInquiry(inquiry);
+}
+
+// Counts upcoming appointments, pending approvals, and inquiry statuses.
+export function getUserStatsData(
+    appointments,
+    inquiries,
+    today = new Date()
+) {
+    const startOfToday = new Date(today);
+    startOfToday.setHours(0, 0, 0, 0);
+
+    const upcomingAppointments = appointments.filter(appointment => {
+        const date = getAppointmentDate(appointment);
+
+        return date && date >= startOfToday;
+    });
+
+    const awaitingApproval = appointments.filter(appointment =>
+        String(appointment.status ?? '').toLowerCase() === 'pending'
+    );
+
+    const openInquiries = inquiries.filter(isOpenInquiry);
+    const respondedInquiries = inquiries.filter(isRespondedInquiry);
+
     return [
         {
-            key: 'approved',
-            label: 'Approved Appointments',
-            value: appointments.filter(appointment => appointment.status === 'Approved').length,
-            icon: 'fa-regular fa-circle-check'
+            key: 'upcoming',
+            label: 'Upcoming Appointments',
+            value: upcomingAppointments.length,
+            icon: 'fa-regular fa-calendar'
         },
         {
-            key: 'inquiries',
-            label: 'Submitted Inquiries',
-            value: inquiries.length,
+            key: 'awaiting',
+            label: 'Awaiting Approval',
+            value: awaitingApproval.length,
+            icon: 'fa-regular fa-clock'
+        },
+        {
+            key: 'open-inquiries',
+            label: 'Open Inquiries',
+            value: openInquiries.length,
             icon: 'fa-regular fa-message'
+        },
+        {
+            key: 'responded-inquiries',
+            label: 'Responded Inquiries',
+            value: respondedInquiries.length,
+            icon: 'fa-regular fa-circle-check'
         }
     ];
 }
 
-// Number of items shown in each dashboard panel
+// Returns upcoming appointments first, earliest date first.
+export function getUpcomingUserAppointments(
+    appointments,
+    limit = 2,
+    today = new Date()
+) {
+    const startOfToday = new Date(today);
+    startOfToday.setHours(0, 0, 0, 0);
+
+    return appointments
+        .filter(appointment => {
+            const date = getAppointmentDate(appointment);
+
+            return date && date >= startOfToday;
+        })
+        .sort((a, b) =>
+            getAppointmentDate(a) - getAppointmentDate(b)
+        )
+        .slice(0, limit);
+}
+
+// Products for the user dashboard's availability preview.
+export const productAvailabilityData = activeProducts.slice(0, 4).map(product => ({
+    id: product.id,
+    name: product.name,
+    category: product.category,
+    icon: productIcons[product.name] ?? categoryIcons[product.category] ?? '📦',
+    status: product.inStock ? 'In Stock' : 'Out of Stock'
+}));
+
+// Latest inquiry records for the user's dashboard.
+export function getRecentUserInquiries(inquiries, limit = 3) {
+    return [...inquiries]
+        .sort((a, b) => {
+            const dateA = new Date(a.date ?? 0).getTime();
+            const dateB = new Date(b.date ?? 0).getTime();
+
+            return (Number.isNaN(dateB) ? 0 : dateB) -
+                (Number.isNaN(dateA) ? 0 : dateA);
+        })
+        .slice(0, limit);
+}
+
 export const userDashboardLimits = {
     appointments: 2,
-    inquiries: 3
+    inquiries: 3,
+    products: 4
 };

@@ -1,19 +1,36 @@
-<div class="main-container-dashboard user-dashboard flex-column gap-8">
 
-    <!-- SUMMARY CARDS (rendered from js/dashboard/dashboard-data.js) -->
-    <div class="user-stat-cards grid grid-2" id="user-stat-cards"></div>
+<div class="main-container-dashboard user-dashboard">
 
-    <div class="user-dashboard-panels grid grid-2">
-        <!-- APPOINTMENT STATUS -->
-        <section class="dashboard-card dashboard-card-lg user-dashboard-panel">
-            <div class="user-panel-header">Appointment Status</div>
-            <ul class="user-panel-list flex-column gap-4" id="user-appointment-status-list"></ul>
+    <section class="user-dashboard-welcome">
+        <h2 id="user-dashboard-greeting">Hello!</h2>
+        <p>Here is what is available and what is coming up for you.</p>
+    </section>
+
+    <div class="user-stat-cards" id="user-stat-cards"></div>
+
+    <div class="user-dashboard-panels">
+
+        <section class="dashboard-card user-dashboard-panel">
+            <div class="user-panel-header">
+                <h3>Your Appointments</h3>
+            </div>
+            <ul class="user-panel-list" id="user-appointment-status-list"></ul>
         </section>
 
-        <!-- RECENT INQUIRY UPDATES -->
-        <section class="dashboard-card dashboard-card-lg user-dashboard-panel">
-            <div class="user-panel-header user-panel-header-alt">Recent Inquiry Updates</div>
-            <ul class="user-panel-list flex-column gap-4" id="user-inquiry-updates-list"></ul>
+        <section class="dashboard-card user-dashboard-panel">
+            <div class="user-panel-header">
+                <h3>Product Availability</h3>
+            </div>
+            <ul class="user-panel-list" id="user-product-availability-list"></ul>
         </section>
+
     </div>
+
+    <section class="dashboard-card user-dashboard-panel user-inquiries-panel">
+        <div class="user-panel-header">
+            <h3>Recent Inquiry Updates</h3>
+        </div>
+        <ul class="user-inquiry-grid" id="user-inquiry-updates-list"></ul>
+    </section>
+
 </div>

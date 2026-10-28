@@ -1,3 +1,4 @@
+
 .main-container-dashboard,
 .main-container-dashboard * {
     box-sizing: border-box;
@@ -243,83 +244,351 @@
 
 
 /* ===================== USER DASHBOARD ===================== */
+/* All redesign rules are scoped to .user-dashboard.
+   The admin dashboard styles above remain unchanged. */
 
-/* Summary Cards */
-.user-stat-cards {
+/* Overall spacing */
+
+.main-container-dashboard.user-dashboard {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
     gap: 1.5rem;
+    padding: var(--space-5);
+    background: transparent;
 }
 
-.user-stat-card {
-    padding-block: 1.5rem;
-    overflow: hidden;
+.user-dashboard .user-dashboard-welcome {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
 }
 
-.user-stat-icon {
-    padding: 1.5rem;
-    font-size: 2.5rem;
-    line-height: 1;
-}
-
-.user-stat-approved .user-stat-icon  { color: white; background-color: var(--base-green); }
-.user-stat-inquiries .user-stat-icon { color: var(--yellow-green); background-color: var(--dark-green); }
-
-.user-stat-text {
-    padding: 1.5rem;
-}
-
-.user-stat-label {
-    margin-bottom: var(--space-1);
-    color: var(--dark-green);
-    font-size: var(--font-sm);
-}
-
-.user-stat-value {
+.user-dashboard .user-dashboard-welcome h2 {
+    margin: 0;
     color: var(--darker-green);
-    font-size: 1.875rem;
+    font-size: 1.55rem;
     font-weight: 700;
-    line-height: 1.2;
+    line-height: 1.3;
 }
 
-/* Panels */
-.user-dashboard-panels {
-    gap: 1.5rem;
-    align-items: start;
+.user-dashboard .user-dashboard-welcome p {
+    color: var(--dark-green);
+    font-size: 0.95rem;
+    line-height: 1.5;
 }
 
-.user-dashboard-panel {
+/* Four summary cards */
+
+.user-dashboard .user-stat-cards {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1rem;
+}
+
+.user-dashboard .user-stat-card {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+    gap: 0.6rem;
+    min-height: 112px;
+    padding: 1.15rem;
     overflow: hidden;
+    background: white;
+    border: 1px solid #edf0ee;
+    border-radius: var(--radius-lg);
+    box-shadow: 0 3px 8px rgb(0 0 0 / 0.045);
 }
 
-.user-panel-header {
-    padding: var(--space-4) 1.5rem;
-    color: white;
-    background: linear-gradient(to right, var(--dark-green), var(--base-green));
+/* Keep the summary cards compact, without oversized icons */
+
+.user-dashboard .user-stat-icon {
+    display: none;
+}
+
+.user-dashboard .user-stat-text {
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+    padding: 0;
+}
+
+.user-dashboard .user-stat-label {
+    margin: 0;
+    color: var(--dark-green);
+    font-size: 0.88rem;
+    font-weight: 600;
+    line-height: 1.4;
+}
+
+.user-dashboard .user-stat-value {
+    margin: 0;
+    color: var(--darker-green);
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1.1;
+}
+
+.user-dashboard .user-stat-awaiting .user-stat-value {
+    color: #8a6b08;
+}
+
+.user-dashboard .user-stat-responded-inquiries .user-stat-value {
+    color: var(--base-green);
+}
+
+/* Middle row: appointments and product availability */
+
+.user-dashboard .user-dashboard-panels {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: stretch;
+    gap: 1.25rem;
+}
+
+.user-dashboard .user-dashboard-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    min-width: 0;
+    padding: 1.35rem;
+    overflow: hidden;
+    background: white;
+    border: 1px solid #edf0ee;
+    border-radius: var(--radius-lg);
+    box-shadow: 0 3px 8px rgb(0 0 0 / 0.045);
+}
+
+/* Simple section headings, no gradient bars */
+
+.user-dashboard .user-panel-header {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    padding: 0;
+    color: var(--darker-green);
+    background: transparent;
     font-size: 1rem;
     font-weight: 600;
 }
 
-.user-panel-header-alt {
-    background: linear-gradient(to right, var(--base-green), var(--dark-green));
+.user-dashboard .user-panel-header h3 {
+    margin: 0;
+    color: var(--darker-green);
+    font-size: 1.1rem;
+    font-weight: 700;
+    line-height: 1.4;
 }
 
-.user-panel-list {
-    padding: 1.5rem;
+.user-dashboard .user-panel-header p {
+    color: var(--dark-green);
+    font-size: 0.8rem;
+    font-weight: 400;
+    line-height: 1.45;
 }
 
-.user-dashboard-row {
-    padding: var(--space-4);
-    background-color: #f8f9fa;
-    border-radius: var(--radius-lg);
+/* Lists */
+
+.user-dashboard .user-panel-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+    list-style: none;
 }
 
-.user-dashboard-row .dashboard-row-title {
-    font-size: 1rem;
+.user-dashboard .user-dashboard-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding: 0.9rem;
+    background-color: #f5f8f8;
+    border: 0;
+    border-radius: 12px;
 }
 
-.user-dashboard-row .dashboard-row-sub {
-    font-size: var(--font-sm);
+.user-dashboard .user-dashboard-row .dashboard-row-title {
+    color: var(--darker-green);
+    font-size: 0.9rem;
+    font-weight: 600;
 }
 
+.user-dashboard .user-dashboard-row .dashboard-row-sub {
+    margin-top: 0.25rem;
+    color: var(--dark-green);
+    font-size: 0.8rem;
+    line-height: 1.45;
+}
+
+/* Featured next appointment */
+
+.user-dashboard .next-appointment-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 1.15rem;
+    color: white;
+    background: var(--dark-green);
+    border: 1px solid var(--darker-green);
+    border-radius: 14px;
+    list-style: none;
+}
+
+.user-dashboard .next-appointment-label {
+    color: var(--yellow-green);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+}
+
+.user-dashboard .next-appointment-main {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+}
+
+.user-dashboard .next-appointment-date {
+    margin: 0;
+    color: white;
+    font-size: 1.1rem;
+    font-weight: 700;
+    line-height: 1.4;
+}
+
+.user-dashboard .next-appointment-details {
+    margin-top: 0.3rem;
+    color: #e3ece5;
+    font-size: 0.85rem;
+    line-height: 1.45;
+}
+
+.user-dashboard .next-appointment-card .dashboard-badge {
+    color: var(--darker-green);
+    background: var(--yellow-green);
+}
+
+/* Compact user status badges */
+
+.user-dashboard .dashboard-badge {
+    padding: 0.35rem 0.65rem;
+    border-radius: 999px;
+    font-size: 0.73rem;
+    font-weight: 600;
+}
+
+/* Product availability */
+
+.user-dashboard #user-product-availability-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.user-dashboard .product-availability-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding: 0.9rem;
+    background: #f5f8f8;
+    border-radius: 12px;
+    list-style: none;
+}
+
+.user-dashboard .product-availability-info {
+    min-width: 0;
+}
+
+.user-dashboard .product-availability-row .dashboard-row-title {
+    color: var(--darker-green);
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.user-dashboard .product-availability-row .dashboard-row-sub {
+    margin-top: 0.2rem;
+    color: var(--dark-green);
+    font-size: 0.8rem;
+}
+
+/* Recent inquiry updates */
+
+.user-dashboard .user-inquiries-panel {
+    gap: 1rem;
+}
+
+.user-dashboard .user-inquiry-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    align-items: stretch;
+    gap: 0.85rem;
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.user-dashboard .user-inquiry-card {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.45rem;
+    min-width: 0;
+    padding: 0.95rem;
+    background: #f5f8f8;
+    border: 1px solid transparent;
+    border-radius: 12px;
+    list-style: none;
+}
+
+.user-dashboard .user-inquiry-card .dashboard-row-title {
+    color: var(--darker-green);
+    font-size: 0.9rem;
+    font-weight: 600;
+    line-height: 1.4;
+}
+
+.user-dashboard .user-inquiry-card .dashboard-row-sub {
+    color: var(--dark-green);
+    font-size: 0.78rem;
+    line-height: 1.4;
+    overflow-wrap: anywhere;
+}
+
+.user-dashboard .user-inquiry-card .dashboard-badge {
+    margin-top: 0.15rem;
+}
+
+/* User dashboard empty states */
+
+.user-dashboard .dashboard-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    min-height: 5rem;
+    padding: 0.85rem;
+    color: var(--dark-green);
+    background: #f8f9fa;
+    border-radius: 10px;
+    font-size: 0.8rem;
+}
+
+.user-dashboard .dashboard-empty i {
+    font-size: 1.4rem;
+}
+
+/* ===================== RESPONSIVE LAYOUT ===================== */
+/* Admin responsive rules are kept as originally provided. */
 
 @media (max-width: 1024px) {
     .admin-dashboard-row {
@@ -335,19 +604,87 @@
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
-    .user-dashboard-panels.grid-2 {
+    /* User dashboard only */
+    .user-dashboard .user-dashboard-panels {
         grid-template-columns: minmax(0, 1fr);
+    }
+
+    .user-dashboard .user-stat-cards {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 }
 
 @media (max-width: 768px) {
-    .upcoming-appointments-grid.grid-2,
-    .user-stat-cards.grid-2 {
+    /* Original admin responsive rules */
+    .upcoming-appointments-grid.grid-2 {
         grid-template-columns: minmax(0, 1fr);
+    }
+
+    /* User dashboard only */
+    .user-dashboard .user-stat-cards {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .user-dashboard .user-inquiry-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .user-dashboard .user-dashboard-panel {
+        padding: 1.1rem;
+    }
+
+    .user-dashboard .user-dashboard-panels {
+        gap: 1rem;
     }
 }
 
-/*
-    Pinaayos ko muna sa AI ung sizing par,
-    medyo nakaka-bother kasi pag nilo-load ko ung page haha
-*/
+@media (max-width: 480px) {
+    .main-container-dashboard.user-dashboard {
+        gap: 1rem;
+        padding: 0.85rem;
+    }
+
+    .user-dashboard .user-dashboard-welcome h2 {
+        font-size: 1.3rem;
+    }
+
+    .user-dashboard .user-dashboard-welcome p {
+        font-size: 0.82rem;
+    }
+
+    .user-dashboard .user-stat-cards {
+        gap: 0.75rem;
+    }
+
+    .user-dashboard .user-stat-card {
+        min-height: 95px;
+        padding: 0.85rem;
+    }
+
+    .user-dashboard .user-stat-label {
+        font-size: 0.8rem;
+    }
+
+    .user-dashboard .user-stat-value {
+        font-size: 1.7rem;
+    }
+
+    .user-dashboard .user-dashboard-panel {
+        padding: 0.9rem;
+    }
+
+    .user-dashboard .user-inquiry-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .user-dashboard .next-appointment-main,
+    .user-dashboard .product-availability-row,
+    .user-dashboard .user-dashboard-row {
+        align-items: flex-start;
+        flex-wrap: wrap;
+    }
+
+    .user-dashboard .next-appointment-date {
+        font-size: 1rem;
+    }
+}
