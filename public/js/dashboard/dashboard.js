@@ -5,10 +5,10 @@ import {
     inventoryData,
     stockAlertsData,
     upcomingAppointmentsData,
-    userStatsData,
-    userQuickActionsData,
-    userRecentOrdersData,
-    userUpcomingAppointmentsData
+    userAppointmentsData,
+    userInquiriesData,
+    getUserStatsData,
+    userDashboardLimits
 } from './dashboard-data.js';
 
 import { 
@@ -17,11 +17,9 @@ import {
     renderStockAlerts,
     renderUpcomingAppointments,
     setupDashboardLinks,
-    renderStatCards,
-    renderWelcome,
-    renderQuickActions,
-    renderUserRecentOrders,
-    renderUserAppointments
+    renderUserStatCards,
+    renderUserAppointmentStatus,
+    renderUserInquiryUpdates
 } from './dashboard-functions.js'
 
 export function initDashboard() {
@@ -31,7 +29,7 @@ export function initDashboard() {
         adminDashboardScript();
     }
     else if (user.user_type === 'user') {
-        userDashboardScript(user);
+        userDashboardScript();
     }
 
     console.log('dashboard.js has been imported');
@@ -45,10 +43,8 @@ function adminDashboardScript() {
     setupDashboardLinks();
 }
 
-function userDashboardScript(user) {
-    renderWelcome(user);
-    renderStatCards(userStatsData);
-    renderQuickActions(userQuickActionsData);
-    renderUserRecentOrders(userRecentOrdersData);
-    renderUserAppointments(userUpcomingAppointmentsData);
+function userDashboardScript() {
+    renderUserStatCards(getUserStatsData(userAppointmentsData, userInquiriesData));
+    renderUserAppointmentStatus(userAppointmentsData.slice(0, userDashboardLimits.appointments));
+    renderUserInquiryUpdates(userInquiriesData.slice(0, userDashboardLimits.inquiries));
 }

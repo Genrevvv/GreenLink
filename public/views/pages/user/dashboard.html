@@ -1,40 +1,19 @@
-<div class="main-container-dashboard user-dashboard container p-4">
+<div class="main-container-dashboard user-dashboard flex-column gap-8">
 
-    <!-- WELCOME BANNER -->
-    <div class="welcome-banner flex-between rounded-md shadow-bottom">
-        <div class="flex-column gap-1">
-            <h2>Welcome back, <span id="welcome-name">there</span>!</h2>
-            <span class="text-sm welcome-banner-sub">Here's what's happening with your orders and visits.</span>
-        </div>
-        <i class="fa-solid fa-seedling welcome-banner-icon"></i>
-    </div>
+    <!-- SUMMARY CARDS (rendered from js/dashboard/dashboard-data.js) -->
+    <div class="user-stat-cards grid grid-2" id="user-stat-cards"></div>
 
-    <!-- STATS CARDS (rendered from js/dashboard/dashboard-data.js) -->
-    <div class="stat-cards-container" id="stat-cards"></div>
+    <div class="user-dashboard-panels grid grid-2">
+        <!-- APPOINTMENT STATUS -->
+        <section class="dashboard-card dashboard-card-lg user-dashboard-panel">
+            <div class="user-panel-header">Appointment Status</div>
+            <ul class="user-panel-list flex-column gap-4" id="user-appointment-status-list"></ul>
+        </section>
 
-    <div class="user-dashboard-grid grid gap-4">
-        <!-- QUICK ACTIONS -->
-        <div class="oaa shadow-bottom rounded-md">
-            <div class="card-header flex-between">
-                <span class="bold">Quick Actions</span>
-            </div>
-            <div class="quick-actions flex-column gap-2" id="quick-actions"></div>
-        </div>
-
-        <!-- MY RECENT ORDERS -->
-        <div class="oaa shadow-bottom rounded-md">
-            <div class="card-header flex-between">
-                <span class="bold">My Recent Orders</span>
-            </div>
-            <ul class="dashboard-list" id="user-orders-list"></ul>
-        </div>
-
-        <!-- UPCOMING APPOINTMENTS -->
-        <div class="oaa shadow-bottom rounded-md">
-            <div class="card-header flex-between">
-                <span class="bold">Upcoming Appointments</span>
-            </div>
-            <ul class="dashboard-list" id="user-upcoming-list"></ul>
-        </div>
+        <!-- RECENT INQUIRY UPDATES -->
+        <section class="dashboard-card dashboard-card-lg user-dashboard-panel">
+            <div class="user-panel-header user-panel-header-alt">Recent Inquiry Updates</div>
+            <ul class="user-panel-list flex-column gap-4" id="user-inquiry-updates-list"></ul>
+        </section>
     </div>
 </div>

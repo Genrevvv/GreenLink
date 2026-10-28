@@ -1,99 +1,99 @@
+// Inquiries data (temporary front-end data, replace with API data later)
+
+// All customer inquiries (admin side)
 export const inquiriesData = [
     {
         id: 1,
-        name: 'Juan Dela Cruz',
-        email: 'juan@example.com',
-        phone: '0917 123 4567',
-        subject: 'Bulk order of lettuce',
-        message: 'Good day! I own a small restaurant in town and would like to order around 20 kg of lettuce every week. Do you offer discounts for bulk or recurring orders?',
-        date: '2026-10-16',
-        time: '09:24 AM',
-        status: 'New',
-        reply: ''
+        customer: 'Juan Dela Cruz',
+        email: 'juan@email.com',
+        subject: 'Bulk order discount',
+        message: 'Do you offer discounts for bulk orders of lettuce? We need around 100kg per month.',
+        date: '2026-05-28',
+        status: 'Responded',
+        response: 'Yes, we offer 10% discount for orders above 50kg. Please contact us for more details.'
     },
     {
         id: 2,
-        name: 'Maria Santos',
-        email: 'maria@example.com',
-        phone: '0918 234 5678',
-        subject: 'Farm tour for students',
-        message: 'Hello, I am a teacher and we are planning an educational tour for around 30 Grade 6 students. Is the farm open on weekdays and what is the fee per student?',
-        date: '2026-10-15',
-        time: '02:10 PM',
-        status: 'New',
-        reply: ''
+        customer: 'Maria Santos',
+        email: 'maria@email.com',
+        subject: 'Farm tour availability',
+        message: 'Are farm tours available on weekends? We would like to visit with a group of 15 people.',
+        date: '2026-05-27',
+        status: 'Pending',
+        response: ''
     },
     {
         id: 3,
-        name: 'Pedro Reyes',
-        email: 'pedro@example.com',
-        phone: '0919 345 6789',
-        subject: 'Hydroponics workshop schedule',
-        message: 'When is your next hydroponics workshop? I would like to sign up together with two friends.',
-        date: '2026-10-14',
-        time: '11:45 AM',
-        status: 'Read',
-        reply: ''
+        customer: 'Pedro Reyes',
+        email: 'pedro@email.com',
+        subject: 'Organic certification',
+        message: 'Are your products certified organic? We need documentation for our restaurant.',
+        date: '2026-05-26',
+        status: 'Responded',
+        response: 'Yes, all our products are certified organic by the Philippine Organic Authority.'
     },
     {
         id: 4,
-        name: 'Ana Villanueva',
-        email: 'ana@example.com',
-        phone: '0920 456 7890',
-        subject: 'Organic eggs availability',
-        message: 'Hi! Are your organic eggs available again? They were out of stock the last time I checked.',
-        date: '2026-10-12',
-        time: '04:30 PM',
-        status: 'Replied',
-        reply: 'Hi Ana! Our organic eggs will be back in stock this Friday. Thank you for your patience.'
+        customer: 'Ana Garcia',
+        email: 'ana@email.com',
+        subject: 'Delivery options',
+        message: 'Do you deliver to Metro Manila? What are the delivery charges?',
+        date: '2026-05-24',
+        status: 'Pending',
+        response: ''
     },
     {
         id: 5,
-        name: 'Carlo Mendoza',
-        email: 'carlo@example.com',
-        phone: '0921 567 8901',
-        subject: 'Delivery to Quezon City',
-        message: 'Do you deliver to Quezon City? If yes, how much is the delivery fee?',
-        date: '2026-10-10',
-        time: '08:05 AM',
-        status: 'New',
-        reply: ''
-    }
-]; // Dummy data for front-end testing.
-
-
-// Inquiries sent by the logged-in user (user side)
-export const userInquiriesData = [
-    {
-        id: 101,
-        subject: 'Bulk order of lettuce',
-        category: 'Orders',
-        message: 'Do you offer discounts for bulk or recurring weekly orders of lettuce?',
-        date: '2026-10-25',
-        time: '09:24 AM',
-        status: 'Replied',
-        reply: 'Hi! Yes, we offer 10% off for weekly orders of 10 kg or more. Just place your order and mention it in the notes.'
-    },
-    {
-        id: 102,
-        subject: 'Hydroponics workshop schedule',
-        category: 'Workshops',
-        message: 'When is your next hydroponics workshop? I would like to join with two friends.',
-        date: '2026-10-22',
-        time: '11:45 AM',
-        status: 'Pending',
-        reply: ''
-    },
-    {
-        id: 103,
-        subject: 'Delivery to Quezon City',
-        category: 'Delivery',
-        message: 'Do you deliver to Quezon City? If yes, how much is the delivery fee?',
-        date: '2026-10-18',
-        time: '08:05 AM',
-        status: 'Replied',
-        reply: 'We deliver to Quezon City every Tuesday and Saturday. The delivery fee is ₱80.'
+        customer: 'Carlos Lopez',
+        email: 'carlos@email.com',
+        subject: 'Product availability',
+        message: 'When will honey be back in stock? I need 10 bottles for a special event.',
+        date: '2026-05-22',
+        status: 'Responded',
+        response: 'Honey will be back in stock by June 1st. We can reserve 10 bottles for you.'
     }
 ];
 
-export const inquiryCategories = ['General', 'Orders', 'Products', 'Appointments', 'Workshops', 'Delivery'];
+// Inquiries sent by the logged-in user (user side, newest first)
+export const userInquiriesData = [
+    {
+        id: 1,
+        subject: 'Bulk order discount',
+        message: 'Do you offer discounts for bulk orders of lettuce?',
+        date: '2026-05-28',
+        status: 'Responded',
+        response: 'Yes, we offer 10% discount for orders above 50kg. Please contact us for more details.'
+    },
+    {
+        id: 2,
+        subject: 'Farm tour availability',
+        message: 'Are farm tours available on weekends?',
+        date: '2026-05-27',
+        status: 'Pending',
+        response: ''
+    },
+    {
+        id: 3,
+        subject: 'Organic certification',
+        message: 'Are your products certified organic?',
+        date: '2026-05-26',
+        status: 'Responded',
+        response: 'Yes, all our products are certified organic by the Philippine Organic Authority.'
+    },
+    {
+        id: 4,
+        subject: 'Delivery options',
+        message: 'Do you deliver to Metro Manila?',
+        date: '2026-05-24',
+        status: 'Responded',
+        response: 'Yes, we deliver to Metro Manila with a minimum order of ₱500. Delivery fee applies.'
+    },
+    {
+        id: 5,
+        subject: 'Product availability',
+        message: 'When will honey be back in stock?',
+        date: '2026-05-22',
+        status: 'Pending',
+        response: ''
+    }
+];

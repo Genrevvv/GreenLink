@@ -9,7 +9,7 @@ export function emptyState(icon, text) {
     return `
         <li class="dashboard-empty flex-column flex-center gap-2 p-4">
             <i class="${icon}"></i>
-            <span class="text-xs">${escapeHtml(text)}</span>
+            <span>${escapeHtml(text)}</span>
         </li>
     `;
 }

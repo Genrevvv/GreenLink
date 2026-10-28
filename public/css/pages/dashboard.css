@@ -5,6 +5,7 @@
 }
 
 .main-container-dashboard {
+    padding: var(--space-5);
     font-size: 14px;
 }
 
@@ -12,404 +13,336 @@
     margin: 0;
 }
 
-/* Stat Cards */
-.stat-cards-container {
-    display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: var(--space-4);
-    width: 100%;
-    margin-bottom: var(--space-5);
-}
-
-.card {
-    padding: var(--space-4);
-    min-height: 120px;
+/* Shared */
+.dashboard-card {
     background: white;
     border-radius: var(--radius-lg);
-    border-left: 4px solid var(--base-green);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
 }
 
-.card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 16px rgb(0 0 0 / 0.12);
+.dashboard-card-lg {
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
 }
 
-.stat-card-label {
-    color: var(--dark-green);
+.dashboard-badge {
+    padding: 0.125rem 0.5rem;
+    border-radius: var(--radius-md);
+    font-size: 0.75rem;
     font-weight: 500;
-}
-
-.stat-card-icon {
-    width: 2.25rem;
-    height: 2.25rem;
-    color: var(--darker-green);
-    background-color: var(--yellow-green);
-    border-radius: 50%;
-}
-
-.stat-card-value {
-    color: var(--darker-green);
-    font-size: 1.75rem;
-    line-height: 1.1;
-}
-
-.stat-card-sub {
-    color: #6b7280;
-}
-
-.stat-card-sub strong {
-    color: var(--base-green);
-}
-
-.stat-card-orders       { border-left-color: var(--darker-green); }
-.stat-card-appointments { border-left-color: var(--dark-green); }
-.stat-card-inquiries    { border-left-color: var(--base-green); }
-.stat-card-products     { border-left-color: var(--yellow-green); }
-
-/* User dashboard: 3 stat cards */
-.user-dashboard .stat-cards-container {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-}
-
-.legend-dot {
-    width: 10px;
-    height: 10px;
-    flex-shrink: 0;
-    border-radius: 50%;
-}
-
-/* Card Header */
-.card-header {
-    min-height: 52px;
-    padding: var(--space-3) var(--space-4);
-    background: linear-gradient(to right, var(--darker-green), var(--dark-green));
-    color: white;
-    font-size: 13px;
-}
-
-.card-header-count {
-    min-width: 1.6rem;
-    padding: 0.1rem 0.5rem;
-    color: var(--darker-green);
-    background-color: var(--yellow-green);
-    border-radius: 1rem;
-    font-size: var(--font-xs);
-    font-weight: 700;
-    text-align: center;
-}
-
-/* Other Activity Area */
-.oaa {
-    min-height: 300px;
-    margin-bottom: var(--space-5);
-    background: white;
-    overflow: hidden;
-}
-
-/* Lists */
-.dashboard-list-item {
-    padding: var(--space-3) var(--space-4);
-    border-bottom: 1px solid #eef1ef;
-    transition: background-color 0.2s ease;
-}
-
-.dashboard-list-item:last-child {
-    border-bottom: none;
-}
-
-.dashboard-list-item:hover {
-    background-color: var(--clr-light);
-}
-
-.dashboard-list-item .text-sm {
-    color: var(--darker-green);
-}
-
-.dashboard-muted {
-    color: #6b7280;
-}
-
-.dashboard-list-icon {
-    width: 2.25rem;
-    height: 2.25rem;
-    flex-shrink: 0;
-    color: var(--dark-green);
-    background-color: color-mix(in srgb, var(--base-green) 15%, transparent);
-    border-radius: var(--radius-md);
-}
-
-.date-badge {
-    width: 2.75rem;
-    height: 2.75rem;
-    flex-shrink: 0;
-    color: white;
-    background-color: var(--dark-green);
-    border-radius: var(--radius-md);
-    line-height: 1.1;
-}
-
-.date-badge-month {
-    font-size: var(--font-xs);
-    text-transform: uppercase;
-}
-
-.date-badge-day {
-    font-size: var(--font-md);
-}
-
-.dashboard-empty {
-    min-height: 200px;
-    color: var(--input-border);
-}
-
-.dashboard-empty i {
-    font-size: 2rem;
-}
-
-/* Status Pills (also used by the inquiries page) */
-.status-pill {
-    display: inline-block;
-    width: fit-content;
-    margin-left: auto;
-    margin-top: 0.15rem;
-    padding: 0.1rem 0.6rem;
-    border-radius: 1rem;
-    font-size: var(--font-xs);
-    font-weight: 600;
     white-space: nowrap;
 }
 
-.status-pending    { color: #7a6a00; background-color: #fdf6c9; }
-.status-processing { color: var(--darker-green); background-color: var(--yellow-green); }
-.status-completed  { color: white; background-color: var(--base-green); }
-.status-cancelled  { color: var(--clr-failed); background-color: #fde8e8; }
-.status-pill.status-approved { color: white; background-color: var(--dark-green); }
+.badge-green   { color: white; background-color: var(--base-green); }
+.badge-yellow  { color: var(--darker-green); background-color: var(--yellow-green); }
+.badge-red     { color: #b91c1c; background-color: #fee2e2; }
+.badge-gray    { color: var(--dark-green); background-color: #e9ecef; }
+
+.dashboard-empty {
+    min-height: 9rem;
+    color: var(--dark-green);
+    font-size: var(--font-sm);
+}
+
+.dashboard-empty i {
+    font-size: 2.5rem;
+    opacity: 0.4;
+}
+
+.legend-dot {
+    width: 8px;
+    height: 8px;
+    flex-shrink: 0;
+    border-radius: 50%;
+}
+
 
 /* ===================== ADMIN DASHBOARD ===================== */
-.admin-dashboard {
-    padding: var(--space-5);
-}
 
 /* Summary Cards */
 .admin-stat-cards {
     grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.25rem;
 }
 
 .admin-stat-card {
-    min-height: 92px;
-    padding: var(--space-4);
-    background: white;
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-sm);
+    padding: 1.25rem;
+    transition: box-shadow 0.2s ease;
+}
+
+.admin-stat-card:hover {
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
 }
 
 .admin-stat-label {
-    color: var(--darker-green);
+    color: var(--dark-green);
+    font-size: var(--font-sm);
+    font-weight: 500;
 }
 
 .admin-stat-icon {
-    width: 1.6rem;
-    height: 1.6rem;
+    width: 2.25rem;
+    height: 2.25rem;
+    flex-shrink: 0;
     color: white;
     border-radius: var(--radius-md);
-    font-size: var(--font-sm);
+    font-size: 1.1rem;
 }
 
 .admin-stat-value {
-    font-size: 1.6rem;
-    line-height: 1.2;
+    font-size: 2.25rem;
+    font-weight: 700;
+    line-height: 1.1;
 }
 
-.admin-stat-total .admin-stat-icon        { background-color: var(--darker-green); }
-.admin-stat-total .admin-stat-value       { color: var(--darker-green); }
-.admin-stat-in-stock .admin-stat-icon     { background-color: var(--base-green); }
-.admin-stat-in-stock .admin-stat-value    { color: var(--base-green); }
-.admin-stat-out-of-stock .admin-stat-icon { background-color: #dc0000; }
-.admin-stat-out-of-stock .admin-stat-value { color: #dc0000; }
+.admin-stat-total .admin-stat-icon         { background-color: var(--darker-green); }
+.admin-stat-total .admin-stat-value        { color: var(--darker-green); }
+.admin-stat-in-stock .admin-stat-icon      { background-color: var(--base-green); }
+.admin-stat-in-stock .admin-stat-value     { color: var(--base-green); }
+.admin-stat-out-of-stock .admin-stat-icon  { background-color: #dc2626; }
+.admin-stat-out-of-stock .admin-stat-value { color: #dc2626; }
 
 /* Panels */
 .admin-dashboard-row {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 1.5rem;
 }
 
+.inventory-panel { grid-column: span 2; }
+.alerts-panel    { grid-column: span 3; }
+
 .dashboard-panel {
-    min-height: 236px;
-    padding: var(--space-4);
-    background: white;
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-sm);
+    padding: 1.5rem;
+}
+
+.dashboard-panel-head {
+    margin-bottom: var(--space-4);
 }
 
 .main-container-dashboard .dashboard-panel-title {
     color: var(--darker-green);
-    font-size: var(--font-sm);
+    font-size: 1rem;
     font-weight: 600;
+    line-height: 1.3;
 }
 
-.dashboard-row-title {
-    color: var(--darker-green);
+.dashboard-panel-title i {
+    color: var(--base-green);
+    font-size: 0.9rem;
 }
 
-.dashboard-row-sub {
+.dashboard-panel-sub {
     color: var(--dark-green);
+    font-size: 0.75rem;
 }
 
 .dashboard-link-btn {
-    padding: 0.3rem 0.7rem;
-    color: var(--dark-green);
+    padding: 0.35rem 0.75rem;
+    color: var(--base-green);
     background: white;
-    border: 1px solid var(--dark-green);
-    border-radius: var(--radius-md);
-    font-size: var(--font-xs);
-    font-weight: 600;
+    border: 1px solid var(--base-green);
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 500;
     cursor: pointer;
     transition: background-color 0.2s ease, color 0.2s ease;
 }
 
+.dashboard-link-btn i {
+    font-size: 0.7rem;
+}
+
 .dashboard-link-btn:hover {
     color: white;
-    background-color: var(--dark-green);
+    background-color: var(--base-green);
 }
 
 /* Inventory Donut */
+.inventory-chart {
+    position: relative;
+    height: 220px;
+}
+
 .inventory-donut {
     position: relative;
-    width: 124px;
-    height: 124px;
+    width: 180px;
+    height: 180px;
     border-radius: 50%;
 }
 
 .inventory-donut::after {
     content: '';
     position: absolute;
-    inset: 22px;
+    inset: 30px;
     background: white;
     border-radius: 50%;
 }
 
 .inventory-legend {
     color: var(--darker-green);
-    font-size: var(--font-xs);
+    font-size: 0.75rem;
 }
 
-/* Rows (Stock Alerts and Appointments) */
-.dashboard-row {
+.inventory-tooltip {
+    position: absolute;
+    z-index: 2;
     padding: var(--space-2) var(--space-3);
-    background-color: #f8f9fa;
-    border: 1px solid #e5e7eb;
+    background: white;
+    border: 1px solid #e9ecef;
     border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+    font-size: 13px;
+    white-space: nowrap;
+    pointer-events: none;
 }
 
-.dashboard-row .text-sm {
-    color: var(--darker-green);
+/* Stock Alerts */
+.stock-alert-row {
+    padding: var(--space-3);
+    background-color: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: var(--radius-lg);
 }
 
 .stock-alert-icon {
-    width: 1.6rem;
-    font-size: 1.25rem;
-    text-align: center;
+    font-size: 1.5rem;
+    line-height: 1;
+}
+
+.dashboard-row-title {
+    color: var(--darker-green);
+    font-size: var(--font-sm);
+    font-weight: 600;
+}
+
+.dashboard-row-sub {
+    color: var(--dark-green);
+    font-size: 0.75rem;
+}
+
+.stock-alert-units {
+    color: var(--darker-green);
+    font-size: var(--font-sm);
+    font-weight: 500;
+}
+
+/* Upcoming Appointments */
+.upcoming-appointments-grid {
+    gap: var(--space-3);
 }
 
 .appointment-row-card {
-    border: none;
-    border-left: 2px solid var(--base-green);
-    padding-block: var(--space-3);
-}
-
-.dashboard-pill {
-    padding: 0.15rem 0.5rem;
-    border-radius: var(--radius-md);
-    font-size: var(--font-xs);
-    font-weight: 600;
-    white-space: nowrap;
-}
-
-.pill-out-of-stock { color: #dc0000; background-color: #fde8e8; }
-.pill-confirmed    { color: white; background-color: var(--base-green); }
-.pill-pending      { color: var(--darker-green); background-color: var(--yellow-green); }
-
-/* User Dashboard: Welcome Banner */
-.welcome-banner {
-    margin-bottom: var(--space-5);
-    padding: var(--space-5) var(--space-6);
-    color: white;
-    background: linear-gradient(to right, var(--darker-green), var(--base-green));
-}
-
-.welcome-banner h2 {
-    font-size: 20px;
-}
-
-.welcome-banner-sub {
-    color: var(--yellow-green);
-}
-
-.welcome-banner-icon {
-    font-size: 3rem;
-    color: rgb(255 255 255 / 0.25);
-}
-
-/* User Dashboard: Quick Actions */
-.quick-actions {
-    padding: var(--space-3);
-}
-
-.quick-action {
-    width: 100%;
-    color: var(--clr-text);
-    background: transparent;
-    border: 1px solid #eef1ef;
+    padding: var(--space-4);
+    background-color: #f8f9fa;
+    border-left: 4px solid var(--base-green);
     border-radius: var(--radius-lg);
-    cursor: pointer;
-    transition: background-color 0.2s ease, border-color 0.2s ease;
 }
 
-.quick-action:hover {
-    background-color: var(--clr-light);
-    border-color: var(--base-green);
+.appointment-row-card .dashboard-row-sub {
+    margin-top: 0.125rem;
 }
 
-.quick-action .text-sm {
+
+/* ===================== USER DASHBOARD ===================== */
+
+/* Summary Cards */
+.user-stat-cards {
+    gap: 1.5rem;
+}
+
+.user-stat-card {
+    padding-block: 1.5rem;
+    overflow: hidden;
+}
+
+.user-stat-icon {
+    padding: 1.5rem;
+    font-size: 2.5rem;
+    line-height: 1;
+}
+
+.user-stat-approved .user-stat-icon  { color: white; background-color: var(--base-green); }
+.user-stat-inquiries .user-stat-icon { color: var(--yellow-green); background-color: var(--dark-green); }
+
+.user-stat-text {
+    padding: 1.5rem;
+}
+
+.user-stat-label {
+    margin-bottom: var(--space-1);
+    color: var(--dark-green);
+    font-size: var(--font-sm);
+}
+
+.user-stat-value {
     color: var(--darker-green);
+    font-size: 1.875rem;
+    font-weight: 700;
+    line-height: 1.2;
 }
 
-.quick-action-icon {
-    width: 2.5rem;
-    height: 2.5rem;
-    flex-shrink: 0;
-    color: var(--darker-green);
-    background-color: var(--yellow-green);
-    border-radius: var(--radius-md);
+/* Panels */
+.user-dashboard-panels {
+    gap: 1.5rem;
+    align-items: start;
 }
 
-.quick-action-arrow {
-    color: var(--input-border);
-    font-size: var(--font-xs);
+.user-dashboard-panel {
+    overflow: hidden;
 }
 
-.user-dashboard-grid {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr);
+.user-panel-header {
+    padding: var(--space-4) 1.5rem;
+    color: white;
+    background: linear-gradient(to right, var(--dark-green), var(--base-green));
+    font-size: 1rem;
+    font-weight: 600;
 }
 
-/* Headings */
-.main-container-dashboard h1 { font-size: 22px; }
-.main-container-dashboard h2 { font-size: 18px; }
-.main-container-dashboard h3 { font-size: 16px; }
-.main-container-dashboard small { font-size: 12px; }
+.user-panel-header-alt {
+    background: linear-gradient(to right, var(--base-green), var(--dark-green));
+}
 
-@media (max-width: 1100px) {
-    .stat-cards-container {
+.user-panel-list {
+    padding: 1.5rem;
+}
+
+.user-dashboard-row {
+    padding: var(--space-4);
+    background-color: #f8f9fa;
+    border-radius: var(--radius-lg);
+}
+
+.user-dashboard-row .dashboard-row-title {
+    font-size: 1rem;
+}
+
+.user-dashboard-row .dashboard-row-sub {
+    font-size: var(--font-sm);
+}
+
+
+@media (max-width: 1024px) {
+    .admin-dashboard-row {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .inventory-panel,
+    .alerts-panel {
+        grid-column: auto;
+    }
+
+    .admin-stat-cards {
         grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .user-dashboard-panels.grid-2 {
+        grid-template-columns: minmax(0, 1fr);
     }
 }
 
-@media (max-width: 800px) {
-    .admin-stat-cards,
-    .admin-dashboard-row,
+@media (max-width: 768px) {
     .upcoming-appointments-grid.grid-2,
-    .user-dashboard-grid,
-    .user-dashboard .stat-cards-container {
+    .user-stat-cards.grid-2 {
         grid-template-columns: minmax(0, 1fr);
     }
 }
