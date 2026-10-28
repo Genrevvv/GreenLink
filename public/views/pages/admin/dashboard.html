@@ -1,43 +1,52 @@
-<div class="main-container-dashboard container p-4">
+<div class="main-container-dashboard admin-dashboard container p-4 flex-column gap-4">
 
-    <!-- STATS CARDS (rendered from js/dashboard/dashboard-data.js) -->
-    <div class="stat-cards-container" id="stat-cards"></div>
+    <!-- SUMMARY CARDS (rendered from js/dashboard/dashboard-data.js) -->
+    <div class="admin-stat-cards grid gap-4" id="admin-stat-cards"></div>
 
-
-    <!-- ACTIVITY CARD -->
-    <div class="activity-container shadow-bottom rounded-md">
-        <div class="card-header flex-between">
-            <span class="bold">Monthly Activity</span>
-            <div class="flex gap-4 text-xs">
-                <span class="flex align-center gap-1">
-                    <span class="legend-dot legend-orders"></span>
-                    Orders: <strong id="activity-total-orders">0</strong>
-                </span>
-                <span class="flex align-center gap-1">
-                    <span class="legend-dot legend-appointments"></span>
-                    Appointments: <strong id="activity-total-appointments">0</strong>
-                </span>
+    <div class="admin-dashboard-row grid gap-4">
+        <!-- INVENTORY AVAILABILITY -->
+        <section class="dashboard-panel flex-column">
+            <div class="flex-column">
+                <h3 class="dashboard-panel-title">Inventory Availability</h3>
+                <span class="text-xs dashboard-row-sub">Distribution by stock status</span>
             </div>
-        </div>
-        <div class="activity-chart flex justify-around gap-2 p-4" id="activity-chart"></div>
+
+            <div class="flex-column align-center gap-2 flex-1 justify-center">
+                <div class="inventory-donut" id="inventory-donut" role="img" aria-label="Products by stock status"></div>
+                <div class="inventory-legend flex gap-3" id="inventory-legend"></div>
+            </div>
+        </section>
+
+        <!-- STOCK ALERTS -->
+        <section class="dashboard-panel flex-column gap-4">
+            <div class="flex-between">
+                <div class="flex-column">
+                    <h3 class="dashboard-panel-title">Stock Alerts</h3>
+                    <span class="text-xs dashboard-row-sub">Products needing attention</span>
+                </div>
+                <button type="button" class="dashboard-link-btn flex align-center gap-2" data-page="products">
+                    View Products <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+
+            <ul class="flex-column gap-2" id="stock-alerts-list"></ul>
+        </section>
     </div>
 
-    <!-- ORDERS AND APPOINTMENTS CARDS-->
-    <div class="admin-cards grid grid-2 gap-4">
-        <div class="recent-order-card oaa shadow-bottom rounded-md">
-            <div class="card-header flex-between">
-                <span class="bold">Recent Orders</span>
-                <span class="card-header-count" id="recent-orders-count">0</span>
+    <!-- UPCOMING APPOINTMENTS -->
+    <section class="dashboard-panel flex-column gap-4">
+        <div class="flex-between">
+            <div class="flex-column">
+                <h3 class="dashboard-panel-title flex align-center gap-2">
+                    <i class="fa-regular fa-calendar"></i> Upcoming Appointments
+                </h3>
+                <span class="text-xs dashboard-row-sub">Scheduled visits and enrollments</span>
             </div>
-            <ul class="dashboard-list" id="recent-orders-list"></ul>
+            <button type="button" class="dashboard-link-btn flex align-center gap-2" data-page="appointments">
+                View All <i class="fa-solid fa-arrow-right"></i>
+            </button>
         </div>
 
-        <div class="pending-appointment-card oaa shadow-bottom rounded-md">
-            <div class="card-header flex-between">
-                <span class="bold">Pending Appointment Requests</span>
-                <span class="card-header-count" id="pending-appointments-count">0</span>
-            </div>
-            <ul class="dashboard-list" id="pending-appointments-list"></ul>
-        </div>
-    </div>
+        <ul class="upcoming-appointments-grid grid grid-2 gap-2" id="upcoming-appointments-list"></ul>
+    </section>
 </div>

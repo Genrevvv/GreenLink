@@ -60,3 +60,40 @@ export const inquiriesData = [
         reply: ''
     }
 ]; // Dummy data for front-end testing.
+
+
+// Inquiries sent by the logged-in user (user side)
+export const userInquiriesData = [
+    {
+        id: 101,
+        subject: 'Bulk order of lettuce',
+        category: 'Orders',
+        message: 'Do you offer discounts for bulk or recurring weekly orders of lettuce?',
+        date: '2026-10-25',
+        time: '09:24 AM',
+        status: 'Replied',
+        reply: 'Hi! Yes, we offer 10% off for weekly orders of 10 kg or more. Just place your order and mention it in the notes.'
+    },
+    {
+        id: 102,
+        subject: 'Hydroponics workshop schedule',
+        category: 'Workshops',
+        message: 'When is your next hydroponics workshop? I would like to join with two friends.',
+        date: '2026-10-22',
+        time: '11:45 AM',
+        status: 'Pending',
+        reply: ''
+    },
+    {
+        id: 103,
+        subject: 'Delivery to Quezon City',
+        category: 'Delivery',
+        message: 'Do you deliver to Quezon City? If yes, how much is the delivery fee?',
+        date: '2026-10-18',
+        time: '08:05 AM',
+        status: 'Replied',
+        reply: 'We deliver to Quezon City every Tuesday and Saturday. The delivery fee is ₱80.'
+    }
+];
+
+export const inquiryCategories = ['General', 'Orders', 'Products', 'Appointments', 'Workshops', 'Delivery'];

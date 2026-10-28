@@ -1,0 +1,70 @@
+<div class="container p-4 user-inquiries-content">
+    <div class="user-inquiries-grid grid gap-4">
+
+        <!-- SEND INQUIRY -->
+        <div class="flex-column gap-4">
+            <section class="admin-panel">
+                <div class="admin-panel-header table-header-gradient">
+                    <span class="admin-panel-title">
+                        <i class="fa-regular fa-paper-plane"></i>
+                        Send an Inquiry
+                    </span>
+                </div>
+
+                <form id="user-inquiry-form" class="flex-column gap-3 p-4" novalidate>
+                    <div class="flex-column gap-1">
+                        <label for="inquiry-category" class="inquiry-form-label">Category</label>
+                        <select id="inquiry-category" class="input inquiry-form-input" required>
+                            <!-- options rendered from js/inquiries/inquiries-data.js -->
+                        </select>
+                    </div>
+
+                    <div class="flex-column gap-1">
+                        <label for="inquiry-subject" class="inquiry-form-label">Subject</label>
+                        <input type="text" id="inquiry-subject" class="input inquiry-form-input"
+                            maxlength="80" placeholder="e.g., Bulk order of lettuce" required>
+                    </div>
+
+                    <div class="flex-column gap-1">
+                        <label for="inquiry-message" class="inquiry-form-label">Message</label>
+                        <textarea id="inquiry-message" class="input inquiry-form-input inquiry-reply-input"
+                            rows="6" maxlength="500" placeholder="Write your question or concern..." required></textarea>
+                        <span class="text-xs inquiry-muted text-right" id="inquiry-message-count">0 / 500</span>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary inquiry-send-btn flex-center gap-2">
+                        <i class="fa-solid fa-paper-plane"></i> Send Inquiry
+                    </button>
+                </form>
+            </section>
+
+            <!-- CONTACT INFO -->
+            <section class="inquiry-contact-card flex-column gap-2 p-4 rounded-sm">
+                <strong class="text-sm inquiry-name">Other ways to reach us</strong>
+                <span class="text-xs"><i class="fa-solid fa-phone"></i> 0917 000 0000</span>
+                <span class="text-xs"><i class="fa-regular fa-envelope"></i> greensforgrowth@example.com</span>
+                <span class="text-xs"><i class="fa-regular fa-clock"></i> We usually reply within 1 to 2 days.</span>
+            </section>
+        </div>
+
+        <!-- MY INQUIRIES -->
+        <section class="admin-panel">
+            <div class="admin-panel-header details-header-gradient flex-between">
+                <span class="admin-panel-title">
+                    <i class="fa-regular fa-comments"></i>
+                    My Inquiries
+                </span>
+                <span class="card-header-count" id="user-inquiries-count">0</span>
+            </div>
+
+            <!-- Filter Tabs -->
+            <div class="inquiries-tabs flex gap-2 px-3 py-2">
+                <button type="button" class="inquiries-tab active" data-filter="All">All</button>
+                <button type="button" class="inquiries-tab" data-filter="Pending">Pending</button>
+                <button type="button" class="inquiries-tab" data-filter="Replied">Replied</button>
+            </div>
+
+            <ul class="user-inquiries-list flex-column gap-3 p-3" id="user-inquiries-list"></ul>
+        </section>
+    </div>
+</div>

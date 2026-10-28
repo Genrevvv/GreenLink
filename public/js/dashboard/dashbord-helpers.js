@@ -1,3 +1,5 @@
+import { escapeHtml } from '../utils/string.js';
+
 export function setText(selector, value) {
     const el = document.querySelector(selector);
     if (el) el.textContent = value;

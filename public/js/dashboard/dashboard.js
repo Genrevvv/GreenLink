@@ -1,22 +1,54 @@
+import { getCurrentUser } from '../utils/user.js';
+
 import {
     statsData,
-    monthlyActivityData,
-    recentOrdersData,
-    pendingAppointmentsData, 
+    inventoryData,
+    stockAlertsData,
+    upcomingAppointmentsData,
+    userStatsData,
+    userQuickActionsData,
+    userRecentOrdersData,
+    userUpcomingAppointmentsData
 } from './dashboard-data.js';
 
 import { 
-    renderStatCards, 
-    renderMonthlyActivity, 
-    renderRecentOrders,
-    renderPendingAppointments
+    renderAdminStatCards,
+    renderInventoryChart,
+    renderStockAlerts,
+    renderUpcomingAppointments,
+    setupDashboardLinks,
+    renderStatCards,
+    renderWelcome,
+    renderQuickActions,
+    renderUserRecentOrders,
+    renderUserAppointments
 } from './dashboard-functions.js'
 
 export function initDashboard() {
-    renderStatCards(statsData);
-    renderMonthlyActivity(monthlyActivityData);
-    renderRecentOrders(recentOrdersData);
-    renderPendingAppointments(pendingAppointmentsData);
+    const user = getCurrentUser();
+
+    if (user.user_type === 'admin') {
+        adminDashboardScript();
+    }
+    else if (user.user_type === 'user') {
+        userDashboardScript(user);
+    }
 
     console.log('dashboard.js has been imported');
+}
+
+function adminDashboardScript() {
+    renderAdminStatCards(statsData);
+    renderInventoryChart(inventoryData);
+    renderStockAlerts(stockAlertsData);
+    renderUpcomingAppointments(upcomingAppointmentsData);
+    setupDashboardLinks();
+}
+
+function userDashboardScript(user) {
+    renderWelcome(user);
+    renderStatCards(userStatsData);
+    renderQuickActions(userQuickActionsData);
+    renderUserRecentOrders(userRecentOrdersData);
+    renderUserAppointments(userUpcomingAppointmentsData);
 }

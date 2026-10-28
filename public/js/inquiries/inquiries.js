@@ -1,6 +1,8 @@
 import { escapeHtml } from '../utils/string.js';
 import { createNotificationElement } from '../utils/notification/notification.js';
+import { getCurrentUser } from '../utils/user.js';
 import { inquiriesData } from './inquiries-data.js';
+import { initUserInquiries } from './inquiries-user.js';
 
 // Page state (front-end only, changes are kept in memory)
 let inquiries = [];
@@ -9,6 +11,19 @@ let activeFilter = 'All';
 let searchText = '';
 
 export function initInquiries() {
+    const user = getCurrentUser();
+
+    if (user.user_type === 'admin') {
+        adminInquiriesScript();
+    }
+    else if (user.user_type === 'user') {
+        initUserInquiries();
+    }
+
+    console.log('inquiries.js has been imported');
+}
+
+function adminInquiriesScript() {
     inquiries = inquiriesData.map(inquiry => ({ ...inquiry }));
     selectedId = null;
     activeFilter = 'All';
@@ -16,8 +31,6 @@ export function initInquiries() {
 
     setupFilters();
     renderPage();
-
-    console.log('inquiries.js has been imported');
 }
 
 function renderPage() {

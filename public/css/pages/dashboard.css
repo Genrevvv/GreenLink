@@ -67,74 +67,17 @@
 .stat-card-inquiries    { border-left-color: var(--base-green); }
 .stat-card-products     { border-left-color: var(--yellow-green); }
 
-/* Activity */
-.activity-container {
-    width: 100%;
-    margin-bottom: var(--space-5);
-    background: white;
-    overflow: hidden;
-}
-
-.activity-chart {
-    height: 260px;
-    align-items: flex-end;
-    background-image: repeating-linear-gradient(
-        to top,
-        transparent 0,
-        transparent 49px,
-        #eef1ef 49px,
-        #eef1ef 50px
-    );
-    background-origin: content-box;
-}
-
-.activity-month {
-    flex: 1;
-    justify-content: flex-end;
-}
-
-.activity-bars {
-    flex: 1;
-    align-items: flex-end;
-}
-
-.activity-bar {
-    position: relative;
-    width: 32%;
-    max-width: 28px;
-    min-height: 4px;
-    border-radius: var(--radius-sm) var(--radius-sm) 0 0;
-    transition: opacity 0.2s ease;
-}
-
-.activity-bar:hover {
-    opacity: 0.8;
-}
-
-.activity-bar-orders       { background-color: var(--base-green); }
-.activity-bar-appointments { background-color: var(--yellow-green); }
-
-.activity-bar-value {
-    position: absolute;
-    top: -1.2rem;
-    left: 50%;
-    transform: translateX(-50%);
-    color: var(--darker-green);
-    font-size: var(--font-xs);
-}
-
-.activity-month-label {
-    color: var(--dark-green);
+/* User dashboard: 3 stat cards */
+.user-dashboard .stat-cards-container {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
 .legend-dot {
     width: 10px;
     height: 10px;
+    flex-shrink: 0;
     border-radius: 50%;
 }
-
-.legend-orders       { background-color: var(--base-green); }
-.legend-appointments { background-color: var(--yellow-green); }
 
 /* Card Header */
 .card-header {
@@ -241,6 +184,213 @@
 .status-processing { color: var(--darker-green); background-color: var(--yellow-green); }
 .status-completed  { color: white; background-color: var(--base-green); }
 .status-cancelled  { color: var(--clr-failed); background-color: #fde8e8; }
+.status-pill.status-approved { color: white; background-color: var(--dark-green); }
+
+/* ===================== ADMIN DASHBOARD ===================== */
+.admin-dashboard {
+    padding: var(--space-5);
+}
+
+/* Summary Cards */
+.admin-stat-cards {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.admin-stat-card {
+    min-height: 92px;
+    padding: var(--space-4);
+    background: white;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+}
+
+.admin-stat-label {
+    color: var(--darker-green);
+}
+
+.admin-stat-icon {
+    width: 1.6rem;
+    height: 1.6rem;
+    color: white;
+    border-radius: var(--radius-md);
+    font-size: var(--font-sm);
+}
+
+.admin-stat-value {
+    font-size: 1.6rem;
+    line-height: 1.2;
+}
+
+.admin-stat-total .admin-stat-icon        { background-color: var(--darker-green); }
+.admin-stat-total .admin-stat-value       { color: var(--darker-green); }
+.admin-stat-in-stock .admin-stat-icon     { background-color: var(--base-green); }
+.admin-stat-in-stock .admin-stat-value    { color: var(--base-green); }
+.admin-stat-out-of-stock .admin-stat-icon { background-color: #dc0000; }
+.admin-stat-out-of-stock .admin-stat-value { color: #dc0000; }
+
+/* Panels */
+.admin-dashboard-row {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.dashboard-panel {
+    min-height: 236px;
+    padding: var(--space-4);
+    background: white;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+}
+
+.main-container-dashboard .dashboard-panel-title {
+    color: var(--darker-green);
+    font-size: var(--font-sm);
+    font-weight: 600;
+}
+
+.dashboard-row-title {
+    color: var(--darker-green);
+}
+
+.dashboard-row-sub {
+    color: var(--dark-green);
+}
+
+.dashboard-link-btn {
+    padding: 0.3rem 0.7rem;
+    color: var(--dark-green);
+    background: white;
+    border: 1px solid var(--dark-green);
+    border-radius: var(--radius-md);
+    font-size: var(--font-xs);
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.dashboard-link-btn:hover {
+    color: white;
+    background-color: var(--dark-green);
+}
+
+/* Inventory Donut */
+.inventory-donut {
+    position: relative;
+    width: 124px;
+    height: 124px;
+    border-radius: 50%;
+}
+
+.inventory-donut::after {
+    content: '';
+    position: absolute;
+    inset: 22px;
+    background: white;
+    border-radius: 50%;
+}
+
+.inventory-legend {
+    color: var(--darker-green);
+    font-size: var(--font-xs);
+}
+
+/* Rows (Stock Alerts and Appointments) */
+.dashboard-row {
+    padding: var(--space-2) var(--space-3);
+    background-color: #f8f9fa;
+    border: 1px solid #e5e7eb;
+    border-radius: var(--radius-md);
+}
+
+.dashboard-row .text-sm {
+    color: var(--darker-green);
+}
+
+.stock-alert-icon {
+    width: 1.6rem;
+    font-size: 1.25rem;
+    text-align: center;
+}
+
+.appointment-row-card {
+    border: none;
+    border-left: 2px solid var(--base-green);
+    padding-block: var(--space-3);
+}
+
+.dashboard-pill {
+    padding: 0.15rem 0.5rem;
+    border-radius: var(--radius-md);
+    font-size: var(--font-xs);
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.pill-out-of-stock { color: #dc0000; background-color: #fde8e8; }
+.pill-confirmed    { color: white; background-color: var(--base-green); }
+.pill-pending      { color: var(--darker-green); background-color: var(--yellow-green); }
+
+/* User Dashboard: Welcome Banner */
+.welcome-banner {
+    margin-bottom: var(--space-5);
+    padding: var(--space-5) var(--space-6);
+    color: white;
+    background: linear-gradient(to right, var(--darker-green), var(--base-green));
+}
+
+.welcome-banner h2 {
+    font-size: 20px;
+}
+
+.welcome-banner-sub {
+    color: var(--yellow-green);
+}
+
+.welcome-banner-icon {
+    font-size: 3rem;
+    color: rgb(255 255 255 / 0.25);
+}
+
+/* User Dashboard: Quick Actions */
+.quick-actions {
+    padding: var(--space-3);
+}
+
+.quick-action {
+    width: 100%;
+    color: var(--clr-text);
+    background: transparent;
+    border: 1px solid #eef1ef;
+    border-radius: var(--radius-lg);
+    cursor: pointer;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.quick-action:hover {
+    background-color: var(--clr-light);
+    border-color: var(--base-green);
+}
+
+.quick-action .text-sm {
+    color: var(--darker-green);
+}
+
+.quick-action-icon {
+    width: 2.5rem;
+    height: 2.5rem;
+    flex-shrink: 0;
+    color: var(--darker-green);
+    background-color: var(--yellow-green);
+    border-radius: var(--radius-md);
+}
+
+.quick-action-arrow {
+    color: var(--input-border);
+    font-size: var(--font-xs);
+}
+
+.user-dashboard-grid {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr);
+}
 
 /* Headings */
 .main-container-dashboard h1 { font-size: 22px; }
@@ -255,7 +405,11 @@
 }
 
 @media (max-width: 800px) {
-    .admin-cards.grid-2 {
+    .admin-stat-cards,
+    .admin-dashboard-row,
+    .upcoming-appointments-grid.grid-2,
+    .user-dashboard-grid,
+    .user-dashboard .stat-cards-container {
         grid-template-columns: minmax(0, 1fr);
     }
 }
