@@ -1,4 +1,7 @@
-/* Inquiries pages (admin and user). Shared card and badge styles are in dashboard.css */
+
+/* Inquiries pages (admin and user).
+   Shared card and badge styles are in dashboard.css. */
+
 .inquiries-page,
 .inquiries-page * {
     box-sizing: border-box;
@@ -6,7 +9,13 @@
 }
 
 .inquiries-page {
-    padding: var(--space-5);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    width: 100%;
+    max-width: 1128px;
+    margin: 2rem auto 0;
+    padding: 0 var(--space-3) var(--space-6);
     font-size: 14px;
 }
 
@@ -14,26 +23,41 @@
     margin: 0;
 }
 
-/* Panels */
+/* ===================== SHARED PANELS ===================== */
+
 .inquiries-panel {
+    min-width: 0;
     overflow: hidden;
+    background-color: var(--clr-background);
+    border: 1px solid var(--input-border);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
 }
 
 .inquiries-panel-header {
-    padding: var(--space-4) 1.5rem;
+    display: flex;
+    align-items: center;
+    min-height: 42px;
+    padding: 0.55rem 0.9rem;
     color: white;
-    font-size: 1rem;
-    font-weight: 600;
+    font-size: var(--font-xs);
+    font-weight: 700;
 }
 
-.header-dark  { background: linear-gradient(to right, var(--darker-green), var(--dark-green)); }
-.header-light { background: linear-gradient(to right, var(--dark-green), var(--base-green)); }
+.header-dark {
+    background: linear-gradient(to right, var(--darker-green), var(--dark-green));
+}
+
+.header-light {
+    background: linear-gradient(to right, var(--dark-green), var(--base-green));
+}
 
 .inquiries-panel-body {
-    padding: 1.5rem;
+    padding: var(--space-4);
 }
 
-/* Info boxes */
+/* Info Boxes */
+
 .inquiry-info-box {
     padding: var(--space-4);
     background-color: #f8f9fa;
@@ -73,7 +97,8 @@
     font-size: 4rem;
 }
 
-/* Inputs and buttons */
+/* Inputs and Buttons */
+
 .inquiry-input {
     width: 100%;
     height: 2.25rem;
@@ -120,43 +145,74 @@
 
 
 /* ===================== ADMIN INQUIRIES ===================== */
-.inquiries-summary {
+
+/* Summary Cards */
+
+.inquiries-page .inquiries-summary {
+    display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 1.5rem;
-    margin-bottom: 1.5rem;
+    gap: 1rem;
+    width: 100%;
+    margin: 0;
 }
 
-.inquiries-summary-card {
-    padding: 1.5rem;
+.inquiries-page .inquiries-summary-card {
+    display: flex;
+    min-height: 76px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.15rem;
+    padding: 0.65rem 1rem;
+    background-color: var(--clr-background);
+    border: 1px solid var(--input-border);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+    text-align: center;
 }
 
-.inquiries-summary-label {
-    margin-bottom: var(--space-1) !important;
+.inquiries-page .inquiries-summary-label {
+    margin-bottom: 0 !important;
     color: var(--dark-green);
-    font-size: var(--font-sm);
+    font-size: var(--font-xs);
+    line-height: 1.3;
 }
 
-.inquiries-summary-value {
-    font-size: 1.875rem;
+.inquiries-page .inquiries-summary-value {
+    font-size: 1.35rem;
     font-weight: 700;
     line-height: 1.2;
 }
 
-.value-total     { color: var(--darker-green); }
-.value-pending   { color: var(--yellow-green); }
-.value-responded { color: var(--base-green); }
+.value-total {
+    color: var(--darker-green);
+}
 
-.inquiries-workspace {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 1.5rem;
+.value-pending {
+    color: var(--yellow-green);
+}
+
+.value-responded {
+    color: var(--base-green);
+}
+
+/* Workspace */
+
+.inquiries-page .inquiries-workspace {
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) minmax(0, 0.95fr);
+    gap: 1rem;
+    width: 100%;
+    margin: 0;
     align-items: start;
 }
 
-.inquiries-table-panel {
-    grid-column: span 2;
+.inquiries-page .inquiries-table-panel {
+    grid-column: auto;
 }
 
 /* Table */
+
 .inquiries-table-wrapper {
     width: 100%;
     overflow-x: auto;
@@ -165,24 +221,25 @@
 .inquiries-table {
     width: 100%;
     border-collapse: collapse;
-    font-size: var(--font-sm);
     text-align: left;
 }
 
 .inquiries-table th {
-    height: 2.5rem;
-    padding: 0 var(--space-2);
+    padding: 0.5rem 0.55rem;
     color: var(--darker-green);
     background-color: #f8f9fa;
-    border-bottom: 1px solid rgb(0 0 0 / 0.1);
+    border-bottom: 1px solid var(--input-border);
+    font-size: var(--font-xs);
     font-weight: 700;
     white-space: nowrap;
 }
 
 .inquiries-table td {
-    padding: var(--space-2);
+    padding: 0.6rem 0.55rem;
     color: var(--dark-green);
-    border-bottom: 1px solid rgb(0 0 0 / 0.1);
+    border-bottom: 1px solid var(--clr-light);
+    font-size: var(--font-xs);
+    vertical-align: middle;
     white-space: nowrap;
 }
 
@@ -205,14 +262,16 @@
     font-weight: 600;
 }
 
+/* Reply Buttons */
+
 .inquiry-reply-btn {
-    height: 2rem;
-    padding: 0 0.75rem;
+    height: 1.75rem;
+    padding: 0 0.6rem;
     color: white;
     background-color: var(--base-green);
     border: none;
     border-radius: var(--radius-md);
-    font-size: var(--font-sm);
+    font-size: var(--font-xs);
     font-weight: 500;
     cursor: pointer;
     transition: background-color 0.2s ease;
@@ -227,10 +286,35 @@
     justify-content: center;
     width: 100%;
     padding-block: var(--space-2);
-    font-size: 1rem;
+    font-size: var(--font-xs);
+}
+
+/* Empty Details State */
+
+.inquiries-page .inquiry-details-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-1);
+    min-height: 165px;
+    padding: 1.25rem 0.75rem;
+    color: var(--dark-green);
+    background-color: #f8f9fa;
+    border: 1px dashed var(--input-border);
+    border-radius: var(--radius-md);
+    font-size: var(--font-xs);
+    text-align: center;
+}
+
+.inquiries-page .inquiry-details-empty i {
+    margin-bottom: var(--space-2);
+    color: var(--input-border);
+    font-size: 2.25rem;
 }
 
 /* Reply Dialog */
+
 .inquiry-dialog {
     position: relative;
     width: calc(100% - 2rem);
@@ -278,127 +362,230 @@
 }
 
 @keyframes inquiryDialogIn {
-    from { opacity: 0; transform: scale(0.95); }
-    to   { opacity: 1; transform: scale(1); }
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
 }
 
 
 /* ===================== USER INQUIRIES ===================== */
+
+/* User Layout */
+
 .user-inquiries-grid {
-    gap: 1.5rem;
+    gap: 1.15rem;
     align-items: start;
 }
 
+.user-inquiries-grid > .inquiries-panel {
+    border-radius: var(--radius-md);
+}
+
+/* Slightly smaller panel headers and body spacing */
+
+.user-inquiries-grid .inquiries-panel-header {
+    min-height: 38px;
+    padding: 0.45rem 0.8rem;
+    font-size: 0.8rem;
+}
+
+.user-inquiries-grid .inquiries-panel-body {
+    padding: 1rem;
+}
+
+/* Inquiry Form */
+
 .inquiry-form {
-    gap: 1.5rem;
+    gap: 1.15rem;
 }
 
 .inquiry-field {
-    gap: var(--space-2);
+    gap: 0.4rem;
 }
 
 .inquiry-label {
     color: var(--clr-text);
-    font-size: var(--font-sm);
+    font-size: 0.82rem;
     font-weight: 500;
 }
 
+.user-inquiries-grid .inquiry-input {
+    height: 2.1rem;
+    padding: 0.25rem 0.65rem;
+    font-size: 0.82rem;
+}
+
+.user-inquiries-grid .inquiry-textarea {
+    min-height: 130px;
+    padding: 0.55rem 0.65rem;
+}
+
+.user-inquiries-grid .inquiry-primary-btn {
+    height: 2.1rem;
+    font-size: 0.82rem;
+}
+
 .inquiry-response-time {
-    margin-top: 1.5rem;
-    padding: var(--space-4);
+    margin-top: 1.15rem;
+    padding: 0.8rem;
     background-color: #f8f9fa;
-    border-left: 4px solid var(--base-green);
-    border-radius: var(--radius-lg);
+    border-left: 3px solid var(--base-green);
+    border-radius: var(--radius-md);
 }
 
 .inquiry-response-time-title {
-    margin-bottom: var(--space-2) !important;
+    margin-bottom: 0.3rem !important;
     color: var(--dark-green);
-    font-size: var(--font-sm);
+    font-size: 0.82rem;
     font-weight: 600;
 }
 
 .inquiry-response-time-text {
     color: var(--dark-green);
-    font-size: var(--font-sm);
+    font-size: 0.78rem;
+    line-height: 1.45;
 }
 
+/* Previous Inquiries List */
+
 .previous-inquiries-list {
-    max-height: 600px;
-    gap: var(--space-4);
-    padding-right: var(--space-2);
+    max-height: 540px;
+    gap: 0.7rem;
+    padding-right: 0.35rem;
     overflow-y: auto;
 }
 
+/* Compact Inquiry Cards */
+
 .previous-inquiry-card {
-    padding: 1.25rem;
+    padding: 0.8rem;
     background-color: #f8f9fa;
     border: 1px solid #e9ecef;
-    border-radius: var(--radius-lg);
+    border-radius: var(--radius-md);
 }
 
 .previous-inquiry-top {
     align-items: flex-start;
-    margin-bottom: var(--space-3);
+    gap: 0.45rem;
+    margin-bottom: 0.55rem;
 }
 
 .previous-inquiry-subject {
-    margin-bottom: var(--space-1);
+    margin-bottom: 0.15rem;
     color: var(--darker-green);
-    font-size: 1.125rem;
+    font-size: 0.95rem;
     font-weight: 700;
+    line-height: 1.35;
 }
 
 .previous-inquiry-date {
-    margin-bottom: var(--space-2) !important;
+    margin-bottom: 0.55rem !important;
     color: var(--dark-green);
-    font-size: var(--font-sm);
+    font-size: 0.76rem;
+    line-height: 1.4;
 }
 
 .previous-inquiry-section {
-    margin-bottom: var(--space-3);
+    margin-bottom: 0.55rem;
 }
 
 .previous-inquiry-label {
-    margin-bottom: var(--space-1) !important;
+    margin-bottom: 0.25rem !important;
     color: var(--dark-green);
-    font-size: var(--font-sm);
+    font-size: 0.78rem;
     font-weight: 600;
 }
 
 .previous-inquiry-message {
-    padding: var(--space-3);
+    padding: 0.6rem 0.7rem;
     color: var(--darker-green);
     background: white;
     border-radius: var(--radius-md);
-    font-size: var(--font-sm);
+    font-size: 0.82rem;
+    line-height: 1.45;
+    overflow-wrap: anywhere;
 }
 
 .previous-inquiry-response-section {
-    margin: var(--space-3) 0 0;
-    padding-top: var(--space-3);
+    margin: 0.65rem 0 0;
+    padding-top: 0.65rem;
     border-top: 1px solid #e9ecef;
 }
 
 .previous-inquiry-response {
     background: linear-gradient(to bottom right, rgb(64 145 108 / 0.1), rgb(45 106 79 / 0.1));
-    border-left: 4px solid var(--base-green);
+    border-left: 3px solid var(--base-green);
+}
+
+/* Smaller Status Badges */
+
+.previous-inquiry-card .dashboard-badge {
+    padding: 0.22rem 0.5rem;
+    border-radius: 999px;
+    font-size: 0.7rem;
+    line-height: 1.3;
 }
 
 
+/* ===================== RESPONSIVE LAYOUT ===================== */
+
 @media (max-width: 1024px) {
-    .inquiries-workspace,
+    .inquiries-page {
+        max-width: 100%;
+    }
+
+    .inquiries-page .inquiries-workspace,
     .user-inquiries-grid.grid-2 {
         grid-template-columns: minmax(0, 1fr);
     }
 
-    .inquiries-table-panel {
+    .inquiries-page .inquiries-table-panel {
         grid-column: auto;
     }
 }
 
 @media (max-width: 768px) {
-    .inquiries-summary {
+    .inquiries-page .inquiries-summary {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .user-inquiries-grid {
+        gap: 0.9rem;
+    }
+
+    .user-inquiries-grid .inquiries-panel-body {
+        padding: 0.85rem;
+    }
+
+    .previous-inquiry-card {
+        padding: 0.75rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .inquiries-page {
+        padding-inline: var(--space-3);
+    }
+
+    .inquiries-page .inquiries-summary {
         grid-template-columns: minmax(0, 1fr);
+    }
+
+    .user-inquiries-grid .inquiries-panel-body {
+        padding: 0.75rem;
+    }
+
+    .previous-inquiry-subject {
+        font-size: 0.9rem;
+    }
+
+    .previous-inquiry-message {
+        font-size: 0.8rem;
     }
 }

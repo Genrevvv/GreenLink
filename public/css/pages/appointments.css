@@ -1,4 +1,182 @@
-/* ===================== USER APPOINTMENTS PAGE ===================== */
+
+/* =========================================================
+   ADMIN APPOINTMENTS PAGE
+========================================================= */
+
+.admin-appointments-page {
+    background-color: var(--clr-background);
+}
+
+.admin-appointments-content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    flex: 0 1 auto !important;
+    margin-top: 2rem;
+    padding-bottom: var(--space-6) !important;
+}
+
+/* SUMMARY CARDS */
+
+.summary-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-4);
+}
+
+.summary-card {
+    display: flex;
+    min-height: 90px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-1);
+    padding: var(--space-4);
+    background-color: var(--clr-background);
+    border: 1px solid var(--input-border);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+}
+
+.summary-card-label {
+    color: var(--dark-green);
+    font-size: var(--font-xs);
+}
+
+.summary-card-value {
+    color: var(--darker-green);
+    font-size: var(--font-lg);
+}
+
+.summary-card-value-pending {
+    color: var(--yellow-green);
+}
+
+.summary-card-value-approved {
+    color: var(--base-green);
+}
+
+/* ADMIN WORKSPACE */
+
+.admin-workspace-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+    gap: var(--space-4);
+    align-items: start;
+}
+
+.admin-panel {
+    min-width: 0;
+    background-color: var(--clr-background);
+    border: 1px solid var(--input-border);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
+}
+
+.admin-panel-header {
+    display: flex;
+    align-items: center;
+    padding: 0.6rem 1rem;
+    color: white;
+}
+
+.admin-panel-title {
+    color: white;
+    font-size: var(--font-xs);
+    font-weight: 700;
+}
+
+.table-header-gradient {
+    background: linear-gradient(to right, var(--darker-green), var(--dark-green));
+}
+
+.details-header-gradient {
+    background: linear-gradient(to right, var(--dark-green), var(--base-green));
+}
+
+/* ADMIN APPOINTMENTS TABLE */
+
+.admin-table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.admin-table th {
+    padding: 0.6rem;
+    color: var(--darker-green);
+    background-color: #F8F9FA;
+    border-bottom: 1px solid var(--input-border);
+    font-size: var(--font-xs);
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.admin-table td {
+    padding: var(--space-3);
+    color: var(--dark-green);
+    border-bottom: 1px solid var(--clr-light);
+    font-size: var(--font-xs);
+    vertical-align: middle;
+}
+
+.admin-table-empty-cell {
+    padding: 0 !important;
+    border-bottom: none !important;
+}
+
+/* ADMIN EMPTY STATES */
+
+.admin-empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-1);
+    padding: 3rem 1.5rem;
+    background-color: #F8F9FA;
+    border: 1px dashed var(--input-border);
+    border-radius: var(--radius-md);
+    text-align: center;
+}
+
+.admin-empty-icon {
+    margin-bottom: var(--space-2);
+    color: var(--input-border);
+    font-size: 2rem;
+}
+
+.admin-empty-title {
+    margin-bottom: 0.2rem;
+    color: var(--darker-green);
+    font-size: var(--font-xs);
+}
+
+.admin-empty-description {
+    color: var(--dark-green);
+    font-size: var(--font-xs);
+}
+
+.admin-details-empty-state {
+    padding: var(--space-6) var(--space-4);
+    background-color: transparent;
+    border: none;
+}
+
+.customer-details-content {
+    padding: var(--space-4);
+}
+
+
+/* =========================================================
+   USER APPOINTMENTS PAGE
+========================================================= */
 
 .user-appointments-content {
     display: flex;
@@ -48,6 +226,8 @@
     margin: 0;
 }
 
+/* BOOKING FORM */
+
 .user-appointment-form-content {
     display: flex;
     flex-direction: column;
@@ -93,7 +273,10 @@
     color: #b42318;
 }
 
-/* ===================== UPCOMING APPOINTMENTS ===================== */
+
+/* =========================================================
+   UPCOMING APPOINTMENTS
+========================================================= */
 
 .user-appointments-sidebar {
     display: flex;
@@ -214,7 +397,10 @@
     white-space: pre-wrap;
 }
 
-/* ===================== APPOINTMENT REMINDERS ===================== */
+
+/* =========================================================
+   APPOINTMENT REMINDERS
+========================================================= */
 
 .user-appointment-reminders {
     align-self: start;
@@ -250,7 +436,10 @@
     line-height: 1.6;
 }
 
-/* ===================== CUSTOM APPOINTMENT CALENDAR ===================== */
+
+/* =========================================================
+   CUSTOM APPOINTMENT CALENDAR
+========================================================= */
 
 .custom-calendar {
     width: min(100%, 280px);
@@ -393,7 +582,10 @@
     text-align: center;
 }
 
-/* ===================== CUSTOMER DETAILS ===================== */
+
+/* =========================================================
+   CUSTOMER DETAILS
+========================================================= */
 
 .appointment-details-list {
     display: flex;
@@ -430,9 +622,13 @@
     white-space: pre-wrap;
 }
 
-/* ===================== RESPONSIVE USER APPOINTMENTS ===================== */
+
+/* =========================================================
+   RESPONSIVE LAYOUTS
+========================================================= */
 
 @media (max-width: 900px) {
+    .admin-workspace-grid,
     .user-appointments-grid {
         grid-template-columns: minmax(0, 1fr);
     }
@@ -443,6 +639,14 @@
 }
 
 @media (max-width: 600px) {
+    .summary-cards-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .summary-card {
+        min-height: 75px;
+    }
+
     .user-appointment-form-content,
     .upcoming-appointments-list,
     .user-appointment-reminders {

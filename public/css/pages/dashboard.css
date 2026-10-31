@@ -14,7 +14,8 @@
     margin: 0;
 }
 
-/* Shared */
+/* ===================== SHARED ===================== */
+
 .dashboard-card {
     background: white;
     border-radius: var(--radius-lg);
@@ -60,13 +61,14 @@
 /* ===================== ADMIN DASHBOARD ===================== */
 
 /* Summary Cards */
+
 .admin-stat-cards {
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 1.25rem;
+    gap: 1rem;
 }
 
 .admin-stat-card {
-    padding: 1.25rem;
+    padding: 1rem;
     transition: box-shadow 0.2s ease;
 }
 
@@ -81,16 +83,16 @@
 }
 
 .admin-stat-icon {
-    width: 2.25rem;
-    height: 2.25rem;
+    width: 2rem;
+    height: 2rem;
     flex-shrink: 0;
     color: white;
     border-radius: var(--radius-md);
-    font-size: 1.1rem;
+    font-size: 1rem;
 }
 
 .admin-stat-value {
-    font-size: 2.25rem;
+    font-size: 2rem;
     font-weight: 700;
     line-height: 1.1;
 }
@@ -103,32 +105,33 @@
 .admin-stat-out-of-stock .admin-stat-value { color: #dc2626; }
 
 /* Panels */
+
 .admin-dashboard-row {
     grid-template-columns: repeat(5, minmax(0, 1fr));
-    gap: 1.5rem;
+    gap: 1.15rem;
 }
 
 .inventory-panel { grid-column: span 2; }
 .alerts-panel    { grid-column: span 3; }
 
 .dashboard-panel {
-    padding: 1.5rem;
+    padding: 1.2rem;
 }
 
 .dashboard-panel-head {
-    margin-bottom: var(--space-4);
+    margin-bottom: var(--space-3);
 }
 
 .main-container-dashboard .dashboard-panel-title {
     color: var(--darker-green);
-    font-size: 1rem;
+    font-size: 0.95rem;
     font-weight: 600;
     line-height: 1.3;
 }
 
 .dashboard-panel-title i {
     color: var(--base-green);
-    font-size: 0.9rem;
+    font-size: 0.85rem;
 }
 
 .dashboard-panel-sub {
@@ -158,22 +161,23 @@
 }
 
 /* Inventory Donut */
+
 .inventory-chart {
     position: relative;
-    height: 220px;
+    height: 190px;
 }
 
 .inventory-donut {
     position: relative;
-    width: 180px;
-    height: 180px;
+    width: 160px;
+    height: 160px;
     border-radius: 50%;
 }
 
 .inventory-donut::after {
     content: '';
     position: absolute;
-    inset: 30px;
+    inset: 26px;
     background: white;
     border-radius: 50%;
 }
@@ -197,15 +201,16 @@
 }
 
 /* Stock Alerts */
+
 .stock-alert-row {
-    padding: var(--space-3);
+    padding: 0.75rem;
     background-color: #f8f9fa;
     border: 1px solid #e9ecef;
     border-radius: var(--radius-lg);
 }
 
 .stock-alert-icon {
-    font-size: 1.5rem;
+    font-size: 1.3rem;
     line-height: 1;
 }
 
@@ -227,12 +232,13 @@
 }
 
 /* Upcoming Appointments */
+
 .upcoming-appointments-grid {
     gap: var(--space-3);
 }
 
 .appointment-row-card {
-    padding: var(--space-4);
+    padding: 0.85rem;
     background-color: #f8f9fa;
     border-left: 4px solid var(--base-green);
     border-radius: var(--radius-lg);
@@ -244,46 +250,42 @@
 
 
 /* ===================== USER DASHBOARD ===================== */
-/* All redesign rules are scoped to .user-dashboard.
-   The admin dashboard styles above remain unchanged. */
-
-/* Overall spacing */
 
 .main-container-dashboard.user-dashboard {
     display: flex;
     flex-direction: column;
     align-items: stretch;
-    gap: 1.5rem;
-    padding: var(--space-5);
+    gap: 1.25rem;
+    padding: 1.25rem;
     background: transparent;
 }
 
 .user-dashboard .user-dashboard-welcome {
     display: flex;
     flex-direction: column;
-    gap: 0.3rem;
+    gap: 0.25rem;
 }
 
 .user-dashboard .user-dashboard-welcome h2 {
     margin: 0;
     color: var(--darker-green);
-    font-size: 1.55rem;
+    font-size: 1.4rem;
     font-weight: 700;
     line-height: 1.3;
 }
 
 .user-dashboard .user-dashboard-welcome p {
     color: var(--dark-green);
-    font-size: 0.95rem;
+    font-size: 0.88rem;
     line-height: 1.5;
 }
 
-/* Four summary cards */
+/* Summary Cards */
 
 .user-dashboard .user-stat-cards {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 1rem;
+    gap: 0.85rem;
 }
 
 .user-dashboard .user-stat-card {
@@ -291,17 +293,15 @@
     flex-direction: column;
     align-items: stretch;
     justify-content: flex-start;
-    gap: 0.6rem;
-    min-height: 112px;
-    padding: 1.15rem;
+    gap: 0.5rem;
+    min-height: 100px;
+    padding: 1rem;
     overflow: hidden;
     background: white;
     border: 1px solid #edf0ee;
     border-radius: var(--radius-lg);
     box-shadow: 0 3px 8px rgb(0 0 0 / 0.045);
 }
-
-/* Keep the summary cards compact, without oversized icons */
 
 .user-dashboard .user-stat-icon {
     display: none;
@@ -310,14 +310,14 @@
 .user-dashboard .user-stat-text {
     display: flex;
     flex-direction: column;
-    gap: 0.45rem;
+    gap: 0.35rem;
     padding: 0;
 }
 
 .user-dashboard .user-stat-label {
     margin: 0;
     color: var(--dark-green);
-    font-size: 0.88rem;
+    font-size: 0.84rem;
     font-weight: 600;
     line-height: 1.4;
 }
@@ -325,7 +325,7 @@
 .user-dashboard .user-stat-value {
     margin: 0;
     color: var(--darker-green);
-    font-size: 2rem;
+    font-size: 1.8rem;
     font-weight: 700;
     line-height: 1.1;
 }
@@ -338,21 +338,21 @@
     color: var(--base-green);
 }
 
-/* Middle row: appointments and product availability */
+/* User Dashboard Panels */
 
 .user-dashboard .user-dashboard-panels {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     align-items: stretch;
-    gap: 1.25rem;
+    gap: 1rem;
 }
 
 .user-dashboard .user-dashboard-panel {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: 0.85rem;
     min-width: 0;
-    padding: 1.35rem;
+    padding: 1.15rem;
     overflow: hidden;
     background: white;
     border: 1px solid #edf0ee;
@@ -360,40 +360,38 @@
     box-shadow: 0 3px 8px rgb(0 0 0 / 0.045);
 }
 
-/* Simple section headings, no gradient bars */
-
 .user-dashboard .user-panel-header {
     display: flex;
     flex-direction: column;
-    gap: 0.3rem;
+    gap: 0.25rem;
     padding: 0;
     color: var(--darker-green);
     background: transparent;
-    font-size: 1rem;
+    font-size: 0.95rem;
     font-weight: 600;
 }
 
 .user-dashboard .user-panel-header h3 {
     margin: 0;
     color: var(--darker-green);
-    font-size: 1.1rem;
+    font-size: 1rem;
     font-weight: 700;
     line-height: 1.4;
 }
 
 .user-dashboard .user-panel-header p {
     color: var(--dark-green);
-    font-size: 0.8rem;
+    font-size: 0.78rem;
     font-weight: 400;
     line-height: 1.45;
 }
 
-/* Lists */
+/* User Lists */
 
 .user-dashboard .user-panel-list {
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
+    gap: 0.65rem;
     min-width: 0;
     margin: 0;
     padding: 0;
@@ -404,43 +402,43 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 0.75rem;
-    padding: 0.9rem;
+    gap: 0.65rem;
+    padding: 0.75rem;
     background-color: #f5f8f8;
     border: 0;
-    border-radius: 12px;
+    border-radius: 10px;
 }
 
 .user-dashboard .user-dashboard-row .dashboard-row-title {
     color: var(--darker-green);
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     font-weight: 600;
 }
 
 .user-dashboard .user-dashboard-row .dashboard-row-sub {
-    margin-top: 0.25rem;
+    margin-top: 0.2rem;
     color: var(--dark-green);
-    font-size: 0.8rem;
+    font-size: 0.76rem;
     line-height: 1.45;
 }
 
-/* Featured next appointment */
+/* Next Appointment */
 
 .user-dashboard .next-appointment-card {
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
-    padding: 1.15rem;
+    gap: 0.65rem;
+    padding: 1rem;
     color: white;
     background: var(--dark-green);
     border: 1px solid var(--darker-green);
-    border-radius: 14px;
+    border-radius: 12px;
     list-style: none;
 }
 
 .user-dashboard .next-appointment-label {
     color: var(--yellow-green);
-    font-size: 0.75rem;
+    font-size: 0.72rem;
     font-weight: 700;
     letter-spacing: 0.02em;
 }
@@ -449,21 +447,21 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 0.75rem;
+    gap: 0.65rem;
 }
 
 .user-dashboard .next-appointment-date {
     margin: 0;
     color: white;
-    font-size: 1.1rem;
+    font-size: 1rem;
     font-weight: 700;
     line-height: 1.4;
 }
 
 .user-dashboard .next-appointment-details {
-    margin-top: 0.3rem;
+    margin-top: 0.25rem;
     color: #e3ece5;
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     line-height: 1.45;
 }
 
@@ -472,21 +470,19 @@
     background: var(--yellow-green);
 }
 
-/* Compact user status badges */
-
 .user-dashboard .dashboard-badge {
-    padding: 0.35rem 0.65rem;
+    padding: 0.3rem 0.55rem;
     border-radius: 999px;
-    font-size: 0.73rem;
+    font-size: 0.7rem;
     font-weight: 600;
 }
 
-/* Product availability */
+/* Product Availability */
 
 .user-dashboard #user-product-availability-list {
     display: flex;
     flex-direction: column;
-    gap: 0.7rem;
+    gap: 0.6rem;
     margin: 0;
     padding: 0;
     list-style: none;
@@ -496,10 +492,10 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 0.75rem;
-    padding: 0.9rem;
+    gap: 0.65rem;
+    padding: 0.75rem;
     background: #f5f8f8;
-    border-radius: 12px;
+    border-radius: 10px;
     list-style: none;
 }
 
@@ -509,27 +505,27 @@
 
 .user-dashboard .product-availability-row .dashboard-row-title {
     color: var(--darker-green);
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     font-weight: 600;
 }
 
 .user-dashboard .product-availability-row .dashboard-row-sub {
     margin-top: 0.2rem;
     color: var(--dark-green);
-    font-size: 0.8rem;
+    font-size: 0.76rem;
 }
 
-/* Recent inquiry updates */
+/* Recent Inquiry Updates */
 
 .user-dashboard .user-inquiries-panel {
-    gap: 1rem;
+    gap: 0.85rem;
 }
 
 .user-dashboard .user-inquiry-grid {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     align-items: stretch;
-    gap: 0.85rem;
+    gap: 0.75rem;
     min-width: 0;
     margin: 0;
     padding: 0;
@@ -540,25 +536,25 @@
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: 0.45rem;
+    gap: 0.4rem;
     min-width: 0;
-    padding: 0.95rem;
+    padding: 0.8rem;
     background: #f5f8f8;
     border: 1px solid transparent;
-    border-radius: 12px;
+    border-radius: 10px;
     list-style: none;
 }
 
 .user-dashboard .user-inquiry-card .dashboard-row-title {
     color: var(--darker-green);
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     font-weight: 600;
     line-height: 1.4;
 }
 
 .user-dashboard .user-inquiry-card .dashboard-row-sub {
     color: var(--dark-green);
-    font-size: 0.78rem;
+    font-size: 0.75rem;
     line-height: 1.4;
     overflow-wrap: anywhere;
 }
@@ -567,7 +563,7 @@
     margin-top: 0.15rem;
 }
 
-/* User dashboard empty states */
+/* User Empty States */
 
 .user-dashboard .dashboard-empty {
     display: flex;
@@ -587,8 +583,8 @@
     font-size: 1.4rem;
 }
 
+
 /* ===================== RESPONSIVE LAYOUT ===================== */
-/* Admin responsive rules are kept as originally provided. */
 
 @media (max-width: 1024px) {
     .admin-dashboard-row {
@@ -604,7 +600,6 @@
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
-    /* User dashboard only */
     .user-dashboard .user-dashboard-panels {
         grid-template-columns: minmax(0, 1fr);
     }
@@ -615,12 +610,10 @@
 }
 
 @media (max-width: 768px) {
-    /* Original admin responsive rules */
     .upcoming-appointments-grid.grid-2 {
         grid-template-columns: minmax(0, 1fr);
     }
 
-    /* User dashboard only */
     .user-dashboard .user-stat-cards {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
@@ -630,47 +623,47 @@
     }
 
     .user-dashboard .user-dashboard-panel {
-        padding: 1.1rem;
+        padding: 1rem;
     }
 
     .user-dashboard .user-dashboard-panels {
-        gap: 1rem;
+        gap: 0.85rem;
     }
 }
 
 @media (max-width: 480px) {
     .main-container-dashboard.user-dashboard {
-        gap: 1rem;
-        padding: 0.85rem;
+        gap: 0.9rem;
+        padding: 0.75rem;
     }
 
     .user-dashboard .user-dashboard-welcome h2 {
-        font-size: 1.3rem;
+        font-size: 1.2rem;
     }
 
     .user-dashboard .user-dashboard-welcome p {
-        font-size: 0.82rem;
-    }
-
-    .user-dashboard .user-stat-cards {
-        gap: 0.75rem;
-    }
-
-    .user-dashboard .user-stat-card {
-        min-height: 95px;
-        padding: 0.85rem;
-    }
-
-    .user-dashboard .user-stat-label {
         font-size: 0.8rem;
     }
 
+    .user-dashboard .user-stat-cards {
+        gap: 0.65rem;
+    }
+
+    .user-dashboard .user-stat-card {
+        min-height: 90px;
+        padding: 0.75rem;
+    }
+
+    .user-dashboard .user-stat-label {
+        font-size: 0.78rem;
+    }
+
     .user-dashboard .user-stat-value {
-        font-size: 1.7rem;
+        font-size: 1.6rem;
     }
 
     .user-dashboard .user-dashboard-panel {
-        padding: 0.9rem;
+        padding: 0.85rem;
     }
 
     .user-dashboard .user-inquiry-grid {
@@ -685,6 +678,6 @@
     }
 
     .user-dashboard .next-appointment-date {
-        font-size: 1rem;
+        font-size: 0.95rem;
     }
 }
