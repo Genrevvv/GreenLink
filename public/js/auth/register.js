@@ -21,12 +21,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
     let toastTimeout;
 
+    // Password visibility
     document.querySelectorAll(".password-toggle").forEach((button) => {
         button.addEventListener("click", () => {
             const input = button.parentElement.querySelector("input");
             if (!input) return;
 
             const showing = input.type === "text";
+
             input.type = showing ? "password" : "text";
             button.textContent = showing ? "Show" : "Hide";
             button.setAttribute("aria-pressed", String(!showing));
@@ -37,6 +39,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
+    // Registration
     form.addEventListener("submit", async (event) => {
         event.preventDefault();
 
@@ -81,7 +84,9 @@ document.addEventListener("DOMContentLoaded", () => {
         try {
             const response = await fetch("/register", {
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
+                headers: {
+                    "Content-Type": "application/json"
+                },
                 body: JSON.stringify({
                     username,
                     email,
@@ -94,7 +99,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
             if (!response.ok || data.success !== true) {
                 showMessage(
-                    data.message || "Unable to create your account. Please try again."
+                    data.message ||
+                    "Unable to create your account. Please try again.",
+                    "error"
                 );
                 return;
             }
@@ -109,9 +116,14 @@ document.addEventListener("DOMContentLoaded", () => {
             window.setTimeout(() => {
                 window.location.href = "/login";
             }, 1500);
+
         } catch (error) {
             console.error("Registration error:", error);
-            showMessage("Unable to connect to the server. Please try again.");
+
+            showMessage(
+                "Unable to connect to the server. Please try again.",
+                "error"
+            );
         } finally {
             setLoading(false);
         }
@@ -119,18 +131,23 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function setLoading(loading) {
         submitButton.disabled = loading;
-        submitButton.querySelector("span").textContent =
-            loading ? "Creating account..." : "Create Account";
+
+        const buttonText = submitButton.querySelector("span");
+
+        if (buttonText) {
+            buttonText.textContent = loading
+                ? "Creating account..."
+                : "Create Account";
+        }
     }
 
+    // Toast notifications
     function showMessage(text, type = "error") {
         let toast = document.querySelector(".auth-toast");
 
         if (!toast) {
             toast = document.createElement("div");
             toast.className = "auth-toast";
-            toast.setAttribute("role", "alert");
-            toast.setAttribute("aria-live", "polite");
 
             const icon = document.createElement("span");
             icon.className = "auth-toast-icon";
@@ -143,20 +160,32 @@ document.addEventListener("DOMContentLoaded", () => {
             document.body.appendChild(toast);
         }
 
-        toast.querySelector(".auth-toast-icon").textContent =
-            type === "success" ? "✓" : "!";
-        toast.querySelector(".auth-toast-message").textContent = text;
+        const icon = toast.querySelector(".auth-toast-icon");
+        const message = toast.querySelector(".auth-toast-message");
+
+        const isSuccess = type === "success";
+
+        // Update notification content and appearance together
+        icon.textContent = isSuccess ? "✓" : "!";
+        message.textContent = text;
 
         toast.classList.remove("success", "error", "show");
-        toast.classList.add(type);
+        toast.classList.add(isSuccess ? "success" : "error");
+
+        toast.setAttribute(
+            "role",
+            isSuccess ? "status" : "alert"
+        );
+
+        toast.setAttribute("aria-live", isSuccess ? "polite" : "assertive");
 
         clearTimeout(toastTimeout);
 
         requestAnimationFrame(() => {
-            requestAnimationFrame(() => toast.classList.add("show"));
+            toast.classList.add("show");
         });
 
-        toastTimeout = setTimeout(() => {
+        toastTimeout = window.setTimeout(() => {
             toast.classList.remove("show");
         }, 3500);
     }
