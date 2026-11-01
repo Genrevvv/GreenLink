@@ -9,29 +9,27 @@ let cleanupPage = null;
 
 export async function loadPage(page) {
     // Clean up the previous page's script
-    if (cleanupPage) {
+    if (typeof cleanupPage === 'function') {
         cleanupPage();
         cleanupPage = null;
     }
 
     const pagePath = `/views/pages/${user.user_type}/${page}.html`;
-    console.log(pagePath)
-
     const response = await fetch(pagePath);
 
-    if (!response.ok) {  
+    if (!response.ok) {
         mainContent.innerHTML = `
             <div class="container p-2">
                 Can't load content hehe :)
             </div>
-        `;   
+        `;
         return;
     }
 
     mainContent.innerHTML = await response.text();
 
     let module = null;
-    // Initialize the selected page
+
     if (page === 'products') {
         module = await import('../products/products.js');
         cleanupPage = module.initProducts();
@@ -48,7 +46,6 @@ export async function loadPage(page) {
         module = await import('../inquiries/inquiries.js');
         cleanupPage = module.initInquiries();
     }
-
 }
 
 export function selectOption(selectedOption, options) {

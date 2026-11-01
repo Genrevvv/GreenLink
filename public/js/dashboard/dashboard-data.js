@@ -1,10 +1,11 @@
 
-import { productsData } from '../products/data.js';
 import { userInquiriesData } from '../inquiries/inquiries-data.js';
+import { fetchProducts } from '../products/api.js';
 
 /* ===================== SHARED PRODUCT DATA ===================== */
 
-const activeProducts = productsData.filter(product => !product.isArchived);
+const products = await fetchProducts();
+const activeProducts = products.filter(product => !product.isArchived);
 
 const inStockProducts = activeProducts.filter(product => product.inStock);
 const outOfStockProducts = activeProducts.filter(product => !product.inStock);
