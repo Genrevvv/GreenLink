@@ -1,17 +1,15 @@
-import { productsData } from './data.js';
-
 const totalProducts = document.querySelector('#total-products');
 const inStock = document.querySelector('#in-stock');
 const outOfStock = document.querySelector('#out-of-stock');
 
-// Refresh all summary cards
-export function updateProductSummary() {
-    setTotalProducts(getTotalProducts());
-    setInStock(getInStock());
-    setOutofStock(getOutofStock());
+// REFRESH SUMMARY
+export function updateProductSummary(products) {
+    setTotalProducts(getTotalProducts(products));
+    setInStock(getInStock(products));
+    setOutofStock(getOutofStock(products));
 }
 
-// Update product summary cards
+// UPDATE SUMMARY CARDS
 export function setTotalProducts(n) {
     if (totalProducts) totalProducts.textContent = n;
 }
@@ -24,16 +22,15 @@ export function setOutofStock(n) {
     if (outOfStock) outOfStock.textContent = n;
 }
 
-// Get product counts (exclude archived products)
-export function getTotalProducts() {
-    return productsData.filter(product => !product.isArchived).length;
+// GET PRODUCT COUNTS
+export function getTotalProducts(products) {
+    return products.filter(product => !product.isArchived).length;
 }
 
-export function getInStock() {
-    return productsData.filter(product => !product.isArchived && product.inStock).length;
+export function getInStock(products) {
+    return products.filter(product => !product.isArchived && product.inStock).length;
 }
 
-export function getOutofStock() {
-    return productsData.filter(product => !product.isArchived && !product.inStock).length;
+export function getOutofStock(products) {
+    return products.filter(product => !product.isArchived && !product.inStock).length;
 }
-

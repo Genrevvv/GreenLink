@@ -4,13 +4,46 @@ import {
     restoreProduct,
     showingArchivedProducts
 } from './archive.js';
-import { productsData } from './data.js';
 import { filterProducts } from './filter.js';
 import { getProductData } from './form.js';
 import { addEditProductModal, productRowModal } from './modal.js';
 import { createNotificationElement } from '../utils/notification/notification.js';
 import { updateProductSummary } from './summary.js';
+import { updateStockStatus } from './api.js';
 
+let products = [];
+
+// LOAD PRODUCTS
+export async function loadProducts(productsData) {
+    products = productsData;
+
+    const productTable = document.querySelector('.products-table');
+
+    if (!productTable) return;
+
+    productTable.innerHTML = `
+        <tr>
+            <td colspan="4">Loading products...</td>
+        </tr>
+    `;
+
+    if (products.length <= 0) {
+        console.error('Failed to load products:', error);
+
+        productTable.innerHTML = `
+            <tr>
+                <td colspan="4">Failed to load products.</td>
+            </tr>
+        `;
+
+        return;
+    } 
+
+    renderProducts();
+    updateProductSummary(products);
+}
+
+// RENDER PRODUCTS
 export function renderProducts() {
     const productTable = document.querySelector('.products-table');
 
@@ -25,7 +58,7 @@ export function renderProducts() {
         </tr>
     `;
 
-    const visibleProducts = productsData.filter(product =>
+    const visibleProducts = products.filter(product =>
         Boolean(product.isArchived) === showingArchivedProducts
     );
 
@@ -48,6 +81,7 @@ export function renderProducts() {
     filterProducts();
 }
 
+// PRODUCT ROW ACTIONS
 export function setupProductRowActions(productRow, productData) {
     const editProductAct = productRow.querySelector('.edit-product');
     const archiveProductAct = productRow.querySelector('.archive-product');
@@ -62,41 +96,50 @@ export function setupProductRowActions(productRow, productData) {
 
     if (archiveProductAct) {
         archiveProductAct.onclick = () => {
-            archiveProduct(productData.id);
+            archiveProduct(productData.id, products);
+            renderProducts();
+            updateProductSummary(products);
         };
     }
 
     if (restoreProductAct) {
         restoreProductAct.onclick = () => {
-            restoreProduct(productData.id);
+            restoreProduct(productData.id, products);
+            renderProducts();
+            updateProductSummary(products);
         };
     }
 
     if (stockStatusBtn) {
         stockStatusBtn.onclick = () => {
             toggleProductAvailability(productData.id);
-        };
+        }
     }
 }
 
-export function toggleProductAvailability(id) {
-    const product = productsData.find(
-        product => product.id === id
-    );
+// TOGGLE PRODUCT AVAILABILITY
+export async function toggleProductAvailability(id) {
+    const product = products.find(product => product.id === id);
 
     if (!product) return;
 
-    product.inStock = !product.inStock;
+    const inStock = !product.inStock;
+    const success = await updateStockStatus(id, inStock);
+    
+    if (!success) return;
+
+    product.inStock = inStock;
 
     renderProducts();
-    updateProductSummary();
+    updateProductSummary(products);
 
     createNotificationElement({
         status: 'success',
-        message: `${product.name} marked as ${product.inStock ? 'In Stock' : 'Out of Stock'}`
+        message: `${product.name} marked as ${inStock ? 'In Stock' : 'Out of Stock'}`
     });
 }
 
+// EDIT PRODUCT
 export function editProduct(productData) {
     showOverlay(addEditProductModal(productData));
 
@@ -111,10 +154,9 @@ export function editProduct(productData) {
     }
 }
 
+// UPDATE PRODUCT
 export function updateProduct(id) {
-    const product = productsData.find(
-        product => product.id === id
-    );
+    const product = products.find(product => product.id === id);
 
     if (!product) return;
 
@@ -127,10 +169,11 @@ export function updateProduct(id) {
 
     product.name = updatedData.name;
     product.category = updatedData.category;
+    product.description = updatedData.description;
 
     hideOverlay();
     renderProducts();
-    updateProductSummary();
+    updateProductSummary(products);
 
     createNotificationElement({
         status: 'success',

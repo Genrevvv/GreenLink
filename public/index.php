@@ -9,8 +9,11 @@
     $db = new Database($db_config);
 
     $user = new User($db);
+    $product = new Product($db);
+
     $authController = new AuthController($user);
     $homeController = new HomeController();
+    $productController = new ProductController($product);
 
     $router = new Router;
 
@@ -23,6 +26,9 @@
     $router->post('/register', [$authController, 'register']);
 
     $router->post('/logout', [$authController, 'logout']);
-    
+
+    $router->get('/products', [$productController, 'getAll']);
+    $router->post('/products/updateStock', [$productController, 'updateStock']);
+
     $router->dispatch(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
 ?>

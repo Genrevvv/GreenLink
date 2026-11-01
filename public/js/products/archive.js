@@ -1,11 +1,11 @@
+
 import { createNotificationElement } from '../utils/notification/notification.js';
-import { productsData } from './data.js';
-import { renderProducts } from './table.js';
 
 export let showingArchivedProducts = false;
 
-export function archiveProduct(id) {
-    const product = productsData.find(
+// ARCHIVE PRODUCT
+export function archiveProduct(id, products) {
+    const product = products.find(
         product => product.id === id
     );
 
@@ -15,16 +15,15 @@ export function archiveProduct(id) {
 
     product.isArchived = true;
 
-    renderProducts();
-
     createNotificationElement({
         status: 'success',
         message: 'Product Archived Successfully'
     });
 }
 
-export function restoreProduct(id) {
-    const product = productsData.find(
+// RESTORE PRODUCT
+export function restoreProduct(id, products) {
+    const product = products.find(
         product => product.id === id
     );
 
@@ -34,14 +33,13 @@ export function restoreProduct(id) {
 
     product.isArchived = false;
 
-    renderProducts();
-
     createNotificationElement({
         status: 'success',
         message: 'Product Restored Successfully'
     });
 }
 
+// TOGGLE ARCHIVED PRODUCTS
 export function toggleArchivedProducts() {
     showingArchivedProducts = !showingArchivedProducts;
 
@@ -53,7 +51,7 @@ export function toggleArchivedProducts() {
             : 'View Archived';
     }
 
-    // Reset filters when switching between active and archived products.
+    // RESET FILTERS
     const searchInput = document.querySelector('#product-search');
     const categoryFilter = document.querySelector('#filter-product-category');
     const statusFilter = document.querySelector('#filter-product-status');
@@ -61,6 +59,4 @@ export function toggleArchivedProducts() {
     if (searchInput) searchInput.value = '';
     if (categoryFilter) categoryFilter.value = 'all';
     if (statusFilter) statusFilter.value = 'all';
-
-    renderProducts();
 }

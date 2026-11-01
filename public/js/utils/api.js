@@ -11,3 +11,8 @@ export async function apiFetch(url, method, body = null) {
 
     return response;
 }
+
+export async function apiFetchJSON(url, method, body = null) {
+    const response = await apiFetch(url, method, body);
+    return response.json();
+}

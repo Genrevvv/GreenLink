@@ -1,6 +1,5 @@
 import { hideOverlay, showOverlay } from '../utils/overlay.js';
 import { createNotificationElement } from '../utils/notification/notification.js';
-import { productsData } from './data.js';
 import { addEditProductModal } from './modal.js';
 import { renderProducts } from './table.js';
 import { showingArchivedProducts, toggleArchivedProducts } from './archive.js';
