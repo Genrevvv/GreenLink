@@ -34,11 +34,11 @@
             }
         }
 
-        public function updateStock(): void {
+        public function updateStockStatus(): void {
             $data = get_json_input();
 
             try {
-                $this->product->updateStock(
+                $this->product->updateStockStatus(
                     (int) $data['id'],
                     (bool) $data['inStock']
                 );
@@ -52,6 +52,28 @@
                 json_response([
                     'success' => false,
                     'message' => 'Failed to update product stock.'
+                ]);
+            }
+        }
+
+        public function updateArchiveStatus(): void {
+            $data = get_json_input();
+
+            try {
+                $this->product->updateArchiveStatus(
+                    (int) $data['id'],
+                    (bool) $data['isArchived']
+                );
+
+                json_response([
+                    'success' => true,
+                    'message' => 'Product archived successfully.'
+                ]);
+
+            } catch (Throwable $e) {
+                json_response([
+                    'success' => false,
+                    'message' => 'Failed to archive product.'
                 ]);
             }
         }

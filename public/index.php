@@ -28,7 +28,8 @@
     $router->post('/logout', [$authController, 'logout']);
 
     $router->get('/products', [$productController, 'getAll']);
-    $router->post('/products/updateStock', [$productController, 'updateStock']);
+    $router->post('/products/updateStockStatus', [$productController, 'updateStockStatus']);
+    $router->post('/products/updateArchiveStatus', [$productController, 'updateArchiveStatus']);
 
     $router->dispatch(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
 ?>

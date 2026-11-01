@@ -5,13 +5,24 @@ export async function fetchProducts() {
     return data.products;
 }
 
-export async function updateStockStatus(productId, inStock) {
+export async function updateStockStatus(id, inStock) {
     const body = { 
-        'id': productId,
+        'id': id, inStock,
         'inStock': inStock
      }
 
-    const data = await apiFetchJSON('/products/updateStock', 'POST', body);
-    console.log(data.success)
+    const data = await apiFetchJSON('/products/updateStockStatus', 'POST', body);
+    console.log('stock status updated: ' + data.success)
+    return data.success;
+}
+
+export async function updateArchiveStatus(id, isArchived) {
+    const body = { 
+        'id': id,
+        'isArchived': isArchived
+     }
+
+    const data = await apiFetchJSON('/products/updateArchiveStatus', 'POST', body);
+    console.log('archive status updated: ' + data.success);
     return data.success;
 }

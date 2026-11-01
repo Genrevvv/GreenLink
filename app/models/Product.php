@@ -25,14 +25,25 @@
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
 
-        public function updateStock(int $productId, bool $inStock): void {
+        public function updateStockStatus(int $id, bool $inStock): void {
             $sql = 'UPDATE products SET in_stock = :in_stock WHERE id = :product_id';
 
             $stmt = $this->db->prepare($sql);
 
             $stmt->execute([
                 'in_stock' => (int) $inStock,
-                'product_id' => $productId
+                'product_id' => $id
+            ]);
+        }
+
+        public function updateArchiveStatus(int $id, bool $isArchived): void {
+            $sql = 'UPDATE products SET is_archived = :is_archived WHERE id = :product_id';
+
+            $stmt = $this->db->prepare($sql);
+
+            $stmt->execute([
+                'is_archived' => (int) $isArchived,
+                'product_id' => $id
             ]);
         }
     }

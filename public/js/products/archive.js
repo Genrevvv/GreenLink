@@ -1,19 +1,25 @@
 
 import { createNotificationElement } from '../utils/notification/notification.js';
+import { updateArchiveStatus } from './api.js';
+import { updateProductSummary } from './summary.js';
+import { renderProducts } from './table.js';
 
 export let showingArchivedProducts = false;
 
 // ARCHIVE PRODUCT
-export function archiveProduct(id, products) {
-    const product = products.find(
-        product => product.id === id
-    );
+export async function archiveProduct(id, products) {
+    const product = products.find(product => product.id === id);
 
     if (!product) return;
-
     if (!confirm(`Archive ${product.name}?`)) return;
 
+    const success = await updateArchiveStatus(id, true);
+    if (!success) return;
+
     product.isArchived = true;
+
+    renderProducts();
+    updateProductSummary(products);
 
     createNotificationElement({
         status: 'success',
@@ -22,16 +28,19 @@ export function archiveProduct(id, products) {
 }
 
 // RESTORE PRODUCT
-export function restoreProduct(id, products) {
-    const product = products.find(
-        product => product.id === id
-    );
+export async function restoreProduct(id, products) {
+    const product = products.find(product => product.id === id);
 
     if (!product) return;
-
     if (!confirm(`Restore ${product.name} to active products?`)) return;
 
+    const success = await updateArchiveStatus(id, false);
+    if (!success) return;
+
     product.isArchived = false;
+
+    renderProducts();
+    updateProductSummary(products);
 
     createNotificationElement({
         status: 'success',
