@@ -1,3 +1,4 @@
+
 /* PRODUCT MANAGEMENT */
 .product-management-container {
     border-radius: 1rem;
@@ -177,7 +178,9 @@
 /* ADD / EDIT PRODUCT MODAL */
 .add-edit-product-form {
     position: relative;
+    width: 100%;
     min-width: 400px;
+    max-width: 450px;
     padding: 1.25rem;
     border-radius: 1rem;
     background-color: #fff;
@@ -189,7 +192,7 @@
     font-size: 1rem;
 }
 
-.add-edit-product-form div {
+.add-edit-product-form div:not(.add-edit-btn) {
     display: flex;
     flex-direction: column;
     gap: 0.2rem;
@@ -200,16 +203,29 @@
     font-size: 0.75rem;
 }
 
-.add-edit-product-form input {
+.add-edit-product-form input,
+.add-edit-product-form select,
+.add-edit-product-form textarea {
+    width: 100%;
     padding: 0.4rem 0.5rem;
     border: 1px solid var(--input-border);
     border-radius: 0.4rem;
+    background-color: #fff;
+    font-family: inherit;
     font-size: inherit;
     outline: none;
 }
 
-.add-edit-product-form input:focus {
+.add-edit-product-form input:focus,
+.add-edit-product-form select:focus,
+.add-edit-product-form textarea:focus {
     border-color: var(--base-green);
+}
+
+.add-edit-product-form textarea {
+    min-height: 100px;
+    resize: vertical;
+    line-height: 1.5;
 }
 
 .add-edit-product-form .add-edit-btn {
@@ -222,6 +238,10 @@
     font-size: inherit;
     text-align: center;
     cursor: pointer;
+}
+
+.add-edit-product-form .add-edit-btn:hover {
+    filter: brightness(0.9);
 }
 
 #close-add-product {

@@ -1,6 +1,6 @@
 
 import { createNotificationElement } from '../utils/notification/notification.js';
-import { updateArchiveStatus } from './api.js';
+import * as api from './api.js';
 import { updateProductSummary } from './summary.js';
 import { renderProducts } from './table.js';
 
@@ -13,7 +13,7 @@ export async function archiveProduct(id, products) {
     if (!product) return;
     if (!confirm(`Archive ${product.name}?`)) return;
 
-    const success = await updateArchiveStatus(id, true);
+    const success = await api.updateArchiveStatus(id, true);
     if (!success) return;
 
     product.isArchived = true;
@@ -34,7 +34,7 @@ export async function restoreProduct(id, products) {
     if (!product) return;
     if (!confirm(`Restore ${product.name} to active products?`)) return;
 
-    const success = await updateArchiveStatus(id, false);
+    const success = await api.updateArchiveStatus(id, false);
     if (!success) return;
 
     product.isArchived = false;

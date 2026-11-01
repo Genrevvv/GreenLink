@@ -9,9 +9,9 @@ import { getProductData } from './form.js';
 import { addEditProductModal, productRowModal } from './modal.js';
 import { createNotificationElement } from '../utils/notification/notification.js';
 import { updateProductSummary } from './summary.js';
-import { updateStockStatus } from './api.js';
+import * as api from './api.js';
 
-let products = [];
+export let products = [];
 
 // LOAD PRODUCTS
 export async function loadProducts(productsData) {
@@ -124,7 +124,7 @@ export async function toggleProductAvailability(id) {
     if (!product) return;
 
     const inStock = !product.inStock;
-    const success = await updateStockStatus(id, inStock);
+    const success = await api.updateStockStatus(id, inStock);
     
     if (!success) return;
 
@@ -155,17 +155,33 @@ export function editProduct(productData) {
 }
 
 // UPDATE PRODUCT
-export function updateProduct(id) {
+export async function updateProduct(id) {
     const product = products.find(product => product.id === id);
 
     if (!product) return;
 
-    const updatedData = getProductData();
+    let updatedData = getProductData();
 
     if (!updatedData.name) {
         alert('Please enter a product name.');
         return;
     }
+
+    if (!updatedData.description) {
+        alert('Please enter a product description.');
+        return;
+    }
+
+    updatedData = {
+        id,
+        name: updatedData.name,
+        category: updatedData.category,
+        description: updatedData.description
+    };
+
+    const data = await api.updateProduct(updatedData);
+
+    if (!data.success) return;
 
     product.name = updatedData.name;
     product.category = updatedData.category;

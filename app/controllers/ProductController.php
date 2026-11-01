@@ -34,6 +34,54 @@
             }
         }
 
+        public function addProduct(): void {
+            $data = get_json_input();
+
+            $name = trim($data['name'] ?? '');
+            $category = $data['category'] ?? 'vegetables';
+            $description = trim($data['description'] ?? '');
+
+            if ($name === '' || $category === '') {
+                json_response([
+                    'success' => false,
+                    'message' => 'Product name and category are required.'
+                ]);
+                return;
+            }
+
+            $productId = $this->product->addProduct($name, $category, $description);
+
+            json_response([
+                'success' => true,
+                'message' => 'Product added successfully.',
+                'id' => $productId
+            ]);
+        }
+
+        public function updateProduct(): void {
+            $data = get_json_input();
+
+            $id = (int) ($data['id'] ?? 0);
+            $name = trim($data['name'] ?? '');
+            $category = $data['category'] ?? '';
+            $description = trim($data['description'] ?? '');
+
+            if ($id <= 0 || $name === '' || $category === '' || $description === '') {
+                json_response([
+                    'success' => false,
+                    'message' => 'Please provide all required product information.'
+                ]);
+                return;
+            }
+
+            $this->product->updateProduct($id, $name, $category, $description);
+
+            json_response([
+                'success' => true,
+                'message' => 'Product updated successfully.'
+            ]);
+        }
+
         public function updateStockStatus(): void {
             $data = get_json_input();
 

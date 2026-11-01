@@ -5,6 +5,16 @@ export async function fetchProducts() {
     return data.products;
 }
 
+export async function addProduct(productData) {
+    const data = await apiFetchJSON('/products/addProduct', 'POST', productData);
+    return data
+}
+
+export async function updateProduct(updatedData) {
+    const data = await apiFetchJSON('/products/updateProduct', 'POST', updatedData);
+    return data
+}
+
 export async function updateStockStatus(id, inStock) {
     const body = { 
         'id': id, inStock,

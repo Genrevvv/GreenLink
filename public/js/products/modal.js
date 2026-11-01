@@ -1,5 +1,6 @@
 import { titleCase } from '../utils/string.js';
 
+
 export function addEditProductModal(productData = null) {
     const isEdit = productData !== null;
     const buttonId = isEdit ? 'update-product-btn' : 'add-product-btn';
@@ -7,10 +8,12 @@ export function addEditProductModal(productData = null) {
 
     const name = productData?.name ?? '';
     const category = (productData?.category ?? '').toLowerCase();
+    const description = productData?.description ?? '';
 
     return `
         <div class="add-edit-product-form flex-column gap-1">
             <i id="close-add-product" class="fa-solid fa-x close-overlay"></i>
+
             <h4>${isEdit ? 'Edit Product' : 'Add New Product'}</h4>
 
             <div>
@@ -19,8 +22,19 @@ export function addEditProductModal(productData = null) {
                     id="product-name"
                     type="text"
                     class="focus-input"
+                    placeholder="Enter product name"
                     value="${name}"
                 >
+            </div>
+
+             <div>
+                <span>Description</span>
+                <textarea
+                    id="product-description"
+                    class="focus-input"
+                    placeholder="Enter product description"
+                    rows="4"
+                >${description}</textarea>
             </div>
 
             <div>
@@ -36,6 +50,7 @@ export function addEditProductModal(productData = null) {
         </div>
     `;
 }
+
 
 export function productRowModal(productData) {
     const isArchived = Boolean(productData.isArchived);

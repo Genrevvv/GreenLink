@@ -19,6 +19,7 @@
 
     $router->get('/', [$homeController, 'index']);
 
+    // Auth
     $router->get('/login', [$authController, 'renderLogin']);
     $router->post('/login', [$authController, 'login']);
 
@@ -27,7 +28,12 @@
 
     $router->post('/logout', [$authController, 'logout']);
 
+    // Products
     $router->get('/products', [$productController, 'getAll']);
+
+    $router->post('/products/addProduct', [$productController, 'addProduct']);
+    $router->post('/products/updateProduct', [$productController, 'updateProduct']);
+
     $router->post('/products/updateStockStatus', [$productController, 'updateStockStatus']);
     $router->post('/products/updateArchiveStatus', [$productController, 'updateArchiveStatus']);
 

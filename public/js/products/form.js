@@ -1,8 +1,9 @@
 import { hideOverlay, showOverlay } from '../utils/overlay.js';
 import { createNotificationElement } from '../utils/notification/notification.js';
 import { addEditProductModal } from './modal.js';
-import { renderProducts } from './table.js';
+import { products, renderProducts } from './table.js';
 import { showingArchivedProducts, toggleArchivedProducts } from './archive.js';
+import * as api from './api.js';
 
 export function showAddProductForm() {
     showOverlay(addEditProductModal());
@@ -19,30 +20,39 @@ export function showAddProductForm() {
 export function getProductData() {
     return {
         name: document.querySelector('#product-name')?.value.trim() ?? '',
-        category: document.querySelector('#product-category')?.value ?? 'vegetables'
+        category: document.querySelector('#product-category')?.value ?? 'vegetables',
+        description: document.querySelector('#product-description')?.value.trim() ?? ''
     };
 }
 
-export function addProduct() {
-    const productData = getProductData();
+export async function addProduct() {
+    let productData = getProductData();
 
     if (!productData.name) {
         alert('Please enter a product name.');
         return;
     }
 
-    const newId = Math.max(
-        0,
-        ...productsData.map(product => Number(product.id) || 0)
-    ) + 1;
+    if (!productData.description) {
+        alert('Please enter a product description.');
+        return;
+    }
 
-    productsData.push({
-        id: newId,
+    productData = {
         name: productData.name,
         category: productData.category,
-        description: '',
+        description: productData.description,
         inStock: true,
         isArchived: false
+    };
+
+    const data = await api.addProduct(productData);
+
+    if (!data.success) return;
+
+    products.push({
+        id: data.id,
+        ...productData
     });
 
     // Switch back to active products if currently viewing archived products.
