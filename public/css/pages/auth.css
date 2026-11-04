@@ -30,7 +30,7 @@
             rgba(27, 67, 50, .55),
             rgba(27, 67, 50, .35)
         ),
-        url("../../images/testing.png") center / cover no-repeat fixed #1b4332;
+        url("../../images/authbg.png") center / cover no-repeat fixed #1b4332;
 }
 
 /* Soft decorative background glows */
