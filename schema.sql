@@ -19,3 +19,5 @@ CREATE TABLE IF NOT EXISTS products (
     in_stock BOOLEAN NOT NULL DEFAULT TRUE,
     is_archived BOOLEAN NOT NULL DEFAULT FALSE
 );
+
+-- You are on the copy branch
