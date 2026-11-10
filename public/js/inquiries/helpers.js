@@ -10,3 +10,7 @@ export function setText(selector, value) {
     const el = document.querySelector(selector);
     if (el) el.textContent = value;
 }
+
+export function statusBadgeClass(status) {
+    return status === 'Responded' ? 'badge-green' : 'badge-yellow';
+}

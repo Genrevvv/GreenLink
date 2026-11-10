@@ -35,15 +35,15 @@ export async function loadPage(page) {
         cleanupPage = module.initProducts();
     }
     else if (page === 'appointments') {
-        module = await import('../appointments/appointments.js');
+        module = await import('../appointments/script.js');
         cleanupPage = module.initAppointments();
     }
     else if (page === 'dashboard') {
-        module = await import('../dashboard/dashboard.js');
+        module = await import('../dashboard/script.js');
         cleanupPage = module.initDashboard();
     }
     else if (page === 'inquiries') {
-        module = await import('../inquiries/inquiries.js');
+        module = await import('../inquiries/script.js');
         cleanupPage = module.initInquiries();
     }
 }
