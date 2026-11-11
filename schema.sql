@@ -20,8 +20,6 @@ CREATE TABLE IF NOT EXISTS products (
     is_archived BOOLEAN NOT NULL DEFAULT FALSE
 );
 
--- You are on the copy branch
-
 CREATE TABLE IF NOT EXISTS appointments (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
@@ -46,3 +44,5 @@ CREATE TABLE IF NOT EXISTS inquiries (
     responded_at TIMESTAMP NULL DEFAULT NULL,
     FOREIGN KEY (user_id) REFERENCES users(id)
 );
+
+-- You are on the copy branch

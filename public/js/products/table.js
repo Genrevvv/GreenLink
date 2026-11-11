@@ -28,11 +28,9 @@ export async function loadProducts(productsData) {
     `;
 
     if (products.length <= 0) {
-        console.error('Failed to load products:', error);
-
         productTable.innerHTML = `
             <tr>
-                <td colspan="4">Failed to load products.</td>
+                <td colspan="4">No products found.</td>
             </tr>
         `;
 
