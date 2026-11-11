@@ -93,7 +93,6 @@ export function renderInquiryDetails() {
     details.innerHTML = `
         <div class="flex-column gap-4">
             ${field('Customer Name', inquiry.customer)}
-            ${field('Email', inquiry.email)}
             ${field('Subject', inquiry.subject)}
             ${field('Message', inquiry.message, true)}
             ${field('Date Submitted', inquiry.date)}

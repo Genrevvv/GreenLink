@@ -622,6 +622,32 @@
     white-space: pre-wrap;
 }
 
+.appointment-action-btn {
+    width: 25px;
+    height: 25px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.appointment-approve-btn {
+    color: #2d6a4f;
+    background-color: #d8f3dc;
+}
+
+.appointment-approve-btn:hover {
+    background-color: #b7e4c7;
+}
+
+.appointment-reject-btn {
+    color: #dc3545;
+    background-color: #f8d7da;
+}
+
+.appointment-reject-btn:hover {
+    background-color: #f1aeb5;
+}
 
 /* =========================================================
    RESPONSIVE LAYOUTS

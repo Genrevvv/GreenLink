@@ -121,7 +121,6 @@ export function renderStockAlerts(alerts) {
                     </div>
                 </div>
                 <div class="flex align-center gap-3">
-                    <span class="stock-alert-units">${Number(alert.units)} ${alert.units === 1 ? 'unit' : 'units'}</span>
                     ${badge(alert.status)}
                 </div>
             </li>
