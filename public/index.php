@@ -32,6 +32,14 @@
     $router->get('/register', [$authController, 'renderRegister']);
     $router->post('/register', [$authController, 'register']);
 
+    // Forgot Password
+    $router->get('/forgot-password', [$authController, 'renderForgotPassword']);
+    $router->post('/forgot-password', [$authController, 'sendPasswordReset']);
+
+    // Reset Password
+    $router->get('/reset-password', [$authController, 'renderResetPassword']);
+    $router->post('/reset-password', [$authController, 'resetPassword']);
+
     $router->post('/logout', [$authController, 'logout']);
 
     // Products

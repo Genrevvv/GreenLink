@@ -8,7 +8,10 @@ CREATE TABLE IF NOT EXISTS users (
     email VARCHAR(255) UNIQUE,
     password_hash VARCHAR(255) NOT NULL,
     user_type VARCHAR(20) CHECK (user_type IN ('user', 'admin')),
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    reset_token_hash CHAR(64) NULL DEFAULT NULL,
+    reset_token_expires_at DATETIME NULL DEFAULT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE KEY unique_reset_token_hash (reset_token_hash)
 );
 
 CREATE TABLE IF NOT EXISTS products (

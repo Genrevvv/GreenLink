@@ -1,2 +1,11 @@
 config/config.php
 .DS_Store
+
+# Composer dependencies
+/vendor/
+
+# Environment variables
+.env
+
+# Private email configuration
+/config/mail.php
