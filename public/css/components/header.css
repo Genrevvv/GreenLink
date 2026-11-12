@@ -21,3 +21,49 @@
     font-size: 1.4rem;
     color: var(--dark-green);
 }
+
+.account-menu {
+    position: relative;
+}
+
+.account-menu-toggle {
+    padding: 0;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+}
+
+.account-menu-toggle:focus-visible,
+.account-menu-dropdown button:focus-visible {
+    outline: 2px solid var(--base-green);
+    outline-offset: 3px;
+}
+
+.account-menu-dropdown {
+    position: absolute;
+    top: calc(100% + 0.75rem);
+    right: 0;
+    z-index: 20;
+    min-width: 10rem;
+    padding: 0.35rem;
+    border-radius: var(--radius-md);
+    background: #fff;
+    box-shadow: var(--shadow-md);
+}
+
+.account-menu-dropdown button {
+    display: block;
+    width: 100%;
+    padding: 0.55rem 0.7rem;
+    border: 0;
+    border-radius: var(--radius-sm);
+    background: transparent;
+    color: var(--clr-text);
+    font-size: var(--font-sm);
+    text-align: left;
+    cursor: pointer;
+}
+
+.account-menu-dropdown button:hover {
+    background: #f0f7f2;
+}

@@ -1,7 +1,9 @@
 import { titleCase } from '../utils/string.js';
-import { loadPage, selectOption,  logout, updateHeaderText } from './sidebar-functions.js';
+import { loadPage, selectOption, updateHeaderText } from './sidebar-functions.js';
+import { initAccountDropdown } from '../headers/header.js';
 
 loadPage('dashboard'); // load initial content
+initAccountDropdown();
 
 const options = document.querySelectorAll('.option');
 options.forEach(option => {
@@ -15,6 +17,3 @@ options.forEach(option => {
         await loadPage(option.dataset.page);
     });
 });
-
-const logoutBtn = document.querySelector('#logout');
-logoutBtn.onclick = logout;

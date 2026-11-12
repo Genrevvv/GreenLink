@@ -15,6 +15,7 @@
     $inquiry = new Inquiry($db);
 
     $authController = new AuthController($user);
+    $profileController = new ProfileController($user);
     $homeController = new HomeController();
     $productController = new ProductController($product);
     $dashboardController = new DashboardController($dashboard);
@@ -41,6 +42,13 @@
     $router->post('/reset-password', [$authController, 'resetPassword']);
 
     $router->post('/logout', [$authController, 'logout']);
+
+    // Account Profile
+    $router->get('/profile', [$profileController, 'getProfile']);
+    $router->post('/profile/username', [$profileController, 'changeUsername']);
+    $router->post('/profile/email', [$profileController, 'changeEmail']);
+    $router->post('/profile/password', [$profileController, 'changePassword']);
+    $router->post('/profile/delete', [$profileController, 'deleteAccount']);
 
     // Products
     $router->get('/products', [$productController, 'getAll']);

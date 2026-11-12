@@ -44,20 +44,28 @@
                         <span class="text-xs">Inquiries</span>
                     </div>
                 </div>
-                <!-- LOG OUT -->
-                <div class="container logout-container ">
-                    <div id="logout" class="flex gap-2">
-                        <i class="fa-solid fa-right-from-bracket"></i>
-                        <span class="text-xs">Log out</span>
-                    </div>
-                </div>
             </div>
             <div class="container main-container">
                 <header class="container flex-between header">
                     <h1 id="header-text">Dashboard</h1>
                     <div class="icons flex gap-6">
                         <i class="fa-regular fa-bell"></i>
-                        <i class="fa-solid fa-circle-user"></i>
+                        <div class="account-menu" id="account-menu">
+                            <button
+                                type="button"
+                                class="account-menu-toggle"
+                                id="account-menu-toggle"
+                                aria-label="Account menu"
+                                aria-haspopup="true"
+                                aria-expanded="false"
+                            >
+                                <i class="fa-solid fa-circle-user"></i>
+                            </button>
+                            <div class="account-menu-dropdown hidden" id="account-menu-dropdown" role="menu">
+                                <button type="button" role="menuitem" data-account-action="profile">Account Profile</button>
+                                <button type="button" role="menuitem" data-account-action="logout">Log Out</button>
+                            </div>
+                        </div>
                     </div>
                 </header>
                 <div class="container" id="main-content"></div>

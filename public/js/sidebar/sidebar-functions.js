@@ -14,7 +14,9 @@ export async function loadPage(page) {
         cleanupPage = null;
     }
 
-    const pagePath = `/views/pages/${user.user_type}/${page}.html`;
+    const pagePath = page === 'profile'
+        ? '/views/pages/profile.html'
+        : `/views/pages/${user.user_type}/${page}.html`;
     const response = await fetch(pagePath);
 
     if (!response.ok) {
@@ -45,6 +47,10 @@ export async function loadPage(page) {
     else if (page === 'inquiries') {
         module = await import('../inquiries/inquiries.js');
         cleanupPage = module.initInquiries();
+    }
+    else if (page === 'profile') {
+        module = await import('../profiles/profile.js');
+        cleanupPage = await module.initProfile();
     }
 }
 

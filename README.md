@@ -21,6 +21,10 @@
 2. Import the schema SQL file.
 3. Configure DB credentials in `config.php`.
 
+For an existing database, apply `database/migrations/2026_11_12_add_user_status.sql`
+once to add the account status used for account deactivation. New database
+installations receive this column from `schema.sql`.
+
 ### How to run:
 1. Navigate to the project directory:
    ```bash

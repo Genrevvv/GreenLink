@@ -8,6 +8,7 @@ CREATE TABLE IF NOT EXISTS users (
     email VARCHAR(255) UNIQUE,
     password_hash VARCHAR(255) NOT NULL,
     user_type VARCHAR(20) CHECK (user_type IN ('user', 'admin')),
+    status VARCHAR(20) NOT NULL DEFAULT 'active' CHECK (status IN ('active', 'deleted')),
     reset_token_hash CHAR(64) NULL DEFAULT NULL,
     reset_token_expires_at DATETIME NULL DEFAULT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

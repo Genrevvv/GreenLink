@@ -1,0 +1,29 @@
+<section class="profile-page">
+    <nav class="profile-navigation" id="profile-navigation" aria-label="Account profile settings">
+        <h2>Account Profile</h2>
+        <button type="button" class="profile-navigation-item selected" data-section="profile" aria-current="page">
+            <i class="fa-regular fa-user" aria-hidden="true"></i>
+            <span>Profile</span>
+        </button>
+        <button type="button" class="profile-navigation-item" data-section="username">
+            <i class="fa-solid fa-user-pen" aria-hidden="true"></i>
+            <span>Change Username</span>
+        </button>
+        <button type="button" class="profile-navigation-item" data-section="email">
+            <i class="fa-regular fa-envelope" aria-hidden="true"></i>
+            <span>Change Email</span>
+        </button>
+        <button type="button" class="profile-navigation-item" data-section="password">
+            <i class="fa-solid fa-lock" aria-hidden="true"></i>
+            <span>Change Password</span>
+        </button>
+        <button type="button" class="profile-navigation-item profile-navigation-danger" data-section="delete">
+            <i class="fa-regular fa-trash-can" aria-hidden="true"></i>
+            <span>Delete Account</span>
+        </button>
+    </nav>
+
+    <section class="profile-content" id="profile-content" aria-live="polite">
+        <p>Loading your profile...</p>
+    </section>
+</section>
