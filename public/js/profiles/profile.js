@@ -9,17 +9,16 @@ export async function initProfile() {
     const content = document.querySelector('#profile-content');
     if (!navigation || !content) return () => {};
 
-    let profile;
-    try {
-        profile = await api.fetchProfile();
-    } catch (error) {
+    const response = await api.fetchProfile();
+    if (!response.success) {
         content.textContent = 'Unable to load your profile. Please try again.';
         createNotificationElement({
             status: 'failed',
-            message: error instanceof Error ? error.message : 'Unable to load your profile.'
+            message: response.message || 'Unable to load your profile.'
         });
         return () => {};
     }
+    const profile = response.user;
 
     const updateCurrentUser = (updatedProfile) => {
         const currentUser = getCurrentUser() ?? {};

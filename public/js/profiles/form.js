@@ -15,15 +15,14 @@ function showFailure(error, fallback) {
     notify('failed', error instanceof Error ? error.message : fallback);
 }
 
-export async function changeUsernameForm(profile, onProfileUpdated, showProfileSection) {
+export function changeUsernameForm(profile, onProfileUpdated, showProfileSection) {
     const username = document.querySelector('#profile-username')?.value.trim() ?? '';
     if (!username) {
         alert('Please enter a username.');
         return;
     }
 
-    try {
-        const response = await api.changeUsername(username);
+    return api.changeUsername(username).then(response => {
         if (!response.success) {
             notify('failed', response.message || 'Unable to change your username.');
             return;
@@ -32,12 +31,10 @@ export async function changeUsernameForm(profile, onProfileUpdated, showProfileS
         onProfileUpdated(profile);
         showProfileSection();
         notify('success', response.message);
-    } catch (error) {
-        showFailure(error, 'Unable to change your username.');
-    }
+    }).catch(error => showFailure(error, 'Unable to change your username.'));
 }
 
-export async function changeEmailForm(profile, onProfileUpdated, showProfileSection) {
+export function changeEmailForm(profile, onProfileUpdated, showProfileSection) {
     const email = document.querySelector('#profile-email')?.value.trim() ?? '';
     const currentPassword = document.querySelector('#profile-email-password')?.value ?? '';
     if (!email || !currentPassword) {
@@ -45,8 +42,7 @@ export async function changeEmailForm(profile, onProfileUpdated, showProfileSect
         return;
     }
 
-    try {
-        const response = await api.changeEmail(email, currentPassword);
+    return api.changeEmail(email, currentPassword).then(response => {
         if (!response.success) {
             notify('failed', response.message || 'Unable to change your email.');
             return;
@@ -55,12 +51,10 @@ export async function changeEmailForm(profile, onProfileUpdated, showProfileSect
         onProfileUpdated(profile);
         showProfileSection();
         notify('success', response.message);
-    } catch (error) {
-        showFailure(error, 'Unable to change your email.');
-    }
+    }).catch(error => showFailure(error, 'Unable to change your email.'));
 }
 
-export async function changePasswordForm() {
+export function changePasswordForm() {
     const currentPassword = document.querySelector('#profile-current-password')?.value ?? '';
     const newPassword = document.querySelector('#profile-new-password')?.value ?? '';
     const confirmPassword = document.querySelector('#profile-confirm-password')?.value ?? '';
@@ -78,8 +72,7 @@ export async function changePasswordForm() {
         return;
     }
 
-    try {
-        const response = await api.changePassword(currentPassword, newPassword, confirmPassword);
+    return api.changePassword(currentPassword, newPassword, confirmPassword).then(response => {
         if (!response.success) {
             notify('failed', response.message || 'Unable to change your password.');
             return;
@@ -88,17 +81,14 @@ export async function changePasswordForm() {
         document.querySelector('#profile-new-password').value = '';
         document.querySelector('#profile-confirm-password').value = '';
         notify('success', response.message);
-    } catch (error) {
-        showFailure(error, 'Unable to change your password.');
-    }
+    }).catch(error => showFailure(error, 'Unable to change your password.'));
 }
 
-async function deleteAccountForm(event, content) {
+function deleteAccountForm(event, content) {
     event.preventDefault();
     const currentPassword = document.querySelector('#profile-delete-password')?.value ?? '';
 
-    try {
-        const response = await api.deleteAccount(currentPassword);
+    return api.deleteAccount(currentPassword).then(response => {
         if (!response.success) {
             notify('failed', response.message || 'Unable to deactivate your account.');
             return;
@@ -108,9 +98,7 @@ async function deleteAccountForm(event, content) {
         closeProfileModal();
         content.innerHTML = renderGoodbyeSection();
         notify('success', response.message);
-    } catch (error) {
-        showFailure(error, 'Unable to deactivate your account.');
-    }
+    }).catch(error => showFailure(error, 'Unable to deactivate your account.'));
 }
 
 export function initProfileForms(content, profile, onProfileUpdated, showProfileSection) {

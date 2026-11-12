@@ -1,11 +1,10 @@
 import { apiFetchJSON } from '../utils/api.js';
 
-export async function fetchProfile() {
-    const data = await apiFetchJSON('/profile', 'GET');
-    if (!data.success) {
-        throw new Error(data.message || 'Unable to load your profile.');
-    }
-    return data.user;
+export function fetchProfile() {
+    return apiFetchJSON('/profile', 'GET').catch(error => ({
+        success: false,
+        message: error instanceof Error ? error.message : 'Unable to load your profile.'
+    }));
 }
 
 export async function changeUsername(username) {
