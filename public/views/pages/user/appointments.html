@@ -79,7 +79,42 @@
                             >
                                 Please select a date.
                             </p>
+
+                            <div class="custom-calendar-legend" aria-hidden="true">
+                                <span class="custom-calendar-legend-item">
+                                    <span class="custom-calendar-legend-dot"></span>
+                                    Has scheduled visits (hover for times)
+                                </span>
+                                <span class="custom-calendar-legend-item">
+                                    <span class="custom-calendar-legend-dot is-full"></span>
+                                    Fully booked
+                                </span>
+                            </div>
                         </div>
+                    </div>
+
+                    <!-- VISIT PURPOSE -->
+                    <div class="user-appointment-field">
+                        <label for="appointment-purpose" class="user-appointment-label">
+                            Visit Purpose
+                        </label>
+
+                        <select
+                            id="appointment-purpose"
+                            name="appointment-purpose"
+                            class="input"
+                            required
+                        >
+                            <option value="">Select a purpose</option>
+                            <option value="Farm Tour">Farm Tour (about 2 hours)</option>
+                            <option value="Educational Visit">Educational Visit (about 2 hours)</option>
+                            <option value="Training Inquiry">Training Inquiry (about 1 hour)</option>
+                            <option value="Other">Other (about 1 hour)</option>
+                        </select>
+
+                        <p class="user-appointment-hint" id="appointment-duration-info" aria-live="polite">
+                            Each visit purpose has an estimated duration.
+                        </p>
                     </div>
 
                     <!-- TIME SLOT -->
@@ -105,26 +140,10 @@
                             <option value="03:00 PM">3:00 PM</option>
                             <option value="04:00 PM">4:00 PM</option>
                         </select>
-                    </div>
 
-                    <!-- VISIT PURPOSE -->
-                    <div class="user-appointment-field">
-                        <label for="appointment-purpose" class="user-appointment-label">
-                            Visit Purpose
-                        </label>
-
-                        <select
-                            id="appointment-purpose"
-                            name="appointment-purpose"
-                            class="input"
-                            required
-                        >
-                            <option value="">Select a purpose</option>
-                            <option value="Farm Tour">Farm Tour</option>
-                            <option value="Educational Visit">Educational Visit</option>
-                            <option value="Training Inquiry">Training Inquiry</option>
-                            <option value="Other">Other</option>
-                        </select>
+                        <p class="user-appointment-hint" id="appointment-time-info" aria-live="polite">
+                            Select a date to see available time slots.
+                        </p>
                     </div>
 
                     <!-- NUMBER OF VISITORS -->
@@ -140,10 +159,15 @@
                             name="appointment-visitors"
                             class="input"
                             min="1"
+                            max="20"
                             step="1"
                             placeholder="e.g., 4"
                             required
                         >
+
+                        <p class="user-appointment-hint" id="appointment-visitors-info">
+                            Maximum of 20 visitors per appointment.
+                        </p>
                     </div>
 
                     <!-- OPTIONAL NOTES -->
@@ -190,6 +214,19 @@
                         <i class="fa-regular fa-calendar-check"></i>
                         Upcoming Appointments
                     </span>
+
+                    <select
+                        class="appointment-status-filter"
+                        id="filter-user-appointment-status"
+                        aria-label="Filter appointments by status"
+                    >
+                        <option value="active">Pending &amp; Approved</option>
+                        <option value="all">All Statuses</option>
+                        <option value="pending">Pending</option>
+                        <option value="approved">Approved</option>
+                        <option value="rejected">Rejected</option>
+                        <option value="cancelled">Cancelled</option>
+                    </select>
                 </div>
 
                 <div class="upcoming-appointments-list" id="user-appointments-list">
@@ -216,7 +253,7 @@
                         <li>Please arrive 10 minutes before your scheduled time.</li>
                         <li>Wear comfortable clothing and closed-toe shoes.</li>
                         <li>Farm tours are weather-dependent.</li>
-                        <li>Contact us 24 hours in advance for cancellations.</li>
+                        <li>Need to cancel? Use the Cancel button on a pending or approved appointment, preferably 24 hours in advance.</li>
                     </ul>
                 </div>
             </section>

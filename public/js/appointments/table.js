@@ -5,8 +5,11 @@ import {
     emptyAppointmentsRowModal
 } from './modal.js';
 import { updateSummaryCards } from './summary.js';
+import { getSelectedStatus, initStatusFilter, matchesStatusFilter } from './filter.js';
 import { createNotificationElement } from '../utils/notification/notification.js';
 import * as api from './api.js';
+
+const STATUS_FILTER = '#filter-appointment-status';
 
 let selectedId = null;
 
@@ -14,18 +17,37 @@ let selectedId = null;
 export function loadAppointments(appointmentsData) {
     selectedId = null;
 
+    initStatusFilter(STATUS_FILTER, () => {
+        renderAppointments(appointmentsData);
+    });
+
+    renderAppointments(appointmentsData);
+}
+
+// RENDER APPOINTMENTS (filtered by status)
+export function renderAppointments(appointmentsData) {
     const tbody = document.querySelector('#appointments-tbody');
 
     if (!tbody) return;
 
     tbody.innerHTML = '';
 
-    if (appointmentsData.length === 0) {
-        tbody.innerHTML = emptyAppointmentsRowModal();
+    const selectedStatus = getSelectedStatus(STATUS_FILTER);
+    const visibleAppointments = appointmentsData.filter(appointment =>
+        matchesStatusFilter(appointment, selectedStatus)
+    );
+
+    if (visibleAppointments.length === 0) {
+        tbody.innerHTML = emptyAppointmentsRowModal(appointmentsData.length > 0);
     }
 
-    for (const appointmentData of appointmentsData) {
+    for (const appointmentData of visibleAppointments) {
         addAppointmentRow(appointmentData, appointmentsData);
+    }
+
+    // Clear the details panel when the selected appointment is filtered out.
+    if (!visibleAppointments.some(appointment => appointment.id === selectedId)) {
+        selectedId = null;
     }
 
     updateSummaryCards(appointmentsData);
@@ -40,7 +62,12 @@ export function addAppointmentRow(appointmentData, appointmentsData) {
 
     const row = document.createElement('tr');
     row.classList.add('appointment-row');
+    row.dataset.status = appointmentData.status.toLowerCase();
     row.innerHTML = appointmentRowModal(appointmentData);
+
+    if (appointmentData.id === selectedId) {
+        row.classList.add('appointment-row-selected');
+    }
 
     tbody.appendChild(row);
 
@@ -67,7 +94,7 @@ function setupAppointmentRowActions(row, appointmentData, appointmentsData) {
     if (approveBtn) {
         approveBtn.onclick = event => {
             event.stopPropagation();
-            approveAppointment(appointmentData, row, appointmentsData);
+            changeAppointmentStatus(appointmentData, appointmentsData, 'Approved', event.currentTarget);
         };
     }
 
@@ -77,84 +104,66 @@ function setupAppointmentRowActions(row, appointmentData, appointmentsData) {
     if (rejectBtn) {
         rejectBtn.onclick = event => {
             event.stopPropagation();
-            rejectAppointment(appointmentData, row, appointmentsData);
+
+            if (!confirm('Are you sure you want to reject this request?')) return;
+
+            changeAppointmentStatus(appointmentData, appointmentsData, 'Rejected', event.currentTarget);
+        };
+    }
+
+    // Cancel an approved appointment (the record is kept as Cancelled)
+    const cancelBtn = row.querySelector('.cancel-btn');
+
+    if (cancelBtn) {
+        cancelBtn.onclick = event => {
+            event.stopPropagation();
+
+            if (!confirm('Cancel this approved appointment? The record will be kept as Cancelled.')) return;
+
+            changeAppointmentStatus(appointmentData, appointmentsData, 'Cancelled', event.currentTarget);
         };
     }
 }
 
 // APPOINTMENT ACTIONS
-async function approveAppointment(appointmentData, row, appointmentsData) {
-    const success = await api.updateAppointmentStatus(appointmentData.id, 'Approved');
+const statusMessages = {
+    Approved: { success: 'Appointment approved successfully', failed: 'Failed to approve appointment' },
+    Rejected: { success: 'Appointment rejected', failed: 'Failed to reject appointment' },
+    Cancelled: { success: 'Appointment cancelled', failed: 'Failed to cancel appointment' }
+};
 
-    if (!success) {
+async function changeAppointmentStatus(appointmentData, appointmentsData, status, button) {
+    const messages = statusMessages[status];
+
+    if (button) button.disabled = true;
+
+    let data;
+
+    try {
+        data = await api.updateAppointmentStatus(appointmentData.id, status);
+    } catch (error) {
+        console.error('Failed to update appointment status:', error);
+        data = { success: false };
+    }
+
+    if (!data.success) {
+        if (button) button.disabled = false;
+
         createNotificationElement({
             status: 'failed',
-            message: 'Failed to approve appointment'
+            message: data.message ?? messages.failed
         });
         return;
     }
 
-    appointmentData.status = 'Approved';
+    // Records are never removed; only the status changes.
+    appointmentData.status = status;
 
-    // Update the existing row
-    row.innerHTML = appointmentRowModal(appointmentData);
-
-    setupAppointmentRowActions(row, appointmentData, appointmentsData);
-
-    // Update affected UI
-    updateSummaryCards(appointmentsData);
-    showAppointmentDetails(appointmentsData);
+    renderAppointments(appointmentsData);
 
     createNotificationElement({
         status: 'success',
-        message: 'Appointment Approved Successfully'
-    });
-}
-
-async function rejectAppointment(appointmentData, row, appointmentsData) {
-    const confirmed = confirm(
-        'Are you sure you want to reject this request?'
-    );
-
-    if (!confirmed) return;
-
-    const index = appointmentsData.findIndex(
-        appointment => appointment.id === appointmentData.id
-    );
-
-    if (index === -1) return;
-
-    const success = await api.updateAppointmentStatus(appointmentData.id, 'Rejected');
-
-    if (!success) {
-        createNotificationElement({
-            status: 'failed',
-            message: 'Failed to reject appointment'
-        });
-        return;
-    }
-
-    appointmentsData.splice(index, 1);
-    row.remove();
-
-    if (selectedId === appointmentData.id) {
-        selectedId = null;
-    }
-
-    // Show empty state if no appointments remain
-    const tbody = document.querySelector('#appointments-tbody');
-
-    if (tbody && appointmentsData.length === 0) {
-        tbody.innerHTML = emptyAppointmentsRowModal();
-    }
-
-    // Update affected UI
-    updateSummaryCards(appointmentsData);
-    showAppointmentDetails(appointmentsData);
-
-    createNotificationElement({
-        status: 'success',
-        message: 'Appointment Rejected'
+        message: messages.success
     });
 }
 

@@ -29,12 +29,12 @@ export async function addProduct() {
     let productData = getProductData();
 
     if (!productData.name) {
-        alert('Please enter a product name.');
+        createNotificationElement({ status: 'failed', message: 'Please enter a product name' });
         return;
     }
 
     if (!productData.description) {
-        alert('Please enter a product description.');
+        createNotificationElement({ status: 'failed', message: 'Please enter a product description' });
         return;
     }
 
@@ -48,7 +48,10 @@ export async function addProduct() {
 
     const data = await api.addProduct(productData);
 
-    if (!data.success) return;
+    if (!data.success) {
+        createNotificationElement({ status: 'failed', message: data.message ?? 'Failed to add product' });
+        return;
+    }
 
     products.push({
         id: data.id,

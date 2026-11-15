@@ -1,4 +1,5 @@
 import { getCurrentUser } from '../utils/user.js';
+import { createNotificationElement } from '../utils/notification/notification.js';
 import { fetchAdminDashboard, fetchUserDashboard } from './api.js';
 
 import {
@@ -47,6 +48,8 @@ export async function initDashboard() {
 
     } catch (error) {
         console.error('Failed to initialize dashboard:', error);
+
+        createNotificationElement({ status: 'failed', message: 'Failed to load dashboard' });
     }
 
     console.log('dashboard.js has been imported');

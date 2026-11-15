@@ -14,6 +14,7 @@
                     users.email,
                     appointments.appointment_date,
                     appointments.appointment_time,
+                    appointments.duration_minutes,
                     appointments.purpose,
                     appointments.visitors,
                     appointments.notes,
@@ -35,6 +36,7 @@
                     id,
                     appointment_date,
                     appointment_time,
+                    duration_minutes,
                     purpose,
                     visitors,
                     notes,
@@ -50,9 +52,66 @@
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
 
-        public function addAppointment(int $userId, string $date, string $time, string $purpose, int $visitors, string $notes): int {
-            $sql = 'INSERT INTO appointments (user_id, appointment_date, appointment_time, purpose, visitors, notes, status)
-                    VALUES (:user_id, :appointment_date, :appointment_time, :purpose, :visitors, :notes, :status)';
+        public function getById(int $id): ?array {
+            $sql = '
+                SELECT
+                    id,
+                    user_id,
+                    appointment_date,
+                    appointment_time,
+                    duration_minutes,
+                    status
+                FROM appointments
+                WHERE id = :appointment_id
+            ';
+
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute(['appointment_id' => $id]);
+
+            $appointment = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            return $appointment ?: null;
+        }
+
+        // Pending and Approved appointments still hold their time slot.
+        // Rejected and Cancelled appointments are kept as records but free the slot.
+        public function getScheduled(string $fromDate): array {
+            $sql = "
+                SELECT
+                    appointment_date,
+                    appointment_time,
+                    duration_minutes
+                FROM appointments
+                WHERE appointment_date >= :from_date
+                    AND status IN ('Pending', 'Approved')
+                ORDER BY appointment_date ASC, appointment_time ASC
+            ";
+
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute(['from_date' => $fromDate]);
+
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+
+        public function getScheduledByDate(string $date): array {
+            $sql = "
+                SELECT
+                    appointment_time,
+                    duration_minutes
+                FROM appointments
+                WHERE appointment_date = :appointment_date
+                    AND status IN ('Pending', 'Approved')
+            ";
+
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute(['appointment_date' => $date]);
+
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+
+        public function addAppointment(int $userId, string $date, string $time, int $duration, string $purpose, int $visitors, string $notes): int {
+            $sql = 'INSERT INTO appointments (user_id, appointment_date, appointment_time, duration_minutes, purpose, visitors, notes, status)
+                    VALUES (:user_id, :appointment_date, :appointment_time, :duration_minutes, :purpose, :visitors, :notes, :status)';
 
             $stmt = $this->db->prepare($sql);
 
@@ -60,6 +119,7 @@
                 'user_id' => $userId,
                 'appointment_date' => $date,
                 'appointment_time' => $time,
+                'duration_minutes' => $duration,
                 'purpose' => $purpose,
                 'visitors' => $visitors,
                 'notes' => $notes,

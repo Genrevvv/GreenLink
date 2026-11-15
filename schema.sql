@@ -25,10 +25,12 @@ CREATE TABLE IF NOT EXISTS appointments (
     user_id INT NOT NULL,
     appointment_date DATE NOT NULL,
     appointment_time TIME NOT NULL,
+    duration_minutes INT NOT NULL DEFAULT 60,
     purpose VARCHAR(100) NOT NULL,
     visitors INT NOT NULL DEFAULT 1,
     notes VARCHAR(255) NOT NULL DEFAULT '',
-    status VARCHAR(20) NOT NULL DEFAULT 'Pending' CHECK (status IN ('Pending', 'Approved', 'Rejected')),
+    status VARCHAR(20) NOT NULL DEFAULT 'Pending',
+    CONSTRAINT appointments_status_check CHECK (status IN ('Pending', 'Approved', 'Rejected', 'Cancelled')),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(id)
 );

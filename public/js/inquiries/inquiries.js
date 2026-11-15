@@ -1,4 +1,5 @@
 import { getCurrentUser } from '../utils/user.js';
+import { createNotificationElement } from '../utils/notification/notification.js';
 import { fetchInquiries, fetchUserInquiries } from './api.js';
 import { loadInquiries } from './table.js';
 import { setupInquiryForm, renderPreviousInquiries } from './form.js';
@@ -18,6 +19,8 @@ export async function initInquiries() {
 
     } catch (error) {
         console.error('Failed to initialize inquiries:', error);
+
+        createNotificationElement({ status: 'failed', message: 'Failed to load inquiries' });
     }
 
     console.log('inquiries.js has been imported');
