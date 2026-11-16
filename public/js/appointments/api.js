@@ -10,6 +10,11 @@ export async function fetchUserAppointments() {
     return data.appointments ?? [];
 }
 
+export async function fetchSchedule() {
+    const data = await apiFetchJSON('/appointments/schedule', 'GET');
+    return data;
+}
+
 export async function addAppointment(appointmentData) {
     const data = await apiFetchJSON('/appointments/addAppointment', 'POST', appointmentData);
     return data;
@@ -23,5 +28,13 @@ export async function updateAppointmentStatus(id, status) {
 
     const data = await apiFetchJSON('/appointments/updateStatus', 'POST', body);
     console.log('appointment status updated: ' + data.success);
-    return data.success;
+    return data;
+}
+
+export async function cancelAppointment(id) {
+    const body = { 'id': id };
+
+    const data = await apiFetchJSON('/appointments/cancelAppointment', 'POST', body);
+    console.log('appointment cancelled: ' + data.success);
+    return data;
 }

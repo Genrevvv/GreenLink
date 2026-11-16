@@ -52,13 +52,14 @@
                 FROM appointments
                 INNER JOIN users ON users.id = appointments.user_id
                 WHERE appointments.appointment_date >= CURDATE()
-                    AND appointments.status <> :rejected
+                    AND appointments.status IN (:pending, :approved)
                 ORDER BY appointments.appointment_date ASC, appointments.appointment_time ASC
                 LIMIT :limit
             ';
 
             $stmt = $this->db->prepare($sql);
-            $stmt->bindValue('rejected', 'Rejected');
+            $stmt->bindValue('pending', 'Pending');
+            $stmt->bindValue('approved', 'Approved');
             $stmt->bindValue('limit', $limit, PDO::PARAM_INT);
             $stmt->execute();
 

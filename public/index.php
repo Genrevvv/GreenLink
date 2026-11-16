@@ -66,9 +66,11 @@
     // Appointments
     $router->get('/appointments', [$appointmentController, 'getAll']);
     $router->get('/appointments/user', [$appointmentController, 'getByUser']);
+    $router->get('/appointments/schedule', [$appointmentController, 'getSchedule']);
 
     $router->post('/appointments/addAppointment', [$appointmentController, 'addAppointment']);
     $router->post('/appointments/updateStatus', [$appointmentController, 'updateStatus']);
+    $router->post('/appointments/cancelAppointment', [$appointmentController, 'cancelAppointment']);
 
     // Inquiries
     $router->get('/inquiries', [$inquiryController, 'getAll']);

@@ -14,7 +14,10 @@ export async function archiveProduct(id, products) {
     if (!confirm(`Archive ${product.name}?`)) return;
 
     const success = await api.updateArchiveStatus(id, true);
-    if (!success) return;
+    if (!success) {
+        createNotificationElement({ status: 'failed', message: 'Failed to archive product' });
+        return;
+    }
 
     product.isArchived = true;
 
@@ -35,7 +38,10 @@ export async function restoreProduct(id, products) {
     if (!confirm(`Restore ${product.name} to active products?`)) return;
 
     const success = await api.updateArchiveStatus(id, false);
-    if (!success) return;
+    if (!success) {
+        createNotificationElement({ status: 'failed', message: 'Failed to restore product' });
+        return;
+    }
 
     product.isArchived = false;
 

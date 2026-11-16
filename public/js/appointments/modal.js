@@ -1,7 +1,19 @@
 import { escapeHtml } from '../utils/string.js';
+import { formatDuration, formatTimeRange } from './schedule.js';
+
+const statusClasses = {
+    Pending: 'pending',
+    Approved: 'approved',
+    Rejected: 'rejected',
+    Cancelled: 'cancelled'
+};
+
+function getStatusModifier(status) {
+    return statusClasses[status] ?? 'pending';
+}
 
 // APPOINTMENT TABLE
-export function emptyAppointmentsRowModal() {
+export function emptyAppointmentsRowModal(isFiltered = false) {
     return `
         <tr>
             <td colspan="6" class="admin-table-empty-cell">
@@ -9,7 +21,9 @@ export function emptyAppointmentsRowModal() {
                     <i class="fa-regular fa-calendar-xmark admin-empty-icon"></i>
                     <strong class="admin-empty-title">No appointments found</strong>
                     <span class="admin-empty-description">
-                        No appointment requests received yet.
+                        ${isFiltered
+                            ? 'No appointments match the selected status.'
+                            : 'No appointment requests received yet.'}
                     </span>
                 </div>
             </td>
@@ -20,7 +34,7 @@ export function emptyAppointmentsRowModal() {
 export function appointmentRowModal(appointment) {
     const customer = escapeHtml(appointment.customer);
     const date = escapeHtml(appointment.date);
-    const time = escapeHtml(appointment.time);
+    const timeRange = escapeHtml(formatTimeRange(appointment));
     const purpose = escapeHtml(appointment.purpose);
     const visitors = escapeHtml(appointment.visitors);
     const status = escapeHtml(appointment.status);
@@ -28,9 +42,7 @@ export function appointmentRowModal(appointment) {
     const isApproved = appointment.status === 'Approved';
     const isPending = appointment.status === 'Pending';
 
-    const statusClass = isApproved
-        ? 'appointment-status-approved'
-        : 'appointment-status-pending';
+    const statusClass = `appointment-status-${getStatusModifier(appointment.status)}`;
 
     return `
         <td class="appointment-cell appointment-customer">
@@ -39,7 +51,7 @@ export function appointmentRowModal(appointment) {
         <td class="appointment-cell appointment-date">
             ${date}
             <br>
-            <small>${time}</small>
+            <small>${timeRange}</small>
         </td>
         <td class="appointment-cell appointment-purpose">
             ${purpose}
@@ -57,14 +69,25 @@ export function appointmentRowModal(appointment) {
                 <button
                     type="button"
                     class="approve-btn appointment-action-btn appointment-approve-btn"
+                    title="Approve appointment"
                     aria-label="Approve appointment">
                     <i class="fa-solid fa-check"></i>
                 </button>
                 <button
                     type="button"
                     class="reject-btn appointment-action-btn appointment-reject-btn"
+                    title="Reject appointment"
                     aria-label="Reject appointment">
                     <i class="fa-solid fa-xmark"></i>
+                </button>
+            ` : ''}
+            ${isApproved ? `
+                <button
+                    type="button"
+                    class="cancel-btn appointment-action-btn appointment-cancel-btn"
+                    title="Cancel appointment"
+                    aria-label="Cancel appointment">
+                    <i class="fa-solid fa-ban"></i>
                 </button>
             ` : ''}
         </td>
@@ -87,9 +110,11 @@ export function appointmentDetailsModal(appointment) {
     const customer = escapeHtml(appointment.customer);
     const email = escapeHtml(appointment.email);
     const date = escapeHtml(appointment.date);
-    const time = escapeHtml(appointment.time);
+    const timeRange = escapeHtml(formatTimeRange(appointment));
+    const duration = escapeHtml(formatDuration(appointment.duration || 60));
     const visitors = escapeHtml(appointment.visitors);
     const purpose = escapeHtml(appointment.purpose);
+    const status = escapeHtml(appointment.status);
 
     const notes = escapeHtml(
         appointment.notes || 'No notes provided.'
@@ -110,8 +135,13 @@ export function appointmentDetailsModal(appointment) {
             <div class="appointment-detail-item">
                 <span class="appointment-detail-label">Date &amp; Time</span>
                 <strong class="appointment-detail-value">
-                    ${date} at ${time}
+                    ${date} at ${timeRange}
                 </strong>
+            </div>
+
+            <div class="appointment-detail-item">
+                <span class="appointment-detail-label">Estimated Duration</span>
+                <strong class="appointment-detail-value">${duration}</strong>
             </div>
 
             <div class="appointment-detail-item">
@@ -119,6 +149,11 @@ export function appointmentDetailsModal(appointment) {
                 <strong class="appointment-detail-value">
                     ${visitors} visitors - ${purpose}
                 </strong>
+            </div>
+
+            <div class="appointment-detail-item">
+                <span class="appointment-detail-label">Status</span>
+                <strong class="appointment-detail-value">${status}</strong>
             </div>
 
             <div class="appointment-detail-item">
@@ -130,7 +165,7 @@ export function appointmentDetailsModal(appointment) {
 }
 
 // USER APPOINTMENTS
-export function emptyUserAppointmentsModal() {
+export function emptyUserAppointmentsModal(isFiltered = false) {
     return `
         <div class="admin-empty-state user-appointments-empty">
             <i class="fa-regular fa-calendar admin-empty-icon"></i>
@@ -138,7 +173,9 @@ export function emptyUserAppointmentsModal() {
                 No upcoming appointments
             </strong>
             <span class="admin-empty-description">
-                Your appointment requests will appear here.
+                ${isFiltered
+                    ? 'No appointments match the selected status.'
+                    : 'Your appointment requests will appear here.'}
             </span>
         </div>
     `;
@@ -147,17 +184,15 @@ export function emptyUserAppointmentsModal() {
 export function userAppointmentCardModal(appointment) {
     const purpose = escapeHtml(appointment.purpose);
     const date = escapeHtml(appointment.date);
-    const time = escapeHtml(appointment.time);
+    const timeRange = escapeHtml(formatTimeRange(appointment));
+    const duration = escapeHtml(formatDuration(appointment.duration || 60));
     const visitors = escapeHtml(appointment.visitors);
     const status = escapeHtml(appointment.status);
 
     const notes = String(appointment.notes ?? '').trim();
 
-    const statusClass = {
-        Approved: 'user-appointment-status-approved',
-        Pending: 'user-appointment-status-pending',
-        Rejected: 'user-appointment-status-rejected'
-    }[appointment.status] || 'user-appointment-status-pending';
+    const statusClass = `user-appointment-status-${getStatusModifier(appointment.status)}`;
+    const canCancel = ['Pending', 'Approved'].includes(appointment.status);
 
     return `
         <article class="user-appointment-card">
@@ -174,12 +209,15 @@ export function userAppointmentCardModal(appointment) {
                 <span>${date}</span>
 
                 <i class="fa-regular fa-clock" aria-hidden="true"></i>
-                <span>${time}</span>
+                <span>${timeRange}</span>
             </div>
 
             <div class="user-appointment-card-details">
                 <i class="fa-solid fa-users" aria-hidden="true"></i>
                 <span>${visitors} visitors</span>
+
+                <i class="fa-solid fa-hourglass-half" aria-hidden="true"></i>
+                <span>About ${duration}</span>
             </div>
 
             ${notes ? `
@@ -191,6 +229,16 @@ export function userAppointmentCardModal(appointment) {
 
                     <p class="user-appointment-card-notes-text">${escapeHtml(notes)}</p>
                 </div>
+            ` : ''}
+
+            ${canCancel ? `
+                <button
+                    type="button"
+                    class="user-appointment-cancel-btn"
+                    data-cancel-id="${escapeHtml(appointment.id)}">
+                    <i class="fa-solid fa-ban" aria-hidden="true"></i>
+                    Cancel Appointment
+                </button>
             ` : ''}
         </article>
     `;

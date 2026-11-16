@@ -105,7 +105,7 @@ function isUpcomingAppointment(appointment, startOfToday) {
     const date = getAppointmentDate(appointment);
 
     return date && date >= startOfToday &&
-        String(appointment.status ?? '').toLowerCase() !== 'rejected';
+        !['rejected', 'cancelled'].includes(String(appointment.status ?? '').toLowerCase());
 }
 
 // Counts upcoming appointments, pending approvals, and inquiry statuses.

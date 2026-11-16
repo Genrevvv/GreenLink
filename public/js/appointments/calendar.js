@@ -9,7 +9,11 @@ export function getLocalToday() {
     ].join('-');
 }
 
-export function initAppointmentCalendar(dateInput) {
+// options.getDateInfo(date) returns { count, isFull, title } for scheduled appointment indicators.
+// options.onSelect(date) runs after a date is picked.
+export function initAppointmentCalendar(dateInput, options = {}) {
+    const { getDateInfo = () => null, onSelect = () => {} } = options;
+
     const monthLabel = document.querySelector('#calendar-month-year');
     const daysContainer = document.querySelector('#calendar-days');
     const previousButton = document.querySelector('#calendar-prev');
@@ -25,7 +29,8 @@ export function initAppointmentCalendar(dateInput) {
         !selectedLabel
     ) {
         return {
-            reset() {}
+            reset() {},
+            refresh() {}
         };
     }
 
@@ -96,6 +101,26 @@ export function initAppointmentCalendar(dateInput) {
                 dayButton.classList.add('is-past');
             }
 
+            // Scheduled appointment indicators (hover shows the booked times).
+            const dateInfo = dateString >= todayString ? getDateInfo(dateString) : null;
+
+            if (dateInfo?.count > 0) {
+                dayButton.classList.add('has-appointments');
+            }
+
+            if (dateInfo?.isFull) {
+                dayButton.disabled = true;
+                dayButton.classList.add('is-full');
+            }
+
+            if (dateInfo?.title) {
+                dayButton.title = dateInfo.title;
+                dayButton.setAttribute(
+                    'aria-label',
+                    dayButton.getAttribute('aria-label') + '. ' + dateInfo.title
+                );
+            }
+
             if (dateString === todayString) {
                 dayButton.classList.add('is-today');
             }
@@ -123,6 +148,7 @@ export function initAppointmentCalendar(dateInput) {
                     );
 
                 renderCalendar();
+                onSelect(dateString);
             });
 
             daysContainer.appendChild(dayButton);
@@ -168,7 +194,19 @@ export function initAppointmentCalendar(dateInput) {
         renderCalendar();
     };
 
+    // Re-draws the indicators after the schedule changes.
+    // A selected date that became fully booked is cleared.
+    const refresh = () => {
+        if (selectedDate && getDateInfo(selectedDate)?.isFull) {
+            reset();
+            onSelect('');
+            return;
+        }
+
+        renderCalendar();
+    };
+
     renderCalendar();
 
-    return { reset };
+    return { reset, refresh };
 }

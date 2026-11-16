@@ -14,6 +14,10 @@
                 <span class="summary-card-label">Approved</span>
                 <strong class="summary-card-value summary-card-value-approved" id="approved-count">0</strong>
             </div>
+            <div class="summary-card">
+                <span class="summary-card-label">Rejected / Cancelled</span>
+                <strong class="summary-card-value summary-card-value-cancelled" id="cancelled-count">0</strong>
+            </div>
         </div>
 
         <!-- Main Workspace -->
@@ -22,6 +26,19 @@
             <section class="admin-panel appointments-panel">
                 <div class="admin-panel-header bg-g-drd ">
                     <span class="admin-panel-title">Appointment Schedule</span>
+
+                    <select
+                        class="appointment-status-filter"
+                        id="filter-appointment-status"
+                        aria-label="Filter appointments by status"
+                    >
+                        <option value="active">Pending &amp; Approved</option>
+                        <option value="all">All Statuses</option>
+                        <option value="pending">Pending</option>
+                        <option value="approved">Approved</option>
+                        <option value="rejected">Rejected</option>
+                        <option value="cancelled">Cancelled</option>
+                    </select>
                 </div>
                 <div class="admin-table-wrapper">
                     <table class="admin-table">

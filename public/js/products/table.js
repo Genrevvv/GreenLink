@@ -124,7 +124,10 @@ export async function toggleProductAvailability(id) {
     const inStock = !product.inStock;
     const success = await api.updateStockStatus(id, inStock);
     
-    if (!success) return;
+    if (!success) {
+        createNotificationElement({ status: 'failed', message: 'Failed to update product availability' });
+        return;
+    }
 
     product.inStock = inStock;
 
@@ -161,12 +164,12 @@ export async function updateProduct(id) {
     let updatedData = getProductData();
 
     if (!updatedData.name) {
-        alert('Please enter a product name.');
+        createNotificationElement({ status: 'failed', message: 'Please enter a product name' });
         return;
     }
 
     if (!updatedData.description) {
-        alert('Please enter a product description.');
+        createNotificationElement({ status: 'failed', message: 'Please enter a product description' });
         return;
     }
 
@@ -179,7 +182,10 @@ export async function updateProduct(id) {
 
     const data = await api.updateProduct(updatedData);
 
-    if (!data.success) return;
+    if (!data.success) {
+        createNotificationElement({ status: 'failed', message: data.message ?? 'Failed to update product' });
+        return;
+    }
 
     product.name = updatedData.name;
     product.category = updatedData.category;

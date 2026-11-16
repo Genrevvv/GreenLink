@@ -34,7 +34,9 @@ const badgeClasses = {
     'answered': 'badge-green',
     'resolved': 'badge-green',
     'closed': 'badge-green',
-    'pending': 'badge-yellow'
+    'pending': 'badge-yellow',
+    'rejected': 'badge-red',
+    'cancelled': 'badge-gray'
 };
 
 export function badge(status) {

@@ -1,4 +1,5 @@
 import { createProductCard } from './card.js';
+import { createNotificationElement } from '../utils/notification/notification.js';
 import { fetchProducts } from './api.js';
 import * as prodSum from './summary.js';
 import { getCurrentUser } from '../utils/user.js';
@@ -22,6 +23,8 @@ export async function initProducts() {
 
     } catch (error) {
         console.error('Failed to initialize products:', error);
+
+        createNotificationElement({ status: 'failed', message: 'Failed to load products' });
     }
 
     console.log('products.js has been imported');

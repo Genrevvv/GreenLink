@@ -1,3 +1,5 @@
+import { escapeHtml } from '../string.js';
+
 export function notificationModal(notificationData) {
     const icons = {
         success: '<i class="fa-solid fa-circle-check notif-success"></i>',
@@ -6,6 +8,6 @@ export function notificationModal(notificationData) {
 
     return `
         ${icons[notificationData.status] ?? ''}
-        <span class="notif-message">${notificationData.message}</span>
+        <span class="notif-message">${escapeHtml(notificationData.message)}</span>
     `;
 }

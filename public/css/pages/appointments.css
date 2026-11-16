@@ -20,7 +20,7 @@
 
 .summary-cards-grid {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: var(--space-4);
 }
 
@@ -56,6 +56,10 @@
     color: var(--base-green);
 }
 
+.summary-card-value-cancelled {
+    color: #842029;
+}
+
 /* ADMIN WORKSPACE */
 
 .admin-workspace-grid {
@@ -77,6 +81,8 @@
 .admin-panel-header {
     display: flex;
     align-items: center;
+    justify-content: space-between;
+    gap: var(--space-2);
     padding: 0.6rem 1rem;
     color: white;
 }
@@ -273,6 +279,35 @@
     color: #b42318;
 }
 
+.user-appointment-hint {
+    margin: 0;
+    color: var(--dark-green);
+    font-size: var(--font-xs);
+    line-height: 1.4;
+}
+
+.user-appointment-submit:disabled {
+    opacity: 0.7;
+    cursor: wait;
+}
+
+.input option:disabled {
+    color: #9aa19c;
+}
+
+/* STATUS FILTER (admin table and user upcoming list) */
+
+.appointment-status-filter {
+    padding: 0.2rem 0.4rem;
+    color: var(--darker-green);
+    background: white;
+    border: 1px solid var(--input-border);
+    border-radius: var(--radius-sm);
+    font-family: inherit;
+    font-size: var(--font-xs);
+    cursor: pointer;
+}
+
 
 /* =========================================================
    UPCOMING APPOINTMENTS
@@ -366,6 +401,36 @@
 .user-appointment-status-rejected {
     background: #f8d7da;
     color: #842029;
+}
+
+.user-appointment-status-cancelled {
+    background: #e9ecef;
+    color: #495057;
+}
+
+.user-appointment-cancel-btn {
+    display: inline-flex;
+    align-items: center;
+    align-self: flex-start;
+    gap: var(--space-2);
+    padding: var(--space-1) var(--space-3);
+    color: #842029;
+    background: #f8d7da;
+    border: none;
+    border-radius: var(--radius-md);
+    font-size: var(--font-xs);
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.user-appointment-cancel-btn:hover:not(:disabled) {
+    background: #f1aeb5;
+}
+
+.user-appointment-cancel-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
 }
 
 /* APPOINTMENT NOTES */
@@ -573,6 +638,64 @@
     cursor: not-allowed;
 }
 
+/* Scheduled appointment indicators */
+.custom-calendar-day {
+    position: relative;
+}
+
+.custom-calendar-day.has-appointments::after {
+    content: "";
+    position: absolute;
+    bottom: 3px;
+    left: 50%;
+    width: 5px;
+    height: 5px;
+    background: var(--base-green);
+    border-radius: 50%;
+    transform: translateX(-50%);
+}
+
+.custom-calendar-day.is-selected.has-appointments::after {
+    background: white;
+}
+
+.custom-calendar-day.is-full:disabled {
+    color: #842029;
+    background: #fbeaec;
+    text-decoration: line-through;
+}
+
+.custom-calendar-day.is-full::after {
+    background: #842029;
+}
+
+.custom-calendar-legend {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--space-1) var(--space-3);
+    margin-top: 0.5rem;
+    color: var(--dark-green);
+    font-size: var(--font-xs);
+}
+
+.custom-calendar-legend-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+.custom-calendar-legend-dot {
+    width: 6px;
+    height: 6px;
+    background: var(--base-green);
+    border-radius: 50%;
+}
+
+.custom-calendar-legend-dot.is-full {
+    background: #842029;
+}
+
 .custom-calendar-selected {
     margin: 0.5rem 0 0;
     padding-top: 0.5rem;
@@ -649,11 +772,63 @@
     background-color: #f1aeb5;
 }
 
+.appointment-cancel-btn {
+    color: #495057;
+    background-color: #e9ecef;
+}
+
+.appointment-cancel-btn:hover {
+    background-color: #dee2e6;
+}
+
+.appointment-action-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* ADMIN STATUS BADGES */
+
+.appointment-status {
+    display: inline-block;
+    padding: 0.15rem 0.45rem;
+    border-radius: var(--radius-md);
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.appointment-status-pending {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.appointment-status-approved {
+    background: #d1e7dd;
+    color: #0f5132;
+}
+
+.appointment-status-rejected {
+    background: #f8d7da;
+    color: #842029;
+}
+
+.appointment-status-cancelled {
+    background: #e9ecef;
+    color: #495057;
+}
+
+.appointment-row-selected td {
+    background-color: #e9f5ee;
+}
+
 /* =========================================================
    RESPONSIVE LAYOUTS
 ========================================================= */
 
 @media (max-width: 900px) {
+    .summary-cards-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
     .admin-workspace-grid,
     .user-appointments-grid {
         grid-template-columns: minmax(0, 1fr);
