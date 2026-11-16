@@ -52,4 +52,4 @@ CREATE TABLE IF NOT EXISTS inquiries (
     FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
--- You are on the copy branch
+-- You are on the appointments branch
