@@ -52,4 +52,4 @@ CREATE TABLE IF NOT EXISTS inquiries (
     FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
--- You are on the main branch
+-- You are on the notification branch
