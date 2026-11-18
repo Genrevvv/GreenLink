@@ -66,4 +66,4 @@ CREATE TABLE IF NOT EXISTS notifications (
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
--- You are on the notification branch
+-- You are on the main branch
