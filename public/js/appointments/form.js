@@ -30,7 +30,7 @@ const unavailableLabels = {
 };
 
 // USER APPOINTMENTS
-export function initUserAppointments(userAppointmentsData) {
+export function initUserAppointments(userAppointmentsData, targetId = null) {
     const form = document.querySelector('#appointment-booking-form');
     const dateInput = document.querySelector('#appointment-date');
     const timeInput = document.querySelector('#appointment-time');
@@ -174,10 +174,15 @@ export function initUserAppointments(userAppointmentsData) {
         renderUserAppointments(userAppointmentsData);
     });
 
-    renderUserAppointments(userAppointmentsData);
+    const statusFilter = document.querySelector(STATUS_FILTER);
+    if (targetId && statusFilter) {
+        statusFilter.value = 'all';
+    }
+
+    renderUserAppointments(userAppointmentsData, targetId);
 }
 
-function renderUserAppointments(userAppointmentsData) {
+function renderUserAppointments(userAppointmentsData, targetId = null) {
     const appointmentsList = document.querySelector('#user-appointments-list');
 
     if (!appointmentsList) {
@@ -188,7 +193,7 @@ function renderUserAppointments(userAppointmentsData) {
     const selectedStatus = getSelectedStatus(STATUS_FILTER);
 
     const upcomingAppointments = userAppointmentsData
-        .filter(appointment => appointment.date >= localToday)
+        .filter(appointment => appointment.date >= localToday || appointment.id === Number(targetId))
         .sort((a, b) =>
             a.date.localeCompare(b.date) ||
             toMinutes(a.time) - toMinutes(b.time)
@@ -206,6 +211,14 @@ function renderUserAppointments(userAppointmentsData) {
     appointmentsList.innerHTML = visibleAppointments
         .map(appointment => userAppointmentCardModal(appointment))
         .join('');
+
+    if (targetId) {
+        const target = appointmentsList.querySelector(
+            `[data-appointment-id="${Number(targetId)}"]`
+        );
+        target?.classList.add('notification-target');
+        target?.scrollIntoView({ block: 'center' });
+    }
 }
 
 // CANCEL APPOINTMENT (kept as a Cancelled record)

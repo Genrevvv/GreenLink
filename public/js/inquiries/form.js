@@ -49,7 +49,7 @@ export function setupInquiryForm(myInquiries) {
     };
 }
 
-export function renderPreviousInquiries(myInquiries) {
+export function renderPreviousInquiries(myInquiries, targetId = null) {
     const list = document.querySelector('#user-inquiries-list');
     if (!list) return;
 
@@ -64,7 +64,7 @@ export function renderPreviousInquiries(myInquiries) {
     }
 
     list.innerHTML = myInquiries.map(inquiry => `
-        <li class="previous-inquiry-card">
+        <li class="previous-inquiry-card${inquiry.id === Number(targetId) ? ' notification-target' : ''}" data-inquiry-id="${escapeHtml(inquiry.id)}">
             <div class="previous-inquiry-top flex justify-between gap-3">
                 <div class="flex-1">
                     <h4 class="previous-inquiry-subject">${escapeHtml(inquiry.subject)}</h4>
@@ -86,4 +86,9 @@ export function renderPreviousInquiries(myInquiries) {
             ` : ''}
         </li>
     `).join('');
+
+    if (targetId) {
+        list.querySelector(`[data-inquiry-id="${Number(targetId)}"]`)
+            ?.scrollIntoView({ block: 'center' });
+    }
 }

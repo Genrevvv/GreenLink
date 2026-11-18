@@ -5,20 +5,20 @@ import { loadAppointments } from './table.js';
 import { initUserAppointments } from './form.js';
 import { setSchedule } from './schedule.js';
 
-export async function initAppointments() {
+export async function initAppointments(targetId = null) {
     const user = getCurrentUser();
 
     try {
         if (user.user_type === 'admin') {
             const appointments = await fetchAppointments();
-            adminAppointmentsScript(appointments);
+            adminAppointmentsScript(appointments, targetId);
         } else if (user.user_type === 'user') {
             const [userAppointments, scheduleData] = await Promise.all([
                 fetchUserAppointments(),
                 fetchSchedule()
             ]);
 
-            userAppointmentsScript(userAppointments, scheduleData);
+            userAppointmentsScript(userAppointments, scheduleData, targetId);
         }
 
     } catch (error) {
@@ -33,15 +33,15 @@ export async function initAppointments() {
     console.log('appointments.js has been imported');
 }
 
-function adminAppointmentsScript(appointments) {
+function adminAppointmentsScript(appointments, targetId) {
     // All records are kept. The status filter defaults to Pending and Approved.
-    loadAppointments(appointments);
+    loadAppointments(appointments, targetId);
 }
 
-function userAppointmentsScript(userAppointments, scheduleData) {
+function userAppointmentsScript(userAppointments, scheduleData, targetId) {
     if (scheduleData?.success) {
         setSchedule(scheduleData);
     }
 
-    initUserAppointments(userAppointments);
+    initUserAppointments(userAppointments, targetId);
 }

@@ -1,37 +1,41 @@
-### TODO:
+# GreenLink
 
-#### Products Page
-- Product Mangement
-    - Add product (Front-end only) ✅
-    - Product Actions (Front-end only) ✅
-        - Edit product
-        - Delete product
-    - Load products on table (Front-end only) ✅
-    - Product summary ⏳
-- Load product cards for user
-- Dashboard
-      - Front end
+GreenLink is a PHP and MySQL application for managing products, appointments,
+user accounts, inquiries, and notifications.
 
-### Requirements:
-1. PHP
-2. MySQL
+## Requirements
 
-### Setup:
-1. Create a MySQL database named `greenlink`.
-2. Import the schema SQL file.
-3. Configure DB credentials in `config.php`.
+- PHP
+- MySQL
+- Composer
 
-For an existing database, apply `database/migrations/2026_11_12_add_user_status.sql`
-once to add the account status used for account deactivation. New database
-installations receive this column from `schema.sql`.
+## Setup
 
-### How to run:
-1. Navigate to the project directory:
+1. Install dependencies:
+
    ```bash
-   cd GreenLink
+   composer install
    ```
-2. Start the PHP server:
-   ```bash
-   php -S localhost:8000 -t public
-   ```
-3. Open your browser and go to [localhost:8000](http://localhost:8000)
+
+2. Import `schema.sql` into MySQL. This creates the `greenlink` database and
+   required tables.
+
+3. Update the database credentials in `config/config.php` if needed.
+
+For an existing database, run the SQL files in `database/migrations/` once.
+
+## Run
+
+Start the web server:
+
+```bash
+php -S localhost:8000 -t public public/router.php
+```
+
+In a separate terminal, start the notification service:
+
+```bash
+php bin/notification-server.php
+```
+
+Open [http://localhost:8000](http://localhost:8000).

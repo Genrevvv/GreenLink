@@ -1,9 +1,11 @@
 <?php
     class Appointment {
         private PDO $db;
+        private Notification $notification;
 
-        public function __construct(Database $db) {
+        public function __construct(Database $db, Notification $notification) {
             $this->db = $db->getConnection();
+            $this->notification = $notification;
         }
 
         public function getAll(): array {
@@ -113,31 +115,83 @@
             $sql = 'INSERT INTO appointments (user_id, appointment_date, appointment_time, duration_minutes, purpose, visitors, notes, status)
                     VALUES (:user_id, :appointment_date, :appointment_time, :duration_minutes, :purpose, :visitors, :notes, :status)';
 
-            $stmt = $this->db->prepare($sql);
+            $this->db->beginTransaction();
 
-            $stmt->execute([
-                'user_id' => $userId,
-                'appointment_date' => $date,
-                'appointment_time' => $time,
-                'duration_minutes' => $duration,
-                'purpose' => $purpose,
-                'visitors' => $visitors,
-                'notes' => $notes,
-                'status' => 'Pending'
-            ]);
+            try {
+                $stmt = $this->db->prepare($sql);
+                $stmt->execute([
+                    'user_id' => $userId,
+                    'appointment_date' => $date,
+                    'appointment_time' => $time,
+                    'duration_minutes' => $duration,
+                    'purpose' => $purpose,
+                    'visitors' => $visitors,
+                    'notes' => $notes,
+                    'status' => 'Pending'
+                ]);
 
-            return (int) $this->db->lastInsertId();
+                $appointmentId = (int) $this->db->lastInsertId();
+                $this->notification->createForAdmins(
+                    'appointment_request',
+                    'A new appointment request was submitted.',
+                    'appointment',
+                    $appointmentId
+                );
+                $this->db->commit();
+
+                return $appointmentId;
+            } catch (Throwable $e) {
+                if ($this->db->inTransaction()) {
+                    $this->db->rollBack();
+                }
+                throw $e;
+            }
         }
 
         public function updateStatus(int $id, string $status): void {
-            $sql = 'UPDATE appointments SET status = :status WHERE id = :appointment_id';
+            $this->db->beginTransaction();
 
-            $stmt = $this->db->prepare($sql);
+            try {
+                $stmt = $this->db->prepare('
+                    SELECT user_id
+                    FROM appointments
+                    WHERE id = :appointment_id
+                    FOR UPDATE
+                ');
+                $stmt->execute(['appointment_id' => $id]);
+                $userId = $stmt->fetchColumn();
 
-            $stmt->execute([
-                'status' => $status,
-                'appointment_id' => $id
-            ]);
+                if ($userId === false) {
+                    throw new RuntimeException('Appointment not found while updating its status.');
+                }
+
+                $stmt = $this->db->prepare('
+                    UPDATE appointments
+                    SET status = :status
+                    WHERE id = :appointment_id
+                ');
+                $stmt->execute([
+                    'status' => $status,
+                    'appointment_id' => $id
+                ]);
+
+                if (in_array($status, ['Approved', 'Rejected'], true)) {
+                    $this->notification->createForUser(
+                        (int) $userId,
+                        'appointment_status',
+                        'Your appointment request was ' . strtolower($status) . '.',
+                        'appointment',
+                        $id
+                    );
+                }
+
+                $this->db->commit();
+            } catch (Throwable $e) {
+                if ($this->db->inTransaction()) {
+                    $this->db->rollBack();
+                }
+                throw $e;
+            }
         }
     }
 ?>

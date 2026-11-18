@@ -14,8 +14,8 @@ const STATUS_FILTER = '#filter-appointment-status';
 let selectedId = null;
 
 // LOAD APPOINTMENTS
-export function loadAppointments(appointmentsData) {
-    selectedId = null;
+export function loadAppointments(appointmentsData, initialSelectedId = null) {
+    selectedId = initialSelectedId ? Number(initialSelectedId) : null;
 
     initStatusFilter(STATUS_FILTER, () => {
         renderAppointments(appointmentsData);

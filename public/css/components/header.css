@@ -22,6 +22,110 @@
     color: var(--dark-green);
 }
 
+.notification-menu {
+    position: relative;
+}
+
+.notification-toggle {
+    position: relative;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--dark-green);
+    cursor: pointer;
+}
+
+.notification-toggle:focus-visible,
+.notification-entry:focus-visible {
+    outline: 2px solid var(--base-green);
+    outline-offset: 3px;
+}
+
+.notification-count {
+    position: absolute;
+    top: -0.45rem;
+    right: -0.6rem;
+    min-width: 1.1rem;
+    padding: 0.1rem 0.25rem;
+    border-radius: 999px;
+    background: #c83d32;
+    color: #fff;
+    font-size: 0.65rem;
+    line-height: 1.2;
+    text-align: center;
+}
+
+.notification-dropdown {
+    position: absolute;
+    top: calc(100% + 0.75rem);
+    right: 0;
+    z-index: 20;
+    width: min(22rem, calc(100vw - 2rem));
+    max-height: min(28rem, calc(100vh - 7rem));
+    overflow-y: auto;
+    border-radius: var(--radius-md);
+    background: #fff;
+    box-shadow: var(--shadow-md);
+}
+
+.notification-dropdown-title {
+    margin: 0;
+    padding: 0.9rem 1rem;
+    border-bottom: 1px solid #e8eee9;
+    color: var(--dark-green);
+    font-size: var(--font-sm);
+}
+
+.notification-list {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.notification-entry {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 0.3rem;
+    padding: 0.8rem 1rem;
+    border: 0;
+    border-bottom: 1px solid #eef2ef;
+    background: #fff;
+    color: var(--clr-text);
+    text-align: left;
+    cursor: pointer;
+}
+
+.notification-entry:hover {
+    background: #f4f8f5;
+}
+
+.notification-entry.is-unread {
+    background: #eff7f0;
+}
+
+.notification-entry-message {
+    font-size: var(--font-sm);
+}
+
+.notification-entry-time,
+.notification-empty {
+    color: #68756c;
+    font-size: var(--font-xs);
+}
+
+.notification-empty {
+    padding: 1rem;
+    text-align: center;
+}
+
+.notification-target {
+    outline: 2px solid var(--base-green);
+    outline-offset: 2px;
+}
+
 .account-menu {
     position: relative;
 }

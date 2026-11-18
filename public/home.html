@@ -49,7 +49,29 @@
                 <header class="container flex-between header">
                     <h1 id="header-text">Dashboard</h1>
                     <div class="icons flex gap-6">
-                        <i class="fa-regular fa-bell"></i>
+                        <div class="notification-menu" id="notification-menu">
+                            <button
+                                type="button"
+                                class="notification-toggle"
+                                id="notification-toggle"
+                                aria-label="Notifications"
+                                aria-haspopup="true"
+                                aria-expanded="false"
+                            >
+                                <i class="fa-regular fa-bell" aria-hidden="true"></i>
+                                <span class="notification-count hidden" id="notification-count"></span>
+                            </button>
+                            <section
+                                class="notification-dropdown hidden"
+                                id="notification-dropdown"
+                                aria-label="Notification log"
+                            >
+                                <h2 class="notification-dropdown-title">Notifications</h2>
+                                <ul class="notification-list" id="notification-list">
+                                    <li class="notification-empty">Loading notifications...</li>
+                                </ul>
+                            </section>
+                        </div>
                         <div class="account-menu" id="account-menu">
                             <button
                                 type="button"

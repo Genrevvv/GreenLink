@@ -4,17 +4,17 @@ import { fetchInquiries, fetchUserInquiries } from './api.js';
 import { loadInquiries } from './table.js';
 import { setupInquiryForm, renderPreviousInquiries } from './form.js';
 
-export async function initInquiries() {
+export async function initInquiries(targetId = null) {
     const user = getCurrentUser();
 
     try {
         if (user.user_type === 'admin') {
             const inquiries = await fetchInquiries();
-            adminInquiriesScript(inquiries);
+            adminInquiriesScript(inquiries, targetId);
         }
         else if (user.user_type === 'user') {
             const myInquiries = await fetchUserInquiries();
-            userInquiriesScript(myInquiries);
+            userInquiriesScript(myInquiries, targetId);
         }
 
     } catch (error) {
@@ -26,11 +26,11 @@ export async function initInquiries() {
     console.log('inquiries.js has been imported');
 }
 
-function adminInquiriesScript(inquiries) {
-    loadInquiries(inquiries);
+function adminInquiriesScript(inquiries, targetId) {
+    loadInquiries(inquiries, targetId);
 }
 
-function userInquiriesScript(myInquiries) {
+function userInquiriesScript(myInquiries, targetId) {
     setupInquiryForm(myInquiries);
-    renderPreviousInquiries(myInquiries);
+    renderPreviousInquiries(myInquiries, targetId);
 }

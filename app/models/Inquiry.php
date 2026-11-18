@@ -1,9 +1,11 @@
 <?php
     class Inquiry {
         private PDO $db;
+        private Notification $notification;
 
-        public function __construct(Database $db) {
+        public function __construct(Database $db, Notification $notification) {
             $this->db = $db->getConnection();
+            $this->notification = $notification;
         }
 
         public function getAll(): array {
@@ -52,32 +54,80 @@
             $sql = 'INSERT INTO inquiries (user_id, subject, message, status)
                     VALUES (:user_id, :subject, :message, :status)';
 
-            $stmt = $this->db->prepare($sql);
+            $this->db->beginTransaction();
 
-            $stmt->execute([
-                'user_id' => $userId,
-                'subject' => $subject,
-                'message' => $message,
-                'status' => 'Pending'
-            ]);
+            try {
+                $stmt = $this->db->prepare($sql);
+                $stmt->execute([
+                    'user_id' => $userId,
+                    'subject' => $subject,
+                    'message' => $message,
+                    'status' => 'Pending'
+                ]);
 
-            return (int) $this->db->lastInsertId();
+                $inquiryId = (int) $this->db->lastInsertId();
+                $this->notification->createForAdmins(
+                    'inquiry_request',
+                    'A new inquiry was submitted.',
+                    'inquiry',
+                    $inquiryId
+                );
+                $this->db->commit();
+
+                return $inquiryId;
+            } catch (Throwable $e) {
+                if ($this->db->inTransaction()) {
+                    $this->db->rollBack();
+                }
+                throw $e;
+            }
         }
 
         public function replyInquiry(int $id, string $response): void {
-            $sql = 'UPDATE inquiries
+            $this->db->beginTransaction();
+
+            try {
+                $stmt = $this->db->prepare('
+                    SELECT user_id
+                    FROM inquiries
+                    WHERE id = :inquiry_id
+                    FOR UPDATE
+                ');
+                $stmt->execute(['inquiry_id' => $id]);
+                $userId = $stmt->fetchColumn();
+
+                if ($userId === false) {
+                    throw new RuntimeException('Inquiry not found while sending its response.');
+                }
+
+                $stmt = $this->db->prepare('
+                    UPDATE inquiries
                     SET response = :response,
                         status = :status,
                         responded_at = CURRENT_TIMESTAMP
-                    WHERE id = :inquiry_id';
+                    WHERE id = :inquiry_id
+                ');
+                $stmt->execute([
+                    'response' => $response,
+                    'status' => 'Responded',
+                    'inquiry_id' => $id
+                ]);
 
-            $stmt = $this->db->prepare($sql);
+                $this->notification->createForUser(
+                    (int) $userId,
+                    'inquiry_response',
+                    'Your inquiry has received a response.',
+                    'inquiry',
+                    $id
+                );
 
-            $stmt->execute([
-                'response' => $response,
-                'status' => 'Responded',
-                'inquiry_id' => $id
-            ]);
+                $this->db->commit();
+            } catch (Throwable $e) {
+                if ($this->db->inTransaction()) {
+                    $this->db->rollBack();
+                }
+                throw $e;
+            }
         }
     }
 ?>

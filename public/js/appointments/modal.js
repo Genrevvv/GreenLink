@@ -195,7 +195,7 @@ export function userAppointmentCardModal(appointment) {
     const canCancel = ['Pending', 'Approved'].includes(appointment.status);
 
     return `
-        <article class="user-appointment-card">
+        <article class="user-appointment-card" data-appointment-id="${escapeHtml(appointment.id)}">
             <div class="user-appointment-card-header">
                 <h3 class="user-appointment-card-title">${purpose}</h3>
 

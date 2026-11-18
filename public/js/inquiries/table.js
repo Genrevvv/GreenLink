@@ -9,9 +9,9 @@ export let inquiries = [];
 let selectedId = null;
 
 // LOAD INQUIRIES
-export function loadInquiries(inquiriesData) {
+export function loadInquiries(inquiriesData, initialSelectedId = null) {
     inquiries = inquiriesData;
-    selectedId = null;
+    selectedId = initialSelectedId ? Number(initialSelectedId) : null;
 
     renderInquiries();
 }

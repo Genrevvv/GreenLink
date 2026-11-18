@@ -11,8 +11,9 @@
     $user = new User($db);
     $product = new Product($db);
     $dashboard = new Dashboard($db);
-    $appointment = new Appointment($db);
-    $inquiry = new Inquiry($db);
+    $notification = new Notification($db);
+    $appointment = new Appointment($db, $notification);
+    $inquiry = new Inquiry($db, $notification);
 
     $authController = new AuthController($user);
     $profileController = new ProfileController($user);
@@ -21,6 +22,7 @@
     $dashboardController = new DashboardController($dashboard);
     $appointmentController = new AppointmentController($appointment);
     $inquiryController = new InquiryController($inquiry);
+    $notificationController = new NotificationController($notification);
 
     $router = new Router;
 
@@ -78,6 +80,10 @@
 
     $router->post('/inquiries/addInquiry', [$inquiryController, 'addInquiry']);
     $router->post('/inquiries/replyInquiry', [$inquiryController, 'replyInquiry']);
+
+    // Notifications
+    $router->get('/notifications', [$notificationController, 'getForCurrentUser']);
+    $router->post('/notifications/read', [$notificationController, 'markRead']);
 
     $router->dispatch(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
 ?>

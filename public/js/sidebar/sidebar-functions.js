@@ -7,7 +7,7 @@ const user = getCurrentUser();
 
 let cleanupPage = null;
 
-export async function loadPage(page) {
+export async function loadPage(page, targetId = null) {
     // Clean up the previous page's script
     if (typeof cleanupPage === 'function') {
         cleanupPage();
@@ -38,7 +38,7 @@ export async function loadPage(page) {
     }
     else if (page === 'appointments') {
         module = await import('../appointments/appointments.js');
-        cleanupPage = module.initAppointments();
+        cleanupPage = await module.initAppointments(targetId);
     }
     else if (page === 'dashboard') {
         module = await import('../dashboard/dashboard.js');
@@ -46,7 +46,7 @@ export async function loadPage(page) {
     }
     else if (page === 'inquiries') {
         module = await import('../inquiries/inquiries.js');
-        cleanupPage = module.initInquiries();
+        cleanupPage = await module.initInquiries(targetId);
     }
     else if (page === 'profile') {
         module = await import('../profiles/profile.js');
