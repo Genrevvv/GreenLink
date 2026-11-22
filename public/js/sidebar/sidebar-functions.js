@@ -23,15 +23,6 @@ const loadedPageHtml = new Map();
 
 function getPagePath(page) {
     return page === 'profile'
-
-export async function loadPage(page, targetId = null) {
-    // Clean up the previous page's script
-    if (typeof cleanupPage === 'function') {
-        cleanupPage();
-        cleanupPage = null;
-    }
-
-    const pagePath = page === 'profile'
         ? '/views/pages/profile.html'
         : `/views/pages/${user.user_type}/${page}.html`;
 }
@@ -132,30 +123,6 @@ export async function loadPage(page) {
         return;
     }
 
-    mainContent.innerHTML = await response.text();
-
-    let module = null;
-
-    if (page === 'products') {
-        module = await import('../products/products.js');
-        cleanupPage = module.initProducts();
-    }
-    else if (page === 'appointments') {
-        module = await import('../appointments/appointments.js');
-        cleanupPage = await module.initAppointments(targetId);
-    }
-    else if (page === 'dashboard') {
-        module = await import('../dashboard/dashboard.js');
-        cleanupPage = module.initDashboard();
-    }
-    else if (page === 'inquiries') {
-        module = await import('../inquiries/inquiries.js');
-        cleanupPage = await module.initInquiries(targetId);
-    }
-    else if (page === 'profile') {
-        module = await import('../profiles/profile.js');
-        cleanupPage = await module.initProfile();
-    }
 }
 
 export function selectOption(selectedOption, options) {
