@@ -9,6 +9,7 @@ const user = getCurrentUser();
 let cleanupPage = null;
 let currentLoad = 0;
 
+// Page scripts and their init functions
 const pageModules = {
     dashboard: { load: () => import('../dashboard/dashboard.js'), init: 'initDashboard' },
     products: { load: () => import('../products/products.js'), init: 'initProducts' },
@@ -22,6 +23,15 @@ const loadedPageHtml = new Map();
 
 function getPagePath(page) {
     return page === 'profile'
+
+export async function loadPage(page, targetId = null) {
+    // Clean up the previous page's script
+    if (typeof cleanupPage === 'function') {
+        cleanupPage();
+        cleanupPage = null;
+    }
+
+    const pagePath = page === 'profile'
         ? '/views/pages/profile.html'
         : `/views/pages/${user.user_type}/${page}.html`;
 }
@@ -36,6 +46,7 @@ function fetchPageHtml(page) {
             return html;
         });
 
+        // Drop failed requests so the next attempt can retry
         request.catch(() => pageHtmlCache.delete(page));
         pageHtmlCache.set(page, request);
     }
@@ -43,6 +54,7 @@ function fetchPageHtml(page) {
     return pageHtmlCache.get(page);
 }
 
+// Warm up a page's HTML and script before it is clicked (e.g. on hover)
 export function prefetchPage(page) {
     if (!pageModules[page]) return;
 
@@ -50,6 +62,7 @@ export function prefetchPage(page) {
     pageModules[page].load().catch(() => {});
 }
 
+// Fetch every page's HTML in the background so each skeleton can mirror its page
 export function prefetchAllPageHtml() {
     Object.keys(pageModules).forEach(page => fetchPageHtml(page).catch(() => {}));
 }
@@ -60,7 +73,7 @@ function runCleanup(cleanup) {
     }
 }
 
-export async function loadPage(page, targetId = null) {
+export async function loadPage(page) {
     const loadId = ++currentLoad;
     const isStale = () => loadId !== currentLoad;
 
@@ -93,14 +106,11 @@ export async function loadPage(page, targetId = null) {
         const pageView = document.createElement('div');
         pageView.className = 'page-view hidden';
         pageView.innerHTML = html;
+        // Insert the real page before the skeleton: the skeleton keeps the page's classes,
+        // so class lookups like document.querySelector('.products-table') must hit the real page first.
         skeleton.before(pageView);
 
-        let cleanup = null;
-        if (page === 'appointments' || page === 'inquiries') {
-            cleanup = module ? await module[pageModule.init](targetId) : null;
-        } else {
-            cleanup = module ? await module[pageModule.init]() : null;
-        }
+        const cleanup = module ? await module[pageModule.init]() : null;
 
         if (isStale()) {
             runCleanup(cleanup);
@@ -119,6 +129,32 @@ export async function loadPage(page, targetId = null) {
                 Can't load content hehe :)
             </div>
         `;
+        return;
+    }
+
+    mainContent.innerHTML = await response.text();
+
+    let module = null;
+
+    if (page === 'products') {
+        module = await import('../products/products.js');
+        cleanupPage = module.initProducts();
+    }
+    else if (page === 'appointments') {
+        module = await import('../appointments/appointments.js');
+        cleanupPage = await module.initAppointments(targetId);
+    }
+    else if (page === 'dashboard') {
+        module = await import('../dashboard/dashboard.js');
+        cleanupPage = module.initDashboard();
+    }
+    else if (page === 'inquiries') {
+        module = await import('../inquiries/inquiries.js');
+        cleanupPage = await module.initInquiries(targetId);
+    }
+    else if (page === 'profile') {
+        module = await import('../profiles/profile.js');
+        cleanupPage = await module.initProfile();
     }
 }
 
