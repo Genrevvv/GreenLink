@@ -1,56 +1,125 @@
 import { apiFetch } from '../utils/api.js';
 import { getCurrentUser } from '../utils/user.js';
+import { createFallbackSkeleton, createPageSkeleton } from './skeleton.js';
 
 const mainContent = document.querySelector('#main-content');
 const headerText = document.querySelector('#header-text');
 const user = getCurrentUser();
 
 let cleanupPage = null;
+let currentLoad = 0;
 
-export async function loadPage(page) {
-    // Clean up the previous page's script
-    if (typeof cleanupPage === 'function') {
-        cleanupPage();
-        cleanupPage = null;
-    }
+// Page scripts and their init functions
+const pageModules = {
+    dashboard: { load: () => import('../dashboard/dashboard.js'), init: 'initDashboard' },
+    products: { load: () => import('../products/products.js'), init: 'initProducts' },
+    appointments: { load: () => import('../appointments/appointments.js'), init: 'initAppointments' },
+    inquiries: { load: () => import('../inquiries/inquiries.js'), init: 'initInquiries' },
+    profile: { load: () => import('../profiles/profile.js'), init: 'initProfile' }
+};
 
-    const pagePath = page === 'profile'
+const pageHtmlCache = new Map();
+const loadedPageHtml = new Map();
+
+function getPagePath(page) {
+    return page === 'profile'
         ? '/views/pages/profile.html'
         : `/views/pages/${user.user_type}/${page}.html`;
-    const response = await fetch(pagePath);
+}
 
-    if (!response.ok) {
+function fetchPageHtml(page) {
+    if (!pageHtmlCache.has(page)) {
+        const request = fetch(getPagePath(page)).then(response => {
+            if (!response.ok) throw new Error(`Failed to load ${page} page`);
+            return response.text();
+        }).then(html => {
+            loadedPageHtml.set(page, html);
+            return html;
+        });
+
+        // Drop failed requests so the next attempt can retry
+        request.catch(() => pageHtmlCache.delete(page));
+        pageHtmlCache.set(page, request);
+    }
+
+    return pageHtmlCache.get(page);
+}
+
+// Warm up a page's HTML and script before it is clicked (e.g. on hover)
+export function prefetchPage(page) {
+    if (!pageModules[page]) return;
+
+    fetchPageHtml(page).catch(() => {});
+    pageModules[page].load().catch(() => {});
+}
+
+// Fetch every page's HTML in the background so each skeleton can mirror its page
+export function prefetchAllPageHtml() {
+    Object.keys(pageModules).forEach(page => fetchPageHtml(page).catch(() => {}));
+}
+
+function runCleanup(cleanup) {
+    if (typeof cleanup === 'function') {
+        cleanup();
+    }
+}
+
+export async function loadPage(page) {
+    const loadId = ++currentLoad;
+    const isStale = () => loadId !== currentLoad;
+
+    runCleanup(cleanupPage);
+    cleanupPage = null;
+
+    let skeleton = loadedPageHtml.has(page)
+        ? createPageSkeleton(loadedPageHtml.get(page))
+        : createFallbackSkeleton();
+    mainContent.replaceChildren(skeleton);
+    mainContent.scrollTop = 0;
+
+    try {
+        const pageModule = pageModules[page];
+        const modulePromise = pageModule ? pageModule.load() : null;
+        const html = await fetchPageHtml(page);
+
+        if (isStale()) return;
+
+        if (!skeleton.classList.contains('page-skeleton')) {
+            const pageSkeleton = createPageSkeleton(html);
+            skeleton.replaceWith(pageSkeleton);
+            skeleton = pageSkeleton;
+        }
+
+        const module = await modulePromise;
+
+        if (isStale()) return;
+
+        const pageView = document.createElement('div');
+        pageView.className = 'page-view hidden';
+        pageView.innerHTML = html;
+        // Insert the real page before the skeleton: the skeleton keeps the page's classes,
+        // so class lookups like document.querySelector('.products-table') must hit the real page first.
+        skeleton.before(pageView);
+
+        const cleanup = module ? await module[pageModule.init]() : null;
+
+        if (isStale()) {
+            runCleanup(cleanup);
+            return;
+        }
+
+        cleanupPage = cleanup;
+        skeleton.remove();
+        pageView.classList.remove('hidden');
+    } catch (error) {
+        if (isStale()) return;
+
+        console.error(`Failed to load ${page} page:`, error);
         mainContent.innerHTML = `
             <div class="container p-2">
                 Can't load content hehe :)
             </div>
         `;
-        return;
-    }
-
-    mainContent.innerHTML = await response.text();
-
-    let module = null;
-
-    if (page === 'products') {
-        module = await import('../products/products.js');
-        cleanupPage = module.initProducts();
-    }
-    else if (page === 'appointments') {
-        module = await import('../appointments/appointments.js');
-        cleanupPage = module.initAppointments();
-    }
-    else if (page === 'dashboard') {
-        module = await import('../dashboard/dashboard.js');
-        cleanupPage = module.initDashboard();
-    }
-    else if (page === 'inquiries') {
-        module = await import('../inquiries/inquiries.js');
-        cleanupPage = module.initInquiries();
-    }
-    else if (page === 'profile') {
-        module = await import('../profiles/profile.js');
-        cleanupPage = await module.initProfile();
     }
 }
 
