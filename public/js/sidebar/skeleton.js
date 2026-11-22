@@ -52,7 +52,6 @@ function fillDynamicAreas(skeleton) {
     });
 }
 
-// Wrap each piece of text in a shimmer bar that keeps the text's exact size.
 function maskText(skeleton) {
     const walker = document.createTreeWalker(skeleton, NodeFilter.SHOW_TEXT, {
         acceptNode(node) {
@@ -82,8 +81,7 @@ export function createPageSkeleton(html) {
     skeleton.querySelectorAll('script, template').forEach(element => element.remove());
     fillDynamicAreas(skeleton);
 
-    // The real page is rendered next to the skeleton, so the skeleton must not
-    // reuse its ids or form names (page scripts look elements up by id).
+
     skeleton.querySelectorAll('[id], [name], [for]').forEach(element => {
         element.removeAttribute('id');
         element.removeAttribute('name');
@@ -105,7 +103,6 @@ export function createPageSkeleton(html) {
     return skeleton;
 }
 
-// Used for the moment before a page's HTML has been fetched for the first time.
 export function createFallbackSkeleton() {
     const row = `
         <div class="flex align-center gap-4 py-2">
