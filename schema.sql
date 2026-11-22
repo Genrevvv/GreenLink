@@ -65,5 +65,3 @@ CREATE TABLE IF NOT EXISTS notifications (
     INDEX notifications_user_unread_idx (user_id, is_read, id),
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
-
--- You are on the main branch

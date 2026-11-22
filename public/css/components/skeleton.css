@@ -1,0 +1,76 @@
+/* Page skeleton shown while a sidebar page loads */
+
+/* Neither wrapper adds a box, so the page and its skeleton lay out the same way */
+.page-view,
+.page-skeleton {
+    display: contents;
+}
+
+.page-view.hidden {
+    display: none;
+}
+
+.skeleton {
+    background: linear-gradient(90deg, #e9ecef 25%, #f4f6f8 37%, #e9ecef 63%) !important;
+    background-size: 400% 100% !important;
+    animation: skeleton-shimmer 1.4s ease infinite;
+}
+
+/* Text keeps its size but is hidden behind a shimmer bar */
+.skeleton-text {
+    color: transparent !important;
+    border-radius: var(--radius-sm);
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+    user-select: none;
+}
+
+.skeleton-icon {
+    color: transparent !important;
+    border-radius: 50%;
+}
+
+.skeleton-field {
+    color: transparent !important;
+    border-color: transparent !important;
+    box-shadow: none !important;
+    pointer-events: none;
+}
+
+.skeleton-field::placeholder {
+    color: transparent;
+}
+
+/* Rows for lists and grids that page scripts fill in */
+.skeleton-placeholder {
+    min-height: 3rem;
+    border-radius: var(--radius-md);
+    list-style: none;
+}
+
+li.skeleton-placeholder + li.skeleton-placeholder {
+    margin-top: var(--space-2);
+}
+
+/* Fallback skeleton */
+.skeleton-bar {
+    height: 0.75rem;
+    width: 100%;
+    border-radius: var(--radius-sm);
+}
+
+.skeleton-lg { height: 1.5rem; }
+
+.skeleton-w-15 { width: 15%; }
+.skeleton-w-20 { width: 20%; }
+
+@keyframes skeleton-shimmer {
+    0%   { background-position: 100% 50%; }
+    100% { background-position: 0 50%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .skeleton {
+        animation: none;
+    }
+}

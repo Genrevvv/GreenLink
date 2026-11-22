@@ -1,6 +1,9 @@
-const totalProducts = document.querySelector('#total-products');
-const inStock = document.querySelector('#in-stock');
-const outOfStock = document.querySelector('#out-of-stock');
+// Look elements up on each call: this module can load before the page HTML exists
+// (prefetch on hover), and the page is re-rendered on every visit.
+function setText(selector, value) {
+    const element = document.querySelector(selector);
+    if (element) element.textContent = value;
+}
 
 // REFRESH SUMMARY
 export function updateProductSummary(products) {
@@ -11,15 +14,15 @@ export function updateProductSummary(products) {
 
 // UPDATE SUMMARY CARDS
 export function setTotalProducts(n) {
-    if (totalProducts) totalProducts.textContent = n;
+    setText('#total-products', n);
 }
 
 export function setInStock(n) {
-    if (inStock) inStock.textContent = n;
+    setText('#in-stock', n);
 }
 
 export function setOutofStock(n) {
-    if (outOfStock) outOfStock.textContent = n;
+    setText('#out-of-stock', n);
 }
 
 // GET PRODUCT COUNTS

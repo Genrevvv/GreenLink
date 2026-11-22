@@ -7,6 +7,7 @@
 @import url("./components/modal.css");
 @import url("./components/notification.css");
 @import url("./components/sidebar.css");
+@import url("./components/skeleton.css");
 @import url("./components/table.css");
 
 @import url("./pages/auth.css");
