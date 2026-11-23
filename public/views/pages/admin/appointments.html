@@ -20,25 +20,52 @@
             </div>
         </div>
 
-        <!-- Main Workspace -->
-        <div class="admin-workspace-grid">
+        <!-- View Switch & Status Filter (the filter applies to both views) -->
+        <div class="flex justify-between align-center gap-2 appointments-toolbar">
+            <div class="appointments-view-switch" role="group" aria-label="Choose appointments view">
+                <button
+                    type="button"
+                    class="appointments-view-switch-btn is-active"
+                    data-view="table"
+                    aria-pressed="true"
+                >
+                    <i class="fa-solid fa-table-list" aria-hidden="true"></i>
+                    Table
+                </button>
+                <button
+                    type="button"
+                    class="appointments-view-switch-btn"
+                    data-view="calendar"
+                    aria-pressed="false"
+                >
+                    <i class="fa-regular fa-calendar" aria-hidden="true"></i>
+                    Calendar
+                </button>
+            </div>
+
+            <label class="flex align-center gap-2 appointments-toolbar-filter" for="filter-appointment-status">
+                Status
+                <select
+                    class="appointment-status-filter"
+                    id="filter-appointment-status"
+                    aria-label="Filter appointments by status"
+                >
+                    <option value="active">Pending &amp; Approved</option>
+                    <option value="all">All Statuses</option>
+                    <option value="pending">Pending</option>
+                    <option value="approved">Approved</option>
+                    <option value="rejected">Rejected</option>
+                    <option value="cancelled">Cancelled</option>
+                </select>
+            </label>
+        </div>
+
+        <!-- Table View -->
+        <div class="admin-workspace-grid" data-appointments-view="table">
             <!-- Appointment Schedule Panel -->
             <section class="admin-panel appointments-panel">
                 <div class="admin-panel-header bg-g-drd ">
                     <span class="admin-panel-title">Appointment Schedule</span>
-
-                    <select
-                        class="appointment-status-filter"
-                        id="filter-appointment-status"
-                        aria-label="Filter appointments by status"
-                    >
-                        <option value="active">Pending &amp; Approved</option>
-                        <option value="all">All Statuses</option>
-                        <option value="pending">Pending</option>
-                        <option value="approved">Approved</option>
-                        <option value="rejected">Rejected</option>
-                        <option value="cancelled">Cancelled</option>
-                    </select>
                 </div>
                 <div class="admin-table-wrapper">
                     <table class="admin-table">
@@ -87,6 +114,102 @@
                         </span>
                     </div>
                 </div>
+            </section>
+        </div>
+
+        <!-- Calendar View (hidden until chosen in the view switch) -->
+        <div class="admin-calendar-grid hidden" data-appointments-view="calendar">
+            <!-- Calendar Panel -->
+            <section class="admin-panel">
+                <div class="admin-panel-header bg-g-drd ">
+                    <span class="admin-panel-title">Appointment Calendar</span>
+                </div>
+
+                <div class="admin-calendar-content">
+                    <input type="hidden" id="admin-calendar-date">
+
+                    <div class="custom-calendar admin-custom-calendar" id="custom-calendar">
+                        <div class="custom-calendar-header">
+                            <button
+                                type="button"
+                                class="custom-calendar-nav"
+                                id="calendar-prev"
+                                aria-label="Previous month"
+                                title="Previous month"
+                            >
+                                <i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
+                            </button>
+
+                            <strong
+                                class="custom-calendar-month"
+                                id="calendar-month-year"
+                                aria-live="polite"
+                            ></strong>
+
+                            <button
+                                type="button"
+                                class="custom-calendar-nav"
+                                id="calendar-next"
+                                aria-label="Next month"
+                                title="Next month"
+                            >
+                                <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
+                            </button>
+                        </div>
+
+                        <div class="custom-calendar-weekdays" aria-hidden="true">
+                            <span>Sun</span>
+                            <span>Mon</span>
+                            <span>Tue</span>
+                            <span>Wed</span>
+                            <span>Thu</span>
+                            <span>Fri</span>
+                            <span>Sat</span>
+                        </div>
+
+                        <div
+                            class="custom-calendar-days"
+                            id="calendar-days"
+                            role="group"
+                            aria-label="Choose a date to see its appointments"
+                        ></div>
+
+                        <p
+                            class="custom-calendar-selected"
+                            id="calendar-selected-date"
+                            aria-live="polite"
+                        >
+                            Please select a date.
+                        </p>
+
+                        <div class="custom-calendar-legend" aria-hidden="true">
+                            <span class="custom-calendar-legend-item">
+                                <span class="custom-calendar-legend-ring"></span>
+                                Has appointments (hover for details)
+                            </span>
+                            <span class="custom-calendar-legend-item">
+                                <span class="custom-calendar-legend-dot is-pending"></span>
+                                Needs review (pending)
+                            </span>
+                        </div>
+
+                        <div
+                            class="calendar-day-tooltip hidden"
+                            id="calendar-day-tooltip"
+                            role="tooltip"
+                        ></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Clicked Date's Appointments Panel -->
+            <section class="admin-panel">
+                <div class="admin-panel-header bg-g-db ">
+                    <span class="admin-panel-title" id="admin-date-title">Appointments</span>
+                    <span class="admin-panel-title hidden" id="admin-date-count"></span>
+                </div>
+
+                <div class="admin-date-appointments" id="admin-date-appointments"></div>
             </section>
         </div>
     </div>

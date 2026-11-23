@@ -13,9 +13,13 @@ const STATUS_FILTER = '#filter-appointment-status';
 
 let selectedId = null;
 
+// Runs after every render so other views (the admin calendar) stay in sync.
+let afterRender = () => {};
+
 // LOAD APPOINTMENTS
-export function loadAppointments(appointmentsData, initialSelectedId = null) {
-    selectedId = initialSelectedId ? Number(initialSelectedId) : null;
+export function loadAppointments(appointmentsData, options = {}) {
+    selectedId = options.initialSelectedId ? Number(options.initialSelectedId) : null;
+    afterRender = options.afterRender ?? (() => {});
 
     initStatusFilter(STATUS_FILTER, () => {
         renderAppointments(appointmentsData);
@@ -52,6 +56,7 @@ export function renderAppointments(appointmentsData) {
 
     updateSummaryCards(appointmentsData);
     showAppointmentDetails(appointmentsData);
+    afterRender(appointmentsData);
 }
 
 // APPOINTMENT MANAGEMENT: Table Row
@@ -88,39 +93,21 @@ function setupAppointmentRowActions(row, appointmentData, appointmentsData) {
         showAppointmentDetails(appointmentsData);
     };
 
-    // Approve appointment
-    const approveBtn = row.querySelector('.approve-btn');
+    // Approve, reject, or cancel an approved appointment (the record is kept as Cancelled)
+    const actionButtons = [
+        ['.approve-btn', 'Approved'],
+        ['.reject-btn', 'Rejected'],
+        ['.cancel-btn', 'Cancelled']
+    ];
 
-    if (approveBtn) {
-        approveBtn.onclick = event => {
+    for (const [selector, status] of actionButtons) {
+        const button = row.querySelector(selector);
+
+        if (!button) continue;
+
+        button.onclick = event => {
             event.stopPropagation();
-            changeAppointmentStatus(appointmentData, appointmentsData, 'Approved', event.currentTarget);
-        };
-    }
-
-    // Reject appointment
-    const rejectBtn = row.querySelector('.reject-btn');
-
-    if (rejectBtn) {
-        rejectBtn.onclick = event => {
-            event.stopPropagation();
-
-            if (!confirm('Are you sure you want to reject this request?')) return;
-
-            changeAppointmentStatus(appointmentData, appointmentsData, 'Rejected', event.currentTarget);
-        };
-    }
-
-    // Cancel an approved appointment (the record is kept as Cancelled)
-    const cancelBtn = row.querySelector('.cancel-btn');
-
-    if (cancelBtn) {
-        cancelBtn.onclick = event => {
-            event.stopPropagation();
-
-            if (!confirm('Cancel this approved appointment? The record will be kept as Cancelled.')) return;
-
-            changeAppointmentStatus(appointmentData, appointmentsData, 'Cancelled', event.currentTarget);
+            requestStatusChange(appointmentData, appointmentsData, status, event.currentTarget);
         };
     }
 }
@@ -131,6 +118,20 @@ const statusMessages = {
     Rejected: { success: 'Appointment rejected', failed: 'Failed to reject appointment' },
     Cancelled: { success: 'Appointment cancelled', failed: 'Failed to cancel appointment' }
 };
+
+const confirmMessages = {
+    Rejected: 'Are you sure you want to reject this request?',
+    Cancelled: 'Cancel this approved appointment? The record will be kept as Cancelled.'
+};
+
+// Used by the table rows and the admin calendar's date panel.
+export function requestStatusChange(appointmentData, appointmentsData, status, button) {
+    const confirmMessage = confirmMessages[status];
+
+    if (confirmMessage && !confirm(confirmMessage)) return;
+
+    changeAppointmentStatus(appointmentData, appointmentsData, status, button);
+}
 
 async function changeAppointmentStatus(appointmentData, appointmentsData, status, button) {
     const messages = statusMessages[status];

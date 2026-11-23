@@ -243,3 +243,184 @@ export function userAppointmentCardModal(appointment) {
         </article>
     `;
 }
+
+function formatLongDate(date) {
+    return new Date(`${date}T00:00:00`).toLocaleDateString('en-US', {
+        weekday: 'short',
+        month: 'long',
+        day: 'numeric',
+        year: 'numeric'
+    });
+}
+
+// CALENDAR HOVER CARD (appointments on one date)
+// The user calendar shows the signed-in user's own appointments; the admin
+// calendar passes showCustomer so every customer's name is listed too.
+export function calendarDayTooltipModal(date, appointments, options = {}) {
+    const { showCustomer = false, maxItems = Infinity } = options;
+    const dateLabel = escapeHtml(formatLongDate(date));
+    const count = appointments.length;
+    const hiddenCount = Math.max(0, count - maxItems);
+
+    const subtitle = showCustomer
+        ? `${count} appointment${count === 1 ? '' : 's'}`
+        : `Your appointment${count === 1 ? '' : 's'}`;
+
+    const items = appointments.slice(0, maxItems).map(appointment => {
+        const visitors = Number(appointment.visitors) || 0;
+        const statusClass = `user-appointment-status-${getStatusModifier(appointment.status)}`;
+
+        return `
+            <li class="calendar-day-tooltip-item">
+                <div class="flex justify-between align-center gap-2">
+                    <strong>${escapeHtml(appointment.purpose)}</strong>
+                    <span class="user-appointment-status ${statusClass}">
+                        ${escapeHtml(appointment.status)}
+                    </span>
+                </div>
+                ${showCustomer ? `
+                    <span class="calendar-day-tooltip-detail">
+                        <i class="fa-regular fa-user" aria-hidden="true"></i>
+                        ${escapeHtml(appointment.customer)}
+                    </span>
+                ` : ''}
+                <span class="calendar-day-tooltip-detail">
+                    <i class="fa-regular fa-clock" aria-hidden="true"></i>
+                    ${escapeHtml(formatTimeRange(appointment))}
+                </span>
+                <span class="calendar-day-tooltip-detail">
+                    <i class="fa-solid fa-users" aria-hidden="true"></i>
+                    ${visitors} visitor${visitors === 1 ? '' : 's'}
+                    &middot;
+                    ${escapeHtml(formatDuration(appointment.duration || 60))}
+                </span>
+            </li>
+        `;
+    }).join('');
+
+    return `
+        <strong class="calendar-day-tooltip-title">${dateLabel}</strong>
+        <span class="calendar-day-tooltip-subtitle">${subtitle}</span>
+        <ul class="calendar-day-tooltip-list">${items}</ul>
+        ${hiddenCount > 0 ? `
+            <span class="calendar-day-tooltip-more">
+                +${hiddenCount} more. Click the date to see all.
+            </span>
+        ` : ''}
+    `;
+}
+
+// ADMIN CALENDAR: appointments of the clicked date (right panel)
+export function adminDateAppointmentsTitleModal(date) {
+    return date ? escapeHtml(formatLongDate(date)) : 'Appointments';
+}
+
+export function emptyAdminDateAppointmentsModal(date, isFiltered = false) {
+    let description = 'Click a date on the calendar to see its appointments.';
+
+    if (date) {
+        description = isFiltered
+            ? 'No appointments on this date match the selected status.'
+            : 'There are no appointments on this date.';
+    }
+
+    return `
+        <div class="admin-empty-state admin-details-empty-state">
+            <i class="fa-regular fa-calendar admin-empty-icon"></i>
+            ${date ? '<strong class="admin-empty-title">No appointments</strong>' : ''}
+            <span class="admin-empty-description">${description}</span>
+        </div>
+    `;
+}
+
+export function adminDateAppointmentCardModal(appointment) {
+    const customer = escapeHtml(appointment.customer);
+    const email = escapeHtml(appointment.email);
+    const purpose = escapeHtml(appointment.purpose);
+    const timeRange = escapeHtml(formatTimeRange(appointment));
+    const duration = escapeHtml(formatDuration(appointment.duration || 60));
+    const visitors = Number(appointment.visitors) || 0;
+    const status = escapeHtml(appointment.status);
+    const id = escapeHtml(appointment.id);
+
+    const notes = String(appointment.notes ?? '').trim();
+
+    const statusClass = `user-appointment-status-${getStatusModifier(appointment.status)}`;
+    const isPending = appointment.status === 'Pending';
+    const isApproved = appointment.status === 'Approved';
+
+    return `
+        <article class="user-appointment-card admin-date-appointment-card">
+            <div class="user-appointment-card-header">
+                <h3 class="user-appointment-card-title">${purpose}</h3>
+
+                <span class="user-appointment-status ${statusClass}">
+                    ${status}
+                </span>
+            </div>
+
+            <div class="user-appointment-card-details">
+                <i class="fa-regular fa-user" aria-hidden="true"></i>
+                <strong>${customer}</strong>
+                ${email ? `<span class="admin-date-appointment-email">${email}</span>` : ''}
+            </div>
+
+            <div class="user-appointment-card-details">
+                <i class="fa-regular fa-clock" aria-hidden="true"></i>
+                <span>${timeRange}</span>
+
+                <i class="fa-solid fa-hourglass-half" aria-hidden="true"></i>
+                <span>About ${duration}</span>
+            </div>
+
+            <div class="user-appointment-card-details">
+                <i class="fa-solid fa-users" aria-hidden="true"></i>
+                <span>${visitors} visitor${visitors === 1 ? '' : 's'}</span>
+            </div>
+
+            ${notes ? `
+                <div class="user-appointment-card-notes">
+                    <span class="user-appointment-card-notes-label">
+                        <i class="fa-regular fa-note-sticky" aria-hidden="true"></i>
+                        Notes
+                    </span>
+
+                    <p class="user-appointment-card-notes-text">${escapeHtml(notes)}</p>
+                </div>
+            ` : ''}
+
+            ${isPending || isApproved ? `
+                <div class="flex gap-2 admin-date-appointment-actions">
+                    ${isPending ? `
+                        <button
+                            type="button"
+                            class="admin-date-action-btn appointment-approve-btn"
+                            data-id="${id}"
+                            data-status="Approved">
+                            <i class="fa-solid fa-check" aria-hidden="true"></i>
+                            Approve
+                        </button>
+                        <button
+                            type="button"
+                            class="admin-date-action-btn appointment-reject-btn"
+                            data-id="${id}"
+                            data-status="Rejected">
+                            <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+                            Reject
+                        </button>
+                    ` : ''}
+                    ${isApproved ? `
+                        <button
+                            type="button"
+                            class="admin-date-action-btn appointment-cancel-btn"
+                            data-id="${id}"
+                            data-status="Cancelled">
+                            <i class="fa-solid fa-ban" aria-hidden="true"></i>
+                            Cancel
+                        </button>
+                    ` : ''}
+                </div>
+            ` : ''}
+        </article>
+    `;
+}
