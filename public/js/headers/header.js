@@ -1,4 +1,4 @@
-import { loadPage, logout, updateHeaderText } from '../sidebar/sidebar-functions.js';
+import { loadPage, logout } from '../sidebar/sidebar-functions.js';
 
 export function initAccountDropdown() {
     const menu = document.querySelector('#account-menu');
@@ -27,10 +27,6 @@ export function initAccountDropdown() {
         closeDropdown();
 
         if (action === 'profile') {
-            document.querySelectorAll('.sidebar-options .option').forEach(option => {
-                option.classList.remove('selected');
-            });
-            updateHeaderText('Account Profile');
             await loadPage('profile');
         } else if (action === 'logout') {
             await logout();

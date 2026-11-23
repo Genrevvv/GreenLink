@@ -1,7 +1,6 @@
 import { apiFetchJSON } from '../utils/api.js';
 import { createNotificationElement } from '../utils/notification/notification.js';
-import { titleCase } from '../utils/string.js';
-import { loadPage, updateHeaderText } from '../sidebar/sidebar-functions.js';
+import { loadPage } from '../sidebar/sidebar-functions.js';
 
 export function initNotificationDropdown() {
     const menu = document.querySelector('#notification-menu');
@@ -107,7 +106,7 @@ export function initNotificationDropdown() {
 
     const refreshNotifications = async () => {
         try {
-            const data = await apiFetchJSON('/notifications', 'GET');
+            const data = await apiFetchJSON('/api/notifications', 'GET');
             if (!data.success) {
                 throw new Error(data.message ?? 'Failed to retrieve notifications.');
             }
@@ -205,7 +204,7 @@ export function initNotificationDropdown() {
             renderNotifications();
 
             try {
-                const data = await apiFetchJSON('/notifications/read', 'POST', {
+                const data = await apiFetchJSON('/api/notifications/read', 'POST', {
                     id: notification.id
                 });
                 if (!data.success) {
@@ -223,10 +222,6 @@ export function initNotificationDropdown() {
         closeDropdown();
 
         const page = notification.target_type === 'appointment' ? 'appointments' : 'inquiries';
-        document.querySelectorAll('.sidebar-options .option').forEach(option => {
-            option.classList.toggle('selected', option.dataset.page === page);
-        });
-        updateHeaderText(titleCase(page));
         await loadPage(page, notification.target_id);
     });
 

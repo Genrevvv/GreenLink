@@ -1,4 +1,3 @@
-
 document.addEventListener("DOMContentLoaded", () => {
     const form = document.querySelector("#register-form");
     const usernameInput = document.querySelector("#username");
@@ -82,7 +81,7 @@ document.addEventListener("DOMContentLoaded", () => {
         setLoading(true);
 
         try {
-            const response = await fetch("/register", {
+            const response = await fetch("/api/register", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"

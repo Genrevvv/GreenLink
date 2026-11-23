@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/main.css">
-    <link rel="stylesheet" href="fontawsome/css/all.min.css">
-    <link rel="stylesheet" href="fontawsome/css/fontawesome.min.css">
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/fontawsome/css/all.min.css">
+    <link rel="stylesheet" href="/fontawsome/css/fontawesome.min.css">
     <title>Index</title>
 </head>
 <body>
@@ -24,25 +24,42 @@
                 <!-- SIDEBAR OPTIONS -->
                 <div class="container flex-column gap-2 sidebar-options p-3">
                     <!-- DASHBOARD -->
-                    <div class="container flex-center justify-start p-3 gap-3 option selected" data-page="dashboard">
+                    <a
+                        href="/dashboard"
+                        class="container flex-center justify-start p-3 gap-3 option selected"
+                        data-page="dashboard"
+                        aria-current="page"
+                    >
                         <i class="fa-solid fa-book"></i>
                         <span class="text-xs">Dashboard</span>
-                    </div>
+                    </a>
                     <!-- PRODUCTS -->
-                    <div class="container flex-center justify-start p-3 gap-3 option" data-page="products">
+                    <a
+                        href="/products"
+                        class="container flex-center justify-start p-3 gap-3 option"
+                        data-page="products"
+                    >
                         <i class="fa-solid fa-bag-shopping"></i>
                         <span class="text-xs">Products</span>
-                    </div>
+                    </a>
                     <!-- APPOINTMENTS -->
-                    <a class="container flex-center justify-start p-3 gap-3 option" data-page="appointments">
+                    <a
+                        href="/appointments"
+                        class="container flex-center justify-start p-3 gap-3 option"
+                        data-page="appointments"
+                    >
                         <i class="fa-regular fa-calendar"></i>
                         <span class="text-xs">Appointments</span>
                     </a>
                     <!-- INQUIRIES -->
-                    <div class="container flex-center justify-start p-3 gap-3 option" data-page="inquiries">
+                    <a
+                        href="/inquiries"
+                        class="container flex-center justify-start p-3 gap-3 option"
+                        data-page="inquiries"
+                    >
                         <i class="fa-regular fa-message"></i>
                         <span class="text-xs">Inquiries</span>
-                    </div>
+                    </a>
                 </div>
             </div>
             <div class="container main-container">
@@ -97,6 +114,6 @@
         <div id="overlay" class="hidden"></div>
     </main>
 
-    <script type="module" src="js/sidebar/sidebar.js"></script>
+    <script type="module" src="/js/sidebar/sidebar.js"></script>
 </body>
 </html>

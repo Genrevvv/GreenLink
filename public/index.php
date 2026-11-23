@@ -28,62 +28,70 @@
 
     $router->get('/', [$homeController, 'index']);
 
+    // Single-page application routes
+    $router->get('/dashboard', [$homeController, 'app']);
+    $router->get('/products', [$homeController, 'app']);
+    $router->get('/appointments', [$homeController, 'app']);
+    $router->get('/inquiries', [$homeController, 'app']);
+    $router->get('/profile', [$homeController, 'app']);
+
     // Auth
     $router->get('/login', [$authController, 'renderLogin']);
-    $router->post('/login', [$authController, 'login']);
+    $router->post('/api/login', [$authController, 'login']);
 
     $router->get('/register', [$authController, 'renderRegister']);
-    $router->post('/register', [$authController, 'register']);
+    $router->post('/api/register', [$authController, 'register']);
 
     // Forgot Password
     $router->get('/forgot-password', [$authController, 'renderForgotPassword']);
-    $router->post('/forgot-password', [$authController, 'sendPasswordReset']);
+    $router->post('/api/forgot-password', [$authController, 'sendPasswordReset']);
 
     // Reset Password
     $router->get('/reset-password', [$authController, 'renderResetPassword']);
-    $router->post('/reset-password', [$authController, 'resetPassword']);
+    $router->post('/api/reset-password', [$authController, 'resetPassword']);
 
-    $router->post('/logout', [$authController, 'logout']);
+    $router->post('/api/logout', [$authController, 'logout']);
 
-    // Account Profile
-    $router->get('/profile', [$profileController, 'getProfile']);
-    $router->post('/profile/username', [$profileController, 'changeUsername']);
-    $router->post('/profile/email', [$profileController, 'changeEmail']);
-    $router->post('/profile/password', [$profileController, 'changePassword']);
-    $router->post('/profile/delete', [$profileController, 'deleteAccount']);
+    // Account profile API
+    $router->get('/api/profile', [$profileController, 'getProfile']);
+    $router->post('/api/profile/username', [$profileController, 'changeUsername']);
+    $router->post('/api/profile/email', [$profileController, 'changeEmail']);
+    $router->post('/api/profile/password', [$profileController, 'changePassword']);
+    $router->post('/api/profile/delete', [$profileController, 'deleteAccount']);
 
-    // Products
-    $router->get('/products', [$productController, 'getAll']);
+    // Products API
+    $router->get('/api/products', [$productController, 'getAll']);
 
-    $router->post('/products/addProduct', [$productController, 'addProduct']);
-    $router->post('/products/updateProduct', [$productController, 'updateProduct']);
+    $router->post('/api/products/addProduct', [$productController, 'addProduct']);
+    $router->post('/api/products/updateProduct', [$productController, 'updateProduct']);
 
-    $router->post('/products/updateStockStatus', [$productController, 'updateStockStatus']);
-    $router->post('/products/updateArchiveStatus', [$productController, 'updateArchiveStatus']);
+    $router->post('/api/products/updateStockStatus', [$productController, 'updateStockStatus']);
+    $router->post('/api/products/updateArchiveStatus', [$productController, 'updateArchiveStatus']);
 
-    // Dashboard
-    $router->get('/dashboard/admin', [$dashboardController, 'getAdminDashboard']);
-    $router->get('/dashboard/user', [$dashboardController, 'getUserDashboard']);
+    // Dashboard API
+    $router->get('/api/dashboard/admin', [$dashboardController, 'getAdminDashboard']);
+    $router->get('/api/dashboard/user', [$dashboardController, 'getUserDashboard']);
 
-    // Appointments
-    $router->get('/appointments', [$appointmentController, 'getAll']);
-    $router->get('/appointments/user', [$appointmentController, 'getByUser']);
-    $router->get('/appointments/schedule', [$appointmentController, 'getSchedule']);
+    // Appointments API
+    $router->get('/api/appointments', [$appointmentController, 'getAll']);
+    $router->get('/api/appointments/user', [$appointmentController, 'getByUser']);
+    $router->get('/api/appointments/schedule', [$appointmentController, 'getSchedule']);
 
-    $router->post('/appointments/addAppointment', [$appointmentController, 'addAppointment']);
-    $router->post('/appointments/updateStatus', [$appointmentController, 'updateStatus']);
-    $router->post('/appointments/cancelAppointment', [$appointmentController, 'cancelAppointment']);
+    $router->post('/api/appointments/addAppointment', [$appointmentController, 'addAppointment']);
+    $router->post('/api/appointments/updateStatus', [$appointmentController, 'updateStatus']);
+    $router->post('/api/appointments/cancelAppointment', [$appointmentController, 'cancelAppointment']);
 
-    // Inquiries
-    $router->get('/inquiries', [$inquiryController, 'getAll']);
-    $router->get('/inquiries/user', [$inquiryController, 'getByUser']);
+    // Inquiries API
+    $router->get('/api/inquiries', [$inquiryController, 'getAll']);
+    $router->get('/api/inquiries/user', [$inquiryController, 'getByUser']);
 
-    $router->post('/inquiries/addInquiry', [$inquiryController, 'addInquiry']);
-    $router->post('/inquiries/replyInquiry', [$inquiryController, 'replyInquiry']);
+    $router->post('/api/inquiries/addInquiry', [$inquiryController, 'addInquiry']);
+    $router->post('/api/inquiries/replyInquiry', [$inquiryController, 'replyInquiry']);
 
-    // Notifications
-    $router->get('/notifications', [$notificationController, 'getForCurrentUser']);
-    $router->post('/notifications/read', [$notificationController, 'markRead']);
+    // Notifications API
+    $router->get('/api/notifications', [$notificationController, 'getForCurrentUser']);
+    $router->post('/api/notifications/read', [$notificationController, 'markRead']);
 
-    $router->dispatch(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
+    $requestPath = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH) ?? '/';
+    $router->dispatch(rtrim($requestPath, '/') ?: '/');
 ?>

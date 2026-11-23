@@ -39,3 +39,7 @@ php bin/notification-server.php
 ```
 
 Open [http://localhost:8000](http://localhost:8000).
+
+Signed-in application pages have direct URLs such as `/dashboard`,
+`/products`, `/appointments`, `/inquiries`, and `/profile`. API endpoints use
+the `/api/...` prefix so page URLs can be loaded or refreshed directly.

@@ -1,4 +1,3 @@
-
 document.addEventListener("DOMContentLoaded", () => {
     const form = document.querySelector("#login-form");
     const identifierInput = document.querySelector("#username");
@@ -42,7 +41,7 @@ document.addEventListener("DOMContentLoaded", () => {
         setLoading(true);
 
         try {
-            const response = await fetch("/login", {
+            const response = await fetch("/api/login", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ username, password })

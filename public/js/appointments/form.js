@@ -356,7 +356,7 @@ function getDateInfo(date) {
 }
 
 // Hover card for a date: only the signed-in user's own appointments
-// (the list comes from /appointments/user). Cancelled ones are left out.
+// (the list comes from /api/appointments/user). Cancelled ones are left out.
 function getOwnDayTooltip(date, userAppointmentsData) {
     const ownAppointments = userAppointmentsData
         .filter(appointment =>

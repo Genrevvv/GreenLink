@@ -20,6 +20,13 @@ const pageModules = {
 
 const pageHtmlCache = new Map();
 const loadedPageHtml = new Map();
+const pageTitles = {
+    dashboard: 'Dashboard',
+    products: 'Products',
+    appointments: 'Appointments',
+    inquiries: 'Inquiries',
+    profile: 'Account Profile'
+};
 
 function getPagePath(page) {
     return page === 'profile'
@@ -61,7 +68,47 @@ function runCleanup(cleanup) {
     }
 }
 
-export async function loadPage(page) {
+export function getPageFromLocation() {
+    const page = window.location.pathname.replace(/^\/+|\/+$/g, '');
+    return pageModules[page] ? page : null;
+}
+
+function updatePageNavigation(page) {
+    document.querySelectorAll('.sidebar-options .option').forEach(option => {
+        const isSelected = option.dataset.page === page;
+        option.classList.toggle('selected', isSelected);
+
+        if (isSelected) {
+            option.setAttribute('aria-current', 'page');
+        } else {
+            option.removeAttribute('aria-current');
+        }
+    });
+
+    updateHeaderText(pageTitles[page]);
+}
+
+export async function loadPage(page, targetId = null, options = {}) {
+    if (!pageModules[page]) {
+        throw new Error(`Unknown page: ${page}`);
+    }
+
+    const targetParam = targetId === null || targetId === undefined || targetId === ''
+        ? ''
+        : `?targetId=${encodeURIComponent(targetId)}`;
+    const pageUrl = `/${page}${targetParam}`;
+
+    if (options.updateHistory !== false) {
+        const currentUrl = `${window.location.pathname}${window.location.search}`;
+
+        if (options.replaceHistory || currentUrl !== pageUrl) {
+            const method = options.replaceHistory ? 'replaceState' : 'pushState';
+            window.history[method]({ page, targetId }, '', pageUrl);
+        }
+    }
+
+    updatePageNavigation(page);
+
     const loadId = ++currentLoad;
     const isStale = () => loadId !== currentLoad;
 
@@ -96,7 +143,7 @@ export async function loadPage(page) {
         pageView.innerHTML = html;
         skeleton.before(pageView);
 
-        const cleanup = module ? await module[pageModule.init]() : null;
+        const cleanup = module ? await module[pageModule.init](targetId) : null;
 
         if (isStale()) {
             runCleanup(cleanup);
@@ -120,21 +167,13 @@ export async function loadPage(page) {
 
 }
 
-export function selectOption(selectedOption, options) {
-    options.forEach(option => {
-        option.classList.remove('selected');
-    });
-
-    selectedOption.classList.add('selected');
-}
-
-export function updateHeaderText(text) {
-    headerText.innerHTML = text;
+function updateHeaderText(text) {
+    headerText.textContent = text;
 }
 
 export async function logout() {
     try {
-        await apiFetch('/logout', 'POST');
+        await apiFetch('/api/logout', 'POST');
         window.location.href = "/";
     } catch (error) {
         console.error("Logout failed:", error);
