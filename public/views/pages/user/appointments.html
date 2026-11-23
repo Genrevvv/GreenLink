@@ -26,7 +26,7 @@
                             name="appointment-date"
                         >
 
-                        <div class="custom-calendar">
+                        <div class="custom-calendar" id="custom-calendar">
                             <div class="custom-calendar-header">
                                 <button
                                     type="button"
@@ -86,10 +86,20 @@
                                     Has scheduled visits (hover for times)
                                 </span>
                                 <span class="custom-calendar-legend-item">
+                                    <span class="custom-calendar-legend-ring"></span>
+                                    Your appointments (hover for details)
+                                </span>
+                                <span class="custom-calendar-legend-item">
                                     <span class="custom-calendar-legend-dot is-full"></span>
                                     Fully booked
                                 </span>
                             </div>
+
+                            <div
+                                class="calendar-day-tooltip hidden"
+                                id="calendar-day-tooltip"
+                                role="tooltip"
+                            ></div>
                         </div>
                     </div>
 

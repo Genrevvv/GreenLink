@@ -507,6 +507,7 @@
 ========================================================= */
 
 .custom-calendar {
+    position: relative;
     width: min(100%, 280px);
     margin-inline: auto;
     padding: 0.5rem;
@@ -694,6 +695,80 @@
 
 .custom-calendar-legend-dot.is-full {
     background: #842029;
+}
+
+/* Dates with the signed-in user's own appointments */
+.custom-calendar-day.has-own-appointments:not(.is-selected),
+.custom-calendar-day.has-own-appointments:hover:not(:disabled):not(.is-selected) {
+    background: #d1e7dd;
+    border-color: #a3cfbb;
+    font-weight: 700;
+}
+
+.custom-calendar-day.is-today.has-own-appointments:not(.is-selected) {
+    border-color: var(--base-green);
+}
+
+.custom-calendar-legend-ring {
+    width: 10px;
+    height: 10px;
+    background: #d1e7dd;
+    border: 1px solid #a3cfbb;
+    border-radius: 3px;
+}
+
+/* Hover card listing the user's own appointments on a date */
+.calendar-day-tooltip {
+    position: absolute;
+    z-index: 5;
+    width: max-content;
+    max-width: min(240px, 100%);
+    padding: var(--space-2) var(--space-3);
+    color: var(--darker-green);
+    background: white;
+    border: 1px solid var(--input-border);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+    font-size: var(--font-xs);
+    pointer-events: none;
+}
+
+.calendar-day-tooltip-title {
+    display: block;
+    font-size: var(--font-sm);
+}
+
+.calendar-day-tooltip-subtitle {
+    display: block;
+    color: var(--dark-green);
+}
+
+.calendar-day-tooltip-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    margin: var(--space-2) 0 0;
+    padding: 0;
+    list-style: none;
+}
+
+.calendar-day-tooltip-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    padding-top: var(--space-2);
+    border-top: 1px solid var(--input-border);
+}
+
+.calendar-day-tooltip-detail {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    color: var(--dark-green);
+}
+
+.calendar-day-tooltip .user-appointment-status {
+    padding: 0.1rem var(--space-2);
 }
 
 .custom-calendar-selected {

@@ -1,4 +1,5 @@
 import {
+    calendarDayTooltipModal,
     emptyUserAppointmentsModal,
     userAppointmentCardModal
 } from './modal.js';
@@ -56,6 +57,7 @@ export function initUserAppointments(userAppointmentsData) {
 
     const calendar = initAppointmentCalendar(dateInput, {
         getDateInfo,
+        getDayTooltip: date => getOwnDayTooltip(date, userAppointmentsData),
         onSelect: () => {
             hideUserAppointmentMessage(message);
             updateTimeSlots(dateInput, timeInput, purposeInput);
@@ -338,6 +340,21 @@ function getDateInfo(date) {
         isFull,
         title
     };
+}
+
+// Hover card for a date: only the signed-in user's own appointments
+// (the list comes from /appointments/user). Cancelled ones are left out.
+function getOwnDayTooltip(date, userAppointmentsData) {
+    const ownAppointments = userAppointmentsData
+        .filter(appointment =>
+            appointment.date === date &&
+            appointment.status !== 'Cancelled'
+        )
+        .sort((a, b) => toMinutes(a.time) - toMinutes(b.time));
+
+    return ownAppointments.length > 0
+        ? calendarDayTooltipModal(date, ownAppointments)
+        : '';
 }
 
 // Marks time options that cannot be booked for the selected date and purpose.

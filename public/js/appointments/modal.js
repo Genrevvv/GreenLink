@@ -243,3 +243,49 @@ export function userAppointmentCardModal(appointment) {
         </article>
     `;
 }
+
+// CALENDAR HOVER CARD (the signed-in user's own appointments on one date)
+export function calendarDayTooltipModal(date, appointments) {
+    const dateLabel = escapeHtml(
+        new Date(`${date}T00:00:00`).toLocaleDateString('en-US', {
+            weekday: 'short',
+            month: 'long',
+            day: 'numeric',
+            year: 'numeric'
+        })
+    );
+
+    const items = appointments.map(appointment => {
+        const visitors = Number(appointment.visitors) || 0;
+        const statusClass = `user-appointment-status-${getStatusModifier(appointment.status)}`;
+
+        return `
+            <li class="calendar-day-tooltip-item">
+                <div class="flex justify-between align-center gap-2">
+                    <strong>${escapeHtml(appointment.purpose)}</strong>
+                    <span class="user-appointment-status ${statusClass}">
+                        ${escapeHtml(appointment.status)}
+                    </span>
+                </div>
+                <span class="calendar-day-tooltip-detail">
+                    <i class="fa-regular fa-clock" aria-hidden="true"></i>
+                    ${escapeHtml(formatTimeRange(appointment))}
+                </span>
+                <span class="calendar-day-tooltip-detail">
+                    <i class="fa-solid fa-users" aria-hidden="true"></i>
+                    ${visitors} visitor${visitors === 1 ? '' : 's'}
+                    &middot;
+                    ${escapeHtml(formatDuration(appointment.duration || 60))}
+                </span>
+            </li>
+        `;
+    }).join('');
+
+    return `
+        <strong class="calendar-day-tooltip-title">${dateLabel}</strong>
+        <span class="calendar-day-tooltip-subtitle">
+            Your appointment${appointments.length === 1 ? '' : 's'}
+        </span>
+        <ul class="calendar-day-tooltip-list">${items}</ul>
+    `;
+}

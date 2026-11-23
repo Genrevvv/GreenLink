@@ -37,7 +37,6 @@ function fetchPageHtml(page) {
             return html;
         });
 
-        // Drop failed requests so the next attempt can retry
         request.catch(() => pageHtmlCache.delete(page));
         pageHtmlCache.set(page, request);
     }
@@ -45,7 +44,6 @@ function fetchPageHtml(page) {
     return pageHtmlCache.get(page);
 }
 
-// Warm up a page's HTML and script before it is clicked (e.g. on hover)
 export function prefetchPage(page) {
     if (!pageModules[page]) return;
 
@@ -53,7 +51,6 @@ export function prefetchPage(page) {
     pageModules[page].load().catch(() => {});
 }
 
-// Fetch every page's HTML in the background so each skeleton can mirror its page
 export function prefetchAllPageHtml() {
     Object.keys(pageModules).forEach(page => fetchPageHtml(page).catch(() => {}));
 }
@@ -97,8 +94,6 @@ export async function loadPage(page) {
         const pageView = document.createElement('div');
         pageView.className = 'page-view hidden';
         pageView.innerHTML = html;
-        // Insert the real page before the skeleton: the skeleton keeps the page's classes,
-        // so class lookups like document.querySelector('.products-table') must hit the real page first.
         skeleton.before(pageView);
 
         const cleanup = module ? await module[pageModule.init]() : null;

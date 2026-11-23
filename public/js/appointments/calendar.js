@@ -10,15 +10,22 @@ export function getLocalToday() {
 }
 
 // options.getDateInfo(date) returns { count, isFull, title } for scheduled appointment indicators.
+// options.getDayTooltip(date) returns the HTML shown when hovering a date ('' for none).
 // options.onSelect(date) runs after a date is picked.
 export function initAppointmentCalendar(dateInput, options = {}) {
-    const { getDateInfo = () => null, onSelect = () => {} } = options;
+    const {
+        getDateInfo = () => null,
+        getDayTooltip = () => '',
+        onSelect = () => {}
+    } = options;
 
     const monthLabel = document.querySelector('#calendar-month-year');
     const daysContainer = document.querySelector('#calendar-days');
     const previousButton = document.querySelector('#calendar-prev');
     const nextButton = document.querySelector('#calendar-next');
     const selectedLabel = document.querySelector('#calendar-selected-date');
+    const calendar = document.querySelector('#custom-calendar');
+    const tooltip = document.querySelector('#calendar-day-tooltip');
 
     if (
         !dateInput ||
@@ -45,6 +52,9 @@ export function initAppointmentCalendar(dateInput, options = {}) {
     let displayedMonth = new Date(earliestDate);
     let selectedDate = '';
 
+    // Hover content for the dates in the displayed month.
+    const dayTooltips = new Map();
+
     const formatDate = (year, month, day) => {
         return [
             year,
@@ -66,6 +76,8 @@ export function initAppointmentCalendar(dateInput, options = {}) {
         );
 
         daysContainer.innerHTML = '';
+        dayTooltips.clear();
+        hideDayTooltip();
 
         const firstDay = new Date(year, month, 1).getDay();
         const daysInMonth = new Date(year, month + 1, 0).getDate();
@@ -113,8 +125,19 @@ export function initAppointmentCalendar(dateInput, options = {}) {
                 dayButton.classList.add('is-full');
             }
 
+            // The user's own appointments on this date (shown on hover).
+            const tooltipHtml = getDayTooltip(dateString);
+
+            if (tooltipHtml) {
+                dayTooltips.set(dateString, tooltipHtml);
+                dayButton.dataset.date = dateString;
+                dayButton.classList.add('has-own-appointments');
+            }
+
             if (dateInfo?.title) {
-                dayButton.title = dateInfo.title;
+                // On the user's own dates the hover card replaces the browser tooltip.
+                if (!tooltipHtml) dayButton.title = dateInfo.title;
+
                 dayButton.setAttribute(
                     'aria-label',
                     dayButton.getAttribute('aria-label') + '. ' + dateInfo.title
@@ -193,6 +216,56 @@ export function initAppointmentCalendar(dateInput, options = {}) {
         selectedLabel.textContent = 'Please select a date.';
         renderCalendar();
     };
+
+
+    // HOVER CARD: the user's own appointments on a date
+    function showDayTooltip(dayButton) {
+        const html = dayTooltips.get(dayButton.dataset.date);
+
+        if (!tooltip || !calendar || !html) {
+            hideDayTooltip();
+            return;
+        }
+
+        tooltip.innerHTML = html;
+        tooltip.classList.remove('hidden');
+
+        // Above the date and kept inside the calendar; below it when there is no room above.
+        const calendarBox = calendar.getBoundingClientRect();
+        const dayBox = dayButton.getBoundingClientRect();
+        const gap = 6;
+
+        const centeredLeft = dayBox.left - calendarBox.left + dayBox.width / 2 - tooltip.offsetWidth / 2;
+        const maxLeft = Math.max(0, calendar.clientWidth - tooltip.offsetWidth);
+        const left = Math.min(Math.max(centeredLeft, 0), maxLeft);
+
+        const fitsAbove = dayBox.top - tooltip.offsetHeight - gap >= 0;
+        const top = fitsAbove
+            ? dayBox.top - calendarBox.top - tooltip.offsetHeight - gap
+            : dayBox.bottom - calendarBox.top + gap;
+
+        tooltip.style.left = `${left}px`;
+        tooltip.style.top = `${top}px`;
+    }
+
+    function hideDayTooltip() {
+        tooltip?.classList.add('hidden');
+    }
+
+    const toggleDayTooltip = event => {
+        const dayButton = event.target.closest?.('.custom-calendar-day');
+
+        if (dayButton && dayTooltips.has(dayButton.dataset.date)) {
+            showDayTooltip(dayButton);
+        } else {
+            hideDayTooltip();
+        }
+    };
+
+    daysContainer.addEventListener('mouseover', toggleDayTooltip);
+    daysContainer.addEventListener('focusin', toggleDayTooltip);
+    daysContainer.addEventListener('mouseleave', hideDayTooltip);
+    daysContainer.addEventListener('focusout', hideDayTooltip);
 
     // Re-draws the indicators after the schedule changes.
     // A selected date that became fully booked is cleared.
