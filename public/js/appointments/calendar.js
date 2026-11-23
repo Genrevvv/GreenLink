@@ -9,14 +9,16 @@ export function getLocalToday() {
     ].join('-');
 }
 
-// options.getDateInfo(date) returns { count, isFull, title } for scheduled appointment indicators.
+// options.getDateInfo(date) returns { count, isFull, title, classes } for scheduled appointment indicators.
 // options.getDayTooltip(date) returns the HTML shown when hovering a date ('' for none).
 // options.onSelect(date) runs after a date is picked.
+// options.allowPastDates lets past dates and months be viewed and picked (admin calendar).
 export function initAppointmentCalendar(dateInput, options = {}) {
     const {
         getDateInfo = () => null,
         getDayTooltip = () => '',
-        onSelect = () => {}
+        onSelect = () => {},
+        allowPastDates = false
     } = options;
 
     const monthLabel = document.querySelector('#calendar-month-year');
@@ -108,16 +110,22 @@ export function initAppointmentCalendar(dateInput, options = {}) {
                 )
             );
 
-            if (dateString < todayString) {
+            if (!allowPastDates && dateString < todayString) {
                 dayButton.disabled = true;
                 dayButton.classList.add('is-past');
             }
 
             // Scheduled appointment indicators (hover shows the booked times).
-            const dateInfo = dateString >= todayString ? getDateInfo(dateString) : null;
+            const dateInfo = allowPastDates || dateString >= todayString
+                ? getDateInfo(dateString)
+                : null;
 
             if (dateInfo?.count > 0) {
                 dayButton.classList.add('has-appointments');
+            }
+
+            if (dateInfo?.classes?.length) {
+                dayButton.classList.add(...dateInfo.classes);
             }
 
             if (dateInfo?.isFull) {
@@ -178,6 +186,7 @@ export function initAppointmentCalendar(dateInput, options = {}) {
         }
 
         previousButton.disabled =
+            !allowPastDates &&
             displayedMonth.getFullYear() === earliestDate.getFullYear() &&
             displayedMonth.getMonth() === earliestDate.getMonth();
 

@@ -4,6 +4,7 @@ import { fetchAppointments, fetchSchedule, fetchUserAppointments } from './api.j
 import { loadAppointments } from './table.js';
 import { initUserAppointments } from './form.js';
 import { setSchedule } from './schedule.js';
+import { initAdminCalendar, initAppointmentsViewSwitch } from './admin-calendar.js';
 
 export async function initAppointments() {
     const user = getCurrentUser();
@@ -35,7 +36,14 @@ export async function initAppointments() {
 
 function adminAppointmentsScript(appointments) {
     // All records are kept. The status filter defaults to Pending and Approved.
-    loadAppointments(appointments);
+    // The table and the calendar share the records, so a status change shows in both.
+    initAppointmentsViewSwitch();
+
+    const adminCalendar = initAdminCalendar(appointments);
+
+    loadAppointments(appointments, {
+        afterRender: () => adminCalendar.refresh()
+    });
 }
 
 function userAppointmentsScript(userAppointments, scheduleData) {
