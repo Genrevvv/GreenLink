@@ -13,6 +13,7 @@
     $dashboard = new Dashboard($db);
     $notification = new Notification($db);
     $appointment = new Appointment($db, $notification);
+    $schedule = new Schedule($db);
     $inquiry = new Inquiry($db, $notification);
 
     $authController = new AuthController($user);
@@ -20,7 +21,7 @@
     $homeController = new HomeController();
     $productController = new ProductController($product);
     $dashboardController = new DashboardController($dashboard);
-    $appointmentController = new AppointmentController($appointment);
+    $appointmentController = new AppointmentController($appointment, $schedule);
     $inquiryController = new InquiryController($inquiry);
     $notificationController = new NotificationController($notification);
 
@@ -80,6 +81,12 @@
     $router->post('/api/appointments/addAppointment', [$appointmentController, 'addAppointment']);
     $router->post('/api/appointments/updateStatus', [$appointmentController, 'updateStatus']);
     $router->post('/api/appointments/cancelAppointment', [$appointmentController, 'cancelAppointment']);
+    $router->post('/api/appointments/rescheduleAppointment', [$appointmentController, 'rescheduleAppointment']);
+
+    // Unavailable dates and time periods (admin)
+    $router->get('/api/appointments/unavailable', [$appointmentController, 'getUnavailablePeriods']);
+    $router->post('/api/appointments/unavailable/add', [$appointmentController, 'addUnavailablePeriod']);
+    $router->post('/api/appointments/unavailable/delete', [$appointmentController, 'deleteUnavailablePeriod']);
 
     // Inquiries API
     $router->get('/api/inquiries', [$inquiryController, 'getAll']);

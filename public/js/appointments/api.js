@@ -31,6 +31,29 @@ export async function updateAppointmentStatus(id, status) {
     return data;
 }
 
+// { id, date, startTime, endTime } with 24-hour HH:MM times
+export async function rescheduleAppointment(rescheduleData) {
+    const data = await apiFetchJSON('/api/appointments/rescheduleAppointment', 'POST', rescheduleData);
+    return data;
+}
+
+// UNAVAILABLE PERIODS (admin)
+export async function fetchUnavailablePeriods() {
+    const data = await apiFetchJSON('/api/appointments/unavailable', 'GET');
+    return data;
+}
+
+// { date, wholeDay, startTime, endTime, reason }
+export async function addUnavailablePeriod(periodData) {
+    const data = await apiFetchJSON('/api/appointments/unavailable/add', 'POST', periodData);
+    return data;
+}
+
+export async function deleteUnavailablePeriod(id) {
+    const data = await apiFetchJSON('/api/appointments/unavailable/delete', 'POST', { 'id': id });
+    return data;
+}
+
 export async function cancelAppointment(id) {
     const body = { 'id': id };
 

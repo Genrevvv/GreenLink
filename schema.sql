@@ -65,3 +65,67 @@ CREATE TABLE IF NOT EXISTS notifications (
     INDEX notifications_user_unread_idx (user_id, is_read, id),
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
+
+-- APPOINTMENT SCHEDULING
+-- Every scheduling value below starts as NULL (not configured). While a required
+-- value is NULL the booking form shows "scheduling not configured" and the API
+-- refuses to book. Fill them in with the client's real requirements using the
+-- UPDATE statements at the end of this section.
+
+-- One row (id = 1) of farm-wide settings.
+CREATE TABLE IF NOT EXISTS scheduling_settings (
+    id INT PRIMARY KEY,
+    open_time TIME NULL DEFAULT NULL,              -- PLACEHOLDER: farm opening time
+    close_time TIME NULL DEFAULT NULL,             -- PLACEHOLDER: farm closing time
+    slot_interval_minutes INT NULL DEFAULT NULL,   -- PLACEHOLDER: start times are offered every N minutes from open_time
+    half_day_split_time TIME NULL DEFAULT NULL,    -- PLACEHOLDER: where the morning half-day ends and the afternoon half-day starts (needed only if a type allows half_day)
+    visitor_capacity INT NULL DEFAULT NULL,        -- PLACEHOLDER: max total visitors on the farm at the same time
+    CONSTRAINT scheduling_settings_single_row CHECK (id = 1)
+);
+
+INSERT IGNORE INTO scheduling_settings (id) VALUES (1);
+
+-- Restrictions per appointment type. purpose matches appointments.purpose and
+-- the purposes listed here are the ones offered in the booking form.
+CREATE TABLE IF NOT EXISTS appointment_type_rules (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    purpose VARCHAR(100) NOT NULL UNIQUE,
+    allowed_durations VARCHAR(50) NULL DEFAULT NULL,  -- PLACEHOLDER: comma list of hourly, half_day, whole_day
+    min_duration_minutes INT NULL DEFAULT NULL,       -- optional: NULL means no minimum
+    max_duration_minutes INT NULL DEFAULT NULL,       -- optional: NULL means no maximum
+    allowed_days VARCHAR(20) NULL DEFAULT NULL,       -- PLACEHOLDER: comma list of ISO weekdays, 1 = Monday ... 7 = Sunday
+    min_advance_hours INT NULL DEFAULT NULL,          -- PLACEHOLDER: how many hours ahead a visit must be booked (0 = no notice needed)
+    max_visitors INT NULL DEFAULT NULL                -- PLACEHOLDER: max visitors for one appointment of this type
+);
+
+INSERT IGNORE INTO appointment_type_rules (purpose) VALUES
+    ('Farm Tour'),
+    ('Educational Visit'),
+    ('Training Inquiry'),
+    ('Other');
+
+-- Dates or time periods the admin has blocked. start_time and end_time are both
+-- NULL when the whole date is unavailable.
+CREATE TABLE IF NOT EXISTS unavailable_periods (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    unavailable_date DATE NOT NULL,
+    start_time TIME NULL DEFAULT NULL,
+    end_time TIME NULL DEFAULT NULL,
+    reason VARCHAR(255) NOT NULL DEFAULT '',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    INDEX unavailable_periods_date_idx (unavailable_date),
+    CONSTRAINT unavailable_periods_time_check
+        CHECK ((start_time IS NULL AND end_time IS NULL) OR (start_time < end_time))
+);
+
+-- FILL IN WITH THE CLIENT'S REQUIREMENTS (the values shown are examples only):
+-- UPDATE scheduling_settings
+--     SET open_time = '08:00', close_time = '17:00', slot_interval_minutes = 60,
+--         half_day_split_time = '12:00', visitor_capacity = 30
+--     WHERE id = 1;
+--
+-- UPDATE appointment_type_rules
+--     SET allowed_durations = 'hourly,half_day', min_duration_minutes = 60, max_duration_minutes = NULL,
+--         allowed_days = '1,2,3,4,5,6', min_advance_hours = 24, max_visitors = 20
+--     WHERE purpose = 'Farm Tour';
+-- (repeat for 'Educational Visit', 'Training Inquiry' and 'Other')

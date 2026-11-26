@@ -12,7 +12,25 @@
             </div>
 
             <div class="user-appointment-form-content">
+                <!-- Shown when the farm has not set its scheduling rules yet -->
+                <p
+                    id="appointment-schedule-notice"
+                    class="user-appointment-message is-error hidden"
+                    role="status"
+                ></p>
+
                 <form id="appointment-booking-form" class="flex-column gap-4">
+
+                    <!-- RESCHEDULE MODE (shown while moving an existing appointment) -->
+                    <div
+                        id="appointment-reschedule-banner"
+                        class="flex justify-between align-center gap-2 user-appointment-message hidden"
+                    >
+                        <span id="appointment-reschedule-text"></span>
+                        <button type="button" class="btn" id="cancel-reschedule-btn">
+                            Stop Rescheduling
+                        </button>
+                    </div>
 
                     <!-- DATE PICKER -->
                     <div class="user-appointment-field">
@@ -115,46 +133,53 @@
                             class="input"
                             required
                         >
+                            <!-- Filled from the appointment type rules (/api/appointments/schedule) -->
                             <option value="">Select a purpose</option>
-                            <option value="Farm Tour">Farm Tour (about 2 hours)</option>
-                            <option value="Educational Visit">Educational Visit (about 2 hours)</option>
-                            <option value="Training Inquiry">Training Inquiry (about 1 hour)</option>
-                            <option value="Other">Other (about 1 hour)</option>
                         </select>
 
                         <p class="user-appointment-hint" id="appointment-duration-info" aria-live="polite">
-                            Each visit purpose has an estimated duration.
+                            Select a purpose to see its booking rules.
                         </p>
                     </div>
 
-                    <!-- TIME SLOT -->
-                    <div class="user-appointment-field">
-                        <label for="appointment-time" class="user-appointment-label">
-                            <i class="fa-regular fa-clock"></i>
-                            Time Slot
-                        </label>
+                    <!-- START AND END TIME (generated from the farm's operating hours) -->
+                    <div class="flex gap-4">
+                        <div class="user-appointment-field flex-1">
+                            <label for="appointment-start-time" class="user-appointment-label">
+                                <i class="fa-regular fa-clock"></i>
+                                Start Time
+                            </label>
 
-                        <select
-                            id="appointment-time"
-                            name="appointment-time"
-                            class="input"
-                            required
-                        >
-                            <option value="">Select a time</option>
-                            <option value="08:00 AM">8:00 AM</option>
-                            <option value="09:00 AM">9:00 AM</option>
-                            <option value="10:00 AM">10:00 AM</option>
-                            <option value="11:00 AM">11:00 AM</option>
-                            <option value="01:00 PM">1:00 PM</option>
-                            <option value="02:00 PM">2:00 PM</option>
-                            <option value="03:00 PM">3:00 PM</option>
-                            <option value="04:00 PM">4:00 PM</option>
-                        </select>
+                            <select
+                                id="appointment-start-time"
+                                name="appointment-start-time"
+                                class="input"
+                                required
+                            >
+                                <option value="">Select a start time</option>
+                            </select>
+                        </div>
 
-                        <p class="user-appointment-hint" id="appointment-time-info" aria-live="polite">
-                            Select a date to see available time slots.
-                        </p>
+                        <div class="user-appointment-field flex-1">
+                            <label for="appointment-end-time" class="user-appointment-label">
+                                <i class="fa-regular fa-clock"></i>
+                                End Time
+                            </label>
+
+                            <select
+                                id="appointment-end-time"
+                                name="appointment-end-time"
+                                class="input"
+                                required
+                            >
+                                <option value="">Select an end time</option>
+                            </select>
+                        </div>
                     </div>
+
+                    <p class="user-appointment-hint" id="appointment-time-info" aria-live="polite">
+                        Select a date and purpose to see available times.
+                    </p>
 
                     <!-- NUMBER OF VISITORS -->
                     <div class="user-appointment-field">
@@ -169,14 +194,13 @@
                             name="appointment-visitors"
                             class="input"
                             min="1"
-                            max="20"
                             step="1"
                             placeholder="e.g., 4"
                             required
                         >
 
                         <p class="user-appointment-hint" id="appointment-visitors-info">
-                            Maximum of 20 visitors per appointment.
+                            Select a purpose to see the visitor limit.
                         </p>
                     </div>
 
@@ -263,7 +287,7 @@
                         <li>Please arrive 10 minutes before your scheduled time.</li>
                         <li>Wear comfortable clothing and closed-toe shoes.</li>
                         <li>Farm tours are weather-dependent.</li>
-                        <li>Need to cancel? Use the Cancel button on a pending or approved appointment, preferably 24 hours in advance.</li>
+                        <li>Need to change plans? Use the Reschedule or Cancel button on a pending or approved appointment. A rescheduled request is reviewed again.</li>
                     </ul>
                 </div>
             </section>

@@ -6,16 +6,19 @@ import {
 import { initAppointmentCalendar, getLocalToday } from './calendar.js';
 import { getSelectedStatus, initStatusFilter, matchesStatusFilter } from './filter.js';
 import {
-    addScheduledAppointment,
-    countAvailableSlots,
-    formatDuration,
+    checkRange,
+    describeTypeRule,
+    durationLabels,
+    formatTime,
     formatTimeRange,
-    getNowMinutes,
-    getPurposeDuration,
+    getConfiguredTypes,
+    getEndCandidates,
     getScheduledForDate,
-    getSlotAvailability,
-    removeScheduledAppointment,
-    scheduleSettings,
+    getStartCandidates,
+    getTypeRule,
+    hasAvailableRange,
+    minutesToTime,
+    scheduling,
     setSchedule,
     toMinutes
 } from './schedule.js';
@@ -26,15 +29,21 @@ const STATUS_FILTER = '#filter-user-appointment-status';
 
 const unavailableLabels = {
     passed: 'Time has passed',
-    booked: 'Already booked',
-    'too-long': 'Too late for this visit'
+    notice: 'Too soon',
+    day: 'Not offered this day',
+    unavailable: 'Unavailable',
+    full: 'Fully booked',
+    visitors: 'Too many visitors',
+    'too-short': 'Too short',
+    'too-long': 'Too long'
 };
 
 // USER APPOINTMENTS
 export function initUserAppointments(userAppointmentsData, targetId = null) {
     const form = document.querySelector('#appointment-booking-form');
     const dateInput = document.querySelector('#appointment-date');
-    const timeInput = document.querySelector('#appointment-time');
+    const startInput = document.querySelector('#appointment-start-time');
+    const endInput = document.querySelector('#appointment-end-time');
     const purposeInput = document.querySelector('#appointment-purpose');
     const visitorsInput = document.querySelector('#appointment-visitors');
     const notesInput = document.querySelector('#appointment-notes');
@@ -45,7 +54,8 @@ export function initUserAppointments(userAppointmentsData, targetId = null) {
     if (
         !form ||
         !dateInput ||
-        !timeInput ||
+        !startInput ||
+        !endInput ||
         !purposeInput ||
         !visitorsInput ||
         !appointmentsList
@@ -53,29 +63,46 @@ export function initUserAppointments(userAppointmentsData, targetId = null) {
         return;
     }
 
-    setupVisitorLimit(visitorsInput);
+    const inputs = { form, dateInput, startInput, endInput, purposeInput, visitorsInput, notesInput, submitButton, message };
+
+    // The appointment being moved to a new date and time (null while booking a new one).
+    let rescheduling = null;
+    inputs.getExcludeId = () => rescheduling?.id ?? null;
 
     const calendar = initAppointmentCalendar(dateInput, {
-        getDateInfo,
+        getDateInfo: date => getDateInfo(date, purposeInput.value, inputs.getExcludeId()),
         getDayTooltip: date => getOwnDayTooltip(date, userAppointmentsData),
         onSelect: () => {
             hideUserAppointmentMessage(message);
-            updateTimeSlots(dateInput, timeInput, purposeInput);
+            updateStartOptions(inputs);
         }
     });
+    inputs.calendar = calendar;
 
     purposeInput.onchange = () => {
         hideUserAppointmentMessage(message);
-        updateDurationInfo(purposeInput);
-        updateTimeSlots(dateInput, timeInput, purposeInput);
+        updateRuleInfo(inputs);
+        calendar.refresh();
+        updateStartOptions(inputs);
     };
 
-    timeInput.onchange = () => {
+    // End Time always comes after Start Time, so its options follow the start.
+    startInput.onchange = () => {
+        hideUserAppointmentMessage(message);
+        updateEndOptions(inputs);
+    };
+
+    endInput.onchange = () => {
         hideUserAppointmentMessage(message);
     };
 
-    updateDurationInfo(purposeInput);
-    updateTimeSlots(dateInput, timeInput, purposeInput);
+    // Visitor count affects capacity, so the time options are rechecked.
+    visitorsInput.oninput = () => {
+        hideUserAppointmentMessage(message);
+        updateStartOptions(inputs);
+    };
+
+    applySchedulingState(inputs);
 
     // Register the submit handler only once per form.
     if (form.dataset.appointmentHandlerAttached !== 'true') {
@@ -86,12 +113,13 @@ export function initUserAppointments(userAppointmentsData, targetId = null) {
             event.preventDefault();
 
             const date = dateInput.value;
-            const time = timeInput.value;
             const purpose = purposeInput.value;
             const visitors = Number(visitorsInput.value);
             const notes = notesInput ? notesInput.value.trim() : '';
+            const start = startInput.value === '' ? null : Number(startInput.value);
+            const end = endInput.value === '' ? null : Number(endInput.value);
 
-            const validationError = validateAppointment(date, time, purpose, visitors);
+            const validationError = validateAppointment(date, start, end, purpose, visitors, inputs.getExcludeId());
 
             if (validationError) {
                 showUserAppointmentError(message, validationError);
@@ -100,66 +128,133 @@ export function initUserAppointments(userAppointmentsData, targetId = null) {
 
             const appointmentData = {
                 date,
-                time,
+                startTime: minutesToTime(start),
+                endTime: minutesToTime(end),
                 purpose,
                 visitors,
                 notes
             };
 
-            setSubmitting(submitButton, true);
+            setSubmitting(submitButton, true, Boolean(rescheduling));
 
             let data;
 
             try {
-                data = await api.addAppointment(appointmentData);
+                data = rescheduling
+                    ? await api.rescheduleAppointment({
+                        id: rescheduling.id,
+                        date,
+                        startTime: appointmentData.startTime,
+                        endTime: appointmentData.endTime
+                    })
+                    : await api.addAppointment(appointmentData);
             } catch (error) {
-                console.error('Failed to submit appointment:', error);
+                console.error('Failed to save appointment:', error);
                 data = { success: false };
             } finally {
-                setSubmitting(submitButton, false);
+                setSubmitting(submitButton, false, Boolean(rescheduling));
             }
 
             if (!data.success) {
                 showUserAppointmentError(
                     message,
-                    data.message ?? 'Failed to submit appointment request.'
+                    data.message ?? 'Failed to save the appointment.'
                 );
 
-                // Someone else may have booked the slot; reload the schedule.
-                await reloadSchedule(calendar);
-                updateTimeSlots(dateInput, timeInput, purposeInput);
+                // Someone else may have booked the time; reload the schedule.
+                await reloadSchedule(inputs);
                 return;
             }
 
-            const newAppointment = {
-                id: data.id,
-                ...appointmentData,
-                duration: data.duration ?? getPurposeDuration(purpose),
-                endTime: data.endTime ?? '',
-                status: 'Pending'
-            };
+            if (rescheduling) {
+                Object.assign(rescheduling, {
+                    date: data.date,
+                    time: data.time,
+                    endTime: data.endTime,
+                    duration: data.duration,
+                    status: data.status
+                });
+            } else {
+                userAppointmentsData.push({
+                    id: data.id,
+                    date,
+                    time: data.time,
+                    endTime: data.endTime,
+                    duration: data.duration,
+                    purpose,
+                    visitors,
+                    notes,
+                    status: 'Pending'
+                });
+            }
 
-            userAppointmentsData.push(newAppointment);
-            addScheduledAppointment(newAppointment);
+            const successMessage = rescheduling ? 'Appointment rescheduled' : 'Appointment request submitted';
 
-            form.reset();
-            calendar.reset();
-            updateDurationInfo(purposeInput);
-            updateTimeSlots(dateInput, timeInput, purposeInput);
-            hideUserAppointmentMessage(message);
-
+            stopRescheduling();
+            await reloadSchedule(inputs);
             renderUserAppointments(userAppointmentsData);
 
             createNotificationElement({
                 status: 'success',
-                message: 'Appointment request submitted'
+                message: successMessage
             });
         });
     }
 
-    // Cancel buttons on the appointment cards
+    function startRescheduling(appointment) {
+        rescheduling = appointment;
+
+        form.reset();
+        purposeInput.value = appointment.purpose;
+        visitorsInput.value = appointment.visitors;
+        if (notesInput) notesInput.value = appointment.notes ?? '';
+
+        // Only the date and time can change when rescheduling.
+        purposeInput.disabled = true;
+        visitorsInput.disabled = true;
+        if (notesInput) notesInput.disabled = true;
+
+        setRescheduleBanner(appointment);
+        setSubmitting(submitButton, false, true);
+        hideUserAppointmentMessage(message);
+        calendar.reset();
+        updateRuleInfo(inputs);
+        updateStartOptions(inputs);
+        form.scrollIntoView({ block: 'start', behavior: 'smooth' });
+    }
+
+    function stopRescheduling() {
+        rescheduling = null;
+
+        purposeInput.disabled = false;
+        visitorsInput.disabled = false;
+        if (notesInput) notesInput.disabled = false;
+
+        form.reset();
+        setRescheduleBanner(null);
+        setSubmitting(submitButton, false, false);
+        hideUserAppointmentMessage(message);
+        calendar.reset();
+        updateRuleInfo(inputs);
+        updateStartOptions(inputs);
+    }
+
+    const cancelRescheduleButton = document.querySelector('#cancel-reschedule-btn');
+    if (cancelRescheduleButton) cancelRescheduleButton.onclick = stopRescheduling;
+
+    // Cancel and reschedule buttons on the appointment cards
     appointmentsList.onclick = event => {
         const cancelButton = event.target.closest('[data-cancel-id]');
+        const rescheduleButton = event.target.closest('[data-reschedule-id]');
+
+        if (rescheduleButton) {
+            const appointment = userAppointmentsData.find(
+                item => item.id === Number(rescheduleButton.dataset.rescheduleId)
+            );
+
+            if (appointment) startRescheduling(appointment);
+            return;
+        }
 
         if (!cancelButton) return;
 
@@ -167,8 +262,10 @@ export function initUserAppointments(userAppointmentsData, targetId = null) {
             Number(cancelButton.dataset.cancelId),
             cancelButton,
             userAppointmentsData,
-            calendar,
-            { dateInput, timeInput, purposeInput }
+            inputs,
+            () => {
+                if (rescheduling?.id === Number(cancelButton.dataset.cancelId)) stopRescheduling();
+            }
         );
     };
 
@@ -211,7 +308,7 @@ function renderUserAppointments(userAppointmentsData, targetId = null) {
     }
 
     appointmentsList.innerHTML = visibleAppointments
-        .map(appointment => userAppointmentCardModal(appointment))
+        .map(appointment => userAppointmentCardModal(appointment, scheduling.configured))
         .join('');
 
     if (targetId) {
@@ -224,7 +321,7 @@ function renderUserAppointments(userAppointmentsData, targetId = null) {
 }
 
 // CANCEL APPOINTMENT (kept as a Cancelled record)
-async function cancelUserAppointment(id, button, userAppointmentsData, calendar, inputs) {
+async function cancelUserAppointment(id, button, userAppointmentsData, inputs, onCancelled) {
     const appointment = userAppointmentsData.find(item => item.id === id);
 
     if (!appointment) return;
@@ -257,11 +354,10 @@ async function cancelUserAppointment(id, button, userAppointmentsData, calendar,
     }
 
     appointment.status = 'Cancelled';
-    removeScheduledAppointment(appointment);
+    onCancelled();
 
+    await reloadSchedule(inputs);
     renderUserAppointments(userAppointmentsData);
-    calendar.refresh();
-    updateTimeSlots(inputs.dateInput, inputs.timeInput, inputs.purposeInput);
 
     createNotificationElement({
         status: 'success',
@@ -269,21 +365,176 @@ async function cancelUserAppointment(id, button, userAppointmentsData, calendar,
     });
 }
 
-async function reloadSchedule(calendar) {
+// The server is the source of truth for bookings, so the schedule is reloaded after every change.
+async function reloadSchedule(inputs) {
     try {
         const scheduleData = await api.fetchSchedule();
 
         if (scheduleData.success) {
             setSchedule(scheduleData);
-            calendar.refresh();
         }
     } catch (error) {
         console.error('Failed to reload appointment schedule:', error);
     }
+
+    applySchedulingState(inputs);
 }
 
-// BOOKING RULES
-function validateAppointment(date, time, purpose, visitors) {
+// SCHEDULING STATE: purposes, rule hints and the "not configured" notice
+function applySchedulingState(inputs) {
+    const notice = document.querySelector('#appointment-schedule-notice');
+    const types = getConfiguredTypes();
+    const isReady = types.length > 0;
+
+    if (notice) {
+        notice.textContent = isReady
+            ? ''
+            : (scheduling.message || 'Appointment scheduling has not been configured yet. Please contact the farm.');
+        notice.classList.toggle('hidden', isReady);
+    }
+
+    inputs.form.classList.toggle('hidden', !isReady);
+
+    // Purposes come from the appointment type rules. Keep the current choice when it still exists.
+    const currentPurpose = inputs.purposeInput.value;
+
+    inputs.purposeInput.innerHTML = '<option value="">Select a purpose</option>';
+
+    types.forEach(type => {
+        const option = document.createElement('option');
+        option.value = type.purpose;
+        option.textContent = type.purpose;
+        inputs.purposeInput.appendChild(option);
+    });
+
+    if (types.some(type => type.purpose === currentPurpose)) {
+        inputs.purposeInput.value = currentPurpose;
+    }
+
+    updateRuleInfo(inputs);
+    inputs.calendar.refresh();
+    updateStartOptions(inputs);
+}
+
+function updateRuleInfo(inputs) {
+    const durationInfo = document.querySelector('#appointment-duration-info');
+    const visitorsInfo = document.querySelector('#appointment-visitors-info');
+    const rule = getTypeRule(inputs.purposeInput.value);
+    const capacity = scheduling.settings?.visitorCapacity;
+
+    if (durationInfo) {
+        durationInfo.textContent = rule
+            ? describeTypeRule(rule)
+            : 'Select a purpose to see its booking rules.';
+    }
+
+    if (rule) {
+        const maxVisitors = Math.min(rule.maxVisitors, capacity ?? rule.maxVisitors);
+        inputs.visitorsInput.max = maxVisitors;
+
+        if (visitorsInfo) visitorsInfo.textContent = `Maximum of ${maxVisitors} visitors for ${rule.purpose}.`;
+    } else {
+        inputs.visitorsInput.removeAttribute('max');
+
+        if (visitorsInfo) visitorsInfo.textContent = 'Select a purpose to see the visitor limit.';
+    }
+}
+
+// START TIME options for the selected date and purpose.
+// A start is open when at least one end time after it can be booked.
+function updateStartOptions(inputs) {
+    const { dateInput, startInput, purposeInput } = inputs;
+    const timeInfo = document.querySelector('#appointment-time-info');
+    const date = dateInput.value;
+    const purpose = purposeInput.value;
+    const visitors = getVisitorCount(inputs);
+    const previousStart = startInput.value;
+
+    startInput.innerHTML = '<option value="">Select a start time</option>';
+
+    let availableCount = 0;
+
+    if (date && purpose) {
+        getStartCandidates(purpose).forEach(start => {
+            const problems = getEndCandidates(purpose, start).map(({ end }) =>
+                checkRange(date, start, end, purpose, visitors, inputs.getExcludeId())
+            );
+            const isAvailable = problems.some(problem => !problem);
+
+            startInput.appendChild(createTimeOption(start, isAvailable, problems.find(Boolean)?.code));
+
+            if (isAvailable) availableCount++;
+        });
+    }
+
+    if (previousStart && startInput.querySelector(`option[value="${previousStart}"]:not(:disabled)`)) {
+        startInput.value = previousStart;
+    }
+
+    updateEndOptions(inputs);
+
+    if (!timeInfo) return;
+
+    if (!date || !purpose) {
+        timeInfo.textContent = 'Select a date and purpose to see available times.';
+    } else if (availableCount === 0) {
+        timeInfo.textContent = `No available times for a ${purpose} on this date. Please choose another date.`;
+    } else {
+        timeInfo.textContent = `${availableCount} start time${availableCount === 1 ? '' : 's'} available. Pick a start time to see the end times.`;
+    }
+}
+
+// END TIME options: only times after the selected start that match an allowed duration.
+function updateEndOptions(inputs) {
+    const { dateInput, startInput, endInput, purposeInput } = inputs;
+    const date = dateInput.value;
+    const purpose = purposeInput.value;
+    const visitors = getVisitorCount(inputs);
+    const previousEnd = endInput.value;
+
+    endInput.innerHTML = '<option value="">Select an end time</option>';
+
+    if (!startInput.value) {
+        endInput.disabled = true;
+        return;
+    }
+
+    endInput.disabled = false;
+
+    const start = Number(startInput.value);
+
+    getEndCandidates(purpose, start).forEach(({ end, durationType }) => {
+        const problem = checkRange(date, start, end, purpose, visitors, inputs.getExcludeId());
+        const suffix = durationType === 'hourly' ? '' : ` (${durationLabels[durationType]})`;
+
+        endInput.appendChild(createTimeOption(end, !problem, problem?.code, suffix));
+    });
+
+    if (previousEnd && endInput.querySelector(`option[value="${previousEnd}"]:not(:disabled)`)) {
+        endInput.value = previousEnd;
+    }
+}
+
+function createTimeOption(minutes, isAvailable, reasonCode, suffix = '') {
+    const option = document.createElement('option');
+
+    option.value = String(minutes);
+    option.disabled = !isAvailable;
+    option.textContent = isAvailable
+        ? `${formatTime(minutes)}${suffix}`
+        : `${formatTime(minutes)}${suffix} (${unavailableLabels[reasonCode] ?? 'Unavailable'})`;
+
+    return option;
+}
+
+function getVisitorCount(inputs) {
+    const visitors = Number(inputs.visitorsInput.value);
+
+    return Number.isInteger(visitors) && visitors > 0 ? visitors : 1;
+}
+
+// BOOKING RULES (the backend checks the same rules again)
+function validateAppointment(date, start, end, purpose, visitors, excludeId) {
     if (!date || date < getLocalToday()) {
         return 'Please select today or a future date.';
     }
@@ -292,60 +543,44 @@ function validateAppointment(date, time, purpose, visitors) {
         return 'Please select a visit purpose.';
     }
 
-    if (!time) {
-        return 'Please select a time slot.';
+    if (start === null) {
+        return 'Please select a start time.';
+    }
+
+    if (end === null) {
+        return 'Please select an end time.';
     }
 
     if (!Number.isInteger(visitors) || visitors < 1) {
         return 'Please enter a valid number of visitors.';
     }
 
-    if (visitors > scheduleSettings.maxVisitors) {
-        return `A maximum of ${scheduleSettings.maxVisitors} visitors is allowed per appointment.`;
-    }
-
-    const availability = getSlotAvailability(
-        date,
-        time,
-        getPurposeDuration(purpose),
-        getLocalToday(),
-        getNowMinutes()
-    );
-
-    if (availability.reason === 'passed') {
-        return 'The selected time has already passed. Please choose a later time slot.';
-    }
-
-    if (availability.reason === 'too-long') {
-        return `${purpose} takes about ${formatDuration(getPurposeDuration(purpose))}, so it cannot start at ${time}. Visits must end by 12:00 PM (lunch break) or 5:00 PM.`;
-    }
-
-    if (availability.reason === 'booked') {
-        return 'The selected time overlaps with an already scheduled appointment. Please choose another time slot.';
-    }
-
-    return '';
+    return checkRange(date, start, end, purpose, visitors, excludeId)?.message ?? '';
 }
 
 // Calendar indicator data for one date.
-function getDateInfo(date) {
-    const scheduled = getScheduledForDate(date);
-    const isFull = countAvailableSlots(date, getLocalToday(), getNowMinutes()) === 0;
+function getDateInfo(date, purpose, excludeId) {
+    if (!scheduling.configured) return null;
+
+    const scheduled = getScheduledForDate(date).filter(item => item.id !== excludeId);
+    const isFull = !hasAvailableRange(date, purpose, 1, excludeId);
 
     if (scheduled.length === 0 && !isFull) {
         return null;
     }
 
-    const bookedTimes = scheduled.map(formatTimeRange).join(', ');
+    const bookedTimes = scheduled
+        .map(item => `${formatTime(toMinutes(item.startTime))} - ${formatTime(toMinutes(item.endTime))}`)
+        .join(', ');
 
     let title = scheduled.length === 1
         ? `1 scheduled appointment: ${bookedTimes}`
         : `${scheduled.length} scheduled appointments: ${bookedTimes}`;
 
     if (isFull) {
-        title = scheduled.length > 0
-            ? `Fully booked (${bookedTimes})`
-            : 'No available time slots left';
+        title = purpose
+            ? `Not available for a ${purpose}`
+            : 'No available times on this date';
     }
 
     return {
@@ -370,82 +605,31 @@ function getOwnDayTooltip(date, userAppointmentsData) {
         : '';
 }
 
-// Marks time options that cannot be booked for the selected date and purpose.
-function updateTimeSlots(dateInput, timeInput, purposeInput) {
-    const timeInfo = document.querySelector('#appointment-time-info');
-    const date = dateInput.value;
-    const purpose = purposeInput.value;
-    const duration = getPurposeDuration(purpose);
-    const today = getLocalToday();
-    const nowMinutes = getNowMinutes();
+function setRescheduleBanner(appointment) {
+    const banner = document.querySelector('#appointment-reschedule-banner');
+    const text = document.querySelector('#appointment-reschedule-text');
 
-    let availableCount = 0;
+    if (!banner) return;
 
-    [...timeInput.options].forEach(option => {
-        if (!option.value) return;
+    banner.classList.toggle('hidden', !appointment);
 
-        option.dataset.label ??= option.textContent;
-
-        if (!date) {
-            option.disabled = false;
-            option.textContent = option.dataset.label;
-            return;
-        }
-
-        const availability = getSlotAvailability(date, option.value, duration, today, nowMinutes);
-
-        option.disabled = !availability.available;
-        option.textContent = availability.available
-            ? option.dataset.label
-            : `${option.dataset.label} (${unavailableLabels[availability.reason]})`;
-
-        if (availability.available) availableCount++;
-    });
-
-    if (timeInput.selectedOptions[0]?.disabled) {
-        timeInput.value = '';
-    }
-
-    if (!timeInfo) return;
-
-    if (!date) {
-        timeInfo.textContent = 'Select a date to see available time slots.';
-    } else if (availableCount === 0) {
-        timeInfo.textContent = purpose
-            ? `No available time slots for a ${purpose} on this date. Please choose another date.`
-            : 'No available time slots on this date. Please choose another date.';
-    } else {
-        timeInfo.textContent = `${availableCount} time slot${availableCount === 1 ? '' : 's'} available on this date.`;
+    if (text) {
+        text.textContent = appointment
+            ? `Rescheduling your ${appointment.purpose} on ${appointment.date} (${formatTimeRange(appointment)}). Pick a new date and time.`
+            : '';
     }
 }
 
-function updateDurationInfo(purposeInput) {
-    const durationInfo = document.querySelector('#appointment-duration-info');
-
-    if (!durationInfo) return;
-
-    durationInfo.textContent = purposeInput.value
-        ? `Estimated duration: about ${formatDuration(getPurposeDuration(purposeInput.value))}.`
-        : 'Each visit purpose has an estimated duration.';
-}
-
-function setupVisitorLimit(visitorsInput) {
-    const visitorsInfo = document.querySelector('#appointment-visitors-info');
-
-    visitorsInput.max = scheduleSettings.maxVisitors;
-
-    if (visitorsInfo) {
-        visitorsInfo.textContent = `Maximum of ${scheduleSettings.maxVisitors} visitors per appointment.`;
-    }
-}
-
-function setSubmitting(submitButton, isSubmitting) {
+function setSubmitting(submitButton, isSubmitting, isRescheduling) {
     if (!submitButton) return;
 
     submitButton.disabled = isSubmitting;
-    submitButton.textContent = isSubmitting
-        ? 'Submitting...'
-        : 'Submit Appointment Request';
+
+    if (isRescheduling) {
+        submitButton.textContent = isSubmitting ? 'Saving...' : 'Save New Schedule';
+    } else {
+        submitButton.textContent = isSubmitting ? 'Submitting...' : 'Submit Appointment Request';
+    }
 }
 
 // Inline error under the form plus a notification.

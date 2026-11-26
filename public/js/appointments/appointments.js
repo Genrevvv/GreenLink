@@ -5,6 +5,7 @@ import { loadAppointments } from './table.js';
 import { initUserAppointments } from './form.js';
 import { setSchedule } from './schedule.js';
 import { initAdminCalendar, initAppointmentsViewSwitch } from './admin-calendar.js';
+import { initUnavailablePeriods } from './unavailable.js';
 
 export async function initAppointments(targetId = null) {
     const user = getCurrentUser();
@@ -45,12 +46,13 @@ function adminAppointmentsScript(appointments, targetId) {
         initialSelectedId: targetId,
         afterRender: () => adminCalendar.refresh()
     });
+
+    initUnavailablePeriods();
 }
 
 function userAppointmentsScript(userAppointments, scheduleData, targetId) {
-    if (scheduleData?.success) {
-        setSchedule(scheduleData);
-    }
+    // A failed request leaves scheduling unconfigured, so the form shows the server message instead of booking.
+    setSchedule(scheduleData ?? {});
 
     initUserAppointments(userAppointments, targetId);
 }

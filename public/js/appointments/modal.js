@@ -1,5 +1,5 @@
 import { escapeHtml } from '../utils/string.js';
-import { formatDuration, formatTimeRange } from './schedule.js';
+import { formatDuration, formatTime, formatTimeRange, toMinutes } from './schedule.js';
 
 const statusClasses = {
     Pending: 'pending',
@@ -181,7 +181,8 @@ export function emptyUserAppointmentsModal(isFiltered = false) {
     `;
 }
 
-export function userAppointmentCardModal(appointment) {
+// canReschedule is false while scheduling is not configured.
+export function userAppointmentCardModal(appointment, canReschedule = true) {
     const purpose = escapeHtml(appointment.purpose);
     const date = escapeHtml(appointment.date);
     const timeRange = escapeHtml(formatTimeRange(appointment));
@@ -232,13 +233,24 @@ export function userAppointmentCardModal(appointment) {
             ` : ''}
 
             ${canCancel ? `
-                <button
-                    type="button"
-                    class="user-appointment-cancel-btn"
-                    data-cancel-id="${escapeHtml(appointment.id)}">
-                    <i class="fa-solid fa-ban" aria-hidden="true"></i>
-                    Cancel Appointment
-                </button>
+                <div class="flex gap-2">
+                    ${canReschedule ? `
+                        <button
+                            type="button"
+                            class="user-appointment-cancel-btn"
+                            data-reschedule-id="${escapeHtml(appointment.id)}">
+                            <i class="fa-regular fa-calendar" aria-hidden="true"></i>
+                            Reschedule
+                        </button>
+                    ` : ''}
+                    <button
+                        type="button"
+                        class="user-appointment-cancel-btn"
+                        data-cancel-id="${escapeHtml(appointment.id)}">
+                        <i class="fa-solid fa-ban" aria-hidden="true"></i>
+                        Cancel Appointment
+                    </button>
+                </div>
             ` : ''}
         </article>
     `;
@@ -421,6 +433,53 @@ export function adminDateAppointmentCardModal(appointment) {
                     ` : ''}
                 </div>
             ` : ''}
+        </article>
+    `;
+}
+
+// ADMIN: UNAVAILABLE DATES AND TIMES
+export function emptyUnavailablePeriodsModal() {
+    return `
+        <div class="admin-empty-state admin-details-empty-state">
+            <i class="fa-regular fa-calendar-check admin-empty-icon"></i>
+            <strong class="admin-empty-title">No unavailable dates</strong>
+            <span class="admin-empty-description">All upcoming dates are open for booking.</span>
+        </div>
+    `;
+}
+
+export function unavailablePeriodCardModal(period) {
+    const date = escapeHtml(formatLongDate(period.date));
+    const time = period.startTime
+        ? escapeHtml(`${formatTime(toMinutes(period.startTime))} - ${formatTime(toMinutes(period.endTime))}`)
+        : 'Whole day';
+    const reason = String(period.reason ?? '').trim();
+
+    return `
+        <article class="user-appointment-card admin-date-appointment-card">
+            <div class="user-appointment-card-header">
+                <h3 class="user-appointment-card-title">${date}</h3>
+            </div>
+
+            <div class="user-appointment-card-details">
+                <i class="fa-regular fa-clock" aria-hidden="true"></i>
+                <span>${time}</span>
+            </div>
+
+            ${reason ? `
+                <div class="user-appointment-card-details">
+                    <i class="fa-regular fa-note-sticky" aria-hidden="true"></i>
+                    <span>${escapeHtml(reason)}</span>
+                </div>
+            ` : ''}
+
+            <button
+                type="button"
+                class="user-appointment-cancel-btn"
+                data-delete-period-id="${escapeHtml(period.id)}">
+                <i class="fa-regular fa-trash-can" aria-hidden="true"></i>
+                Remove
+            </button>
         </article>
     `;
 }

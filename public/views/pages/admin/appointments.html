@@ -41,6 +41,15 @@
                     <i class="fa-regular fa-calendar" aria-hidden="true"></i>
                     Calendar
                 </button>
+                <button
+                    type="button"
+                    class="appointments-view-switch-btn"
+                    data-view="unavailable"
+                    aria-pressed="false"
+                >
+                    <i class="fa-regular fa-calendar-xmark" aria-hidden="true"></i>
+                    Unavailable Dates
+                </button>
             </div>
 
             <label class="flex align-center gap-2 appointments-toolbar-filter" for="filter-appointment-status">
@@ -210,6 +219,78 @@
                 </div>
 
                 <div class="admin-date-appointments" id="admin-date-appointments"></div>
+            </section>
+        </div>
+
+        <!-- Unavailable Dates View: dates and time periods closed to bookings -->
+        <div class="admin-workspace-grid hidden" data-appointments-view="unavailable">
+            <section class="admin-panel">
+                <div class="admin-panel-header bg-g-drd ">
+                    <span class="admin-panel-title">Mark Date or Time Unavailable</span>
+                </div>
+
+                <div class="p-4 flex-column gap-4">
+                    <!-- Lists the scheduling values that still need to be set in the database -->
+                    <p
+                        id="scheduling-config-notice"
+                        class="user-appointment-message is-error hidden"
+                        role="status"
+                    ></p>
+
+                    <form id="unavailable-form" class="flex-column gap-4">
+                        <div class="user-appointment-field">
+                            <label class="user-appointment-label" for="unavailable-date">Date</label>
+                            <input type="date" id="unavailable-date" class="input" required>
+                        </div>
+
+                        <label class="flex align-center gap-2 user-appointment-label" for="unavailable-whole-day">
+                            <input type="checkbox" id="unavailable-whole-day" checked>
+                            Whole day
+                        </label>
+
+                        <div class="flex gap-4 hidden" id="unavailable-times">
+                            <div class="user-appointment-field flex-1">
+                                <label class="user-appointment-label" for="unavailable-start-time">Start Time</label>
+                                <input type="time" id="unavailable-start-time" class="input">
+                            </div>
+
+                            <div class="user-appointment-field flex-1">
+                                <label class="user-appointment-label" for="unavailable-end-time">End Time</label>
+                                <input type="time" id="unavailable-end-time" class="input">
+                            </div>
+                        </div>
+
+                        <div class="user-appointment-field">
+                            <label class="user-appointment-label" for="unavailable-reason">Reason (Optional)</label>
+                            <input
+                                type="text"
+                                id="unavailable-reason"
+                                class="input"
+                                maxlength="255"
+                                placeholder="e.g., Holiday, farm maintenance"
+                            >
+                        </div>
+
+                        <p
+                            id="unavailable-form-message"
+                            class="user-appointment-message hidden"
+                            role="status"
+                            aria-live="polite"
+                        ></p>
+
+                        <button type="submit" id="unavailable-submit-btn" class="btn btn-primary">
+                            Mark as Unavailable
+                        </button>
+                    </form>
+                </div>
+            </section>
+
+            <section class="admin-panel">
+                <div class="admin-panel-header bg-g-db ">
+                    <span class="admin-panel-title">Upcoming Unavailable Dates &amp; Times</span>
+                </div>
+
+                <div class="admin-date-appointments" id="unavailable-list"></div>
             </section>
         </div>
     </div>
