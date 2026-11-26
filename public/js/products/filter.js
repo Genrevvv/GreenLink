@@ -30,7 +30,7 @@ export function filterProducts() {
             selectedCategory === 'all' || category === selectedCategory;
         const matchesStatus =
             selectedStatus === 'all' ||
-            status === selectedStatus.replace('-', ' ');
+            status === selectedStatus.replace(/-/g, ' ');
 
         row.style.display =
             matchesSearch && matchesCategory && matchesStatus ? '' : 'none';
