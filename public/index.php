@@ -77,6 +77,8 @@
     $router->get('/api/appointments', [$appointmentController, 'getAll']);
     $router->get('/api/appointments/user', [$appointmentController, 'getByUser']);
     $router->get('/api/appointments/schedule', [$appointmentController, 'getSchedule']);
+    $router->post('/api/appointments/schedule/types', [$appointmentController, 'addVisitType']);
+    $router->post('/api/appointments/schedule/settings', [$appointmentController, 'updateSchedulingSettings']);
 
     $router->post('/api/appointments/addAppointment', [$appointmentController, 'addAppointment']);
     $router->post('/api/appointments/updateStatus', [$appointmentController, 'updateStatus']);
@@ -98,6 +100,7 @@
     // Notifications API
     $router->get('/api/notifications', [$notificationController, 'getForCurrentUser']);
     $router->post('/api/notifications/read', [$notificationController, 'markRead']);
+    $router->post('/api/notifications/read-all', [$notificationController, 'markAllRead']);
 
     $requestPath = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH) ?? '/';
     $router->dispatch(rtrim($requestPath, '/') ?: '/');

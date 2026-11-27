@@ -17,12 +17,14 @@ user accounts, inquiries, and notifications.
    composer install
    ```
 
-2. Import `schema.sql` into MySQL. This creates the `greenlink` database and
-   required tables.
+2. Import `schema.sql` into MySQL. It drops and recreates the GreenLink tables,
+   permanently deleting their existing data. Back up the database first and use
+   this reset script only when you intend to start over.
 
 3. Update the database credentials in `config/config.php` if needed.
 
-For an existing database, run the SQL files in `database/migrations/` once.
+To keep data in an existing database, do not import the reset script. Run
+`database/migrations/20261127_visit_type_archiving.sql` once instead.
 
 ## Run
 

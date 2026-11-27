@@ -71,5 +71,31 @@
                 ]);
             }
         }
+
+        public function markAllRead(): void {
+            $userId = (int) ($_SESSION['user_id'] ?? 0);
+
+            if ($userId <= 0) {
+                json_response([
+                    'success' => false,
+                    'message' => 'Please sign in to update notifications.'
+                ]);
+                return;
+            }
+
+            try {
+                $updatedCount = $this->notification->markAllReadForUser($userId);
+                json_response([
+                    'success' => true,
+                    'updated_count' => $updatedCount
+                ]);
+            } catch (Throwable $e) {
+                error_log('Failed to mark all notifications as read: ' . $e->getMessage());
+                json_response([
+                    'success' => false,
+                    'message' => 'Failed to update notifications.'
+                ]);
+            }
+        }
     }
 ?>

@@ -269,14 +269,28 @@ function formatLongDate(date) {
 // The user calendar shows the signed-in user's own appointments; the admin
 // calendar passes showCustomer so every customer's name is listed too.
 export function calendarDayTooltipModal(date, appointments, options = {}) {
-    const { showCustomer = false, maxItems = Infinity } = options;
+    const {
+        showCustomer = false,
+        maxItems = Infinity,
+        unavailablePeriods = []
+    } = options;
     const dateLabel = escapeHtml(formatLongDate(date));
     const count = appointments.length;
     const hiddenCount = Math.max(0, count - maxItems);
 
-    const subtitle = showCustomer
-        ? `${count} appointment${count === 1 ? '' : 's'}`
-        : `Your appointment${count === 1 ? '' : 's'}`;
+    if (count === 0 && unavailablePeriods.length === 0) return '';
+
+    const subtitleParts = [];
+
+    if (count > 0) {
+        subtitleParts.push(showCustomer
+            ? `${count} appointment${count === 1 ? '' : 's'}`
+            : `Your appointment${count === 1 ? '' : 's'}`);
+    }
+
+    if (unavailablePeriods.length > 0) {
+        subtitleParts.push(`Unavailable ${unavailablePeriods.length === 1 ? 'time' : 'times'}`);
+    }
 
     const items = appointments.slice(0, maxItems).map(appointment => {
         const visitors = Number(appointment.visitors) || 0;
@@ -310,10 +324,28 @@ export function calendarDayTooltipModal(date, appointments, options = {}) {
         `;
     }).join('');
 
+    const unavailableItems = unavailablePeriods.map(period => {
+        const timeRange = period.startTime && period.endTime
+            ? `${formatTime(toMinutes(period.startTime))} - ${formatTime(toMinutes(period.endTime))}`
+            : 'All day';
+        const reason = String(period.reason ?? '').trim() || 'No reason provided';
+
+        return `
+            <li class="calendar-day-tooltip-item calendar-day-tooltip-unavailable">
+                <strong>Unavailable: ${escapeHtml(timeRange)}</strong>
+                <span class="calendar-day-tooltip-detail">
+                    <i class="fa-regular fa-comment-dots" aria-hidden="true"></i>
+                    ${escapeHtml(reason)}
+                </span>
+            </li>
+        `;
+    }).join('');
+
     return `
         <strong class="calendar-day-tooltip-title">${dateLabel}</strong>
-        <span class="calendar-day-tooltip-subtitle">${subtitle}</span>
-        <ul class="calendar-day-tooltip-list">${items}</ul>
+        <span class="calendar-day-tooltip-subtitle">${subtitleParts.join(' · ')}</span>
+        ${count > 0 ? `<ul class="calendar-day-tooltip-list">${items}</ul>` : ''}
+        ${unavailableItems ? `<ul class="calendar-day-tooltip-list">${unavailableItems}</ul>` : ''}
         ${hiddenCount > 0 ? `
             <span class="calendar-day-tooltip-more">
                 +${hiddenCount} more. Click the date to see all.

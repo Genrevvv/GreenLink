@@ -10,13 +10,14 @@ export function getLocalToday() {
 }
 
 // options.getDateInfo(date) returns { count, isFull, title, classes } for scheduled appointment indicators.
-// options.getDayTooltip(date) returns the HTML shown when hovering a date ('' for none).
+// options.getDayTooltip(date) returns hover content; isOwnAppointmentDate controls its highlight.
 // options.onSelect(date) runs after a date is picked.
 // options.allowPastDates lets past dates and months be viewed and picked (admin calendar).
 export function initAppointmentCalendar(dateInput, options = {}) {
     const {
         getDateInfo = () => null,
         getDayTooltip = () => '',
+        isOwnAppointmentDate = () => true,
         onSelect = () => {},
         allowPastDates = false
     } = options;
@@ -129,17 +130,19 @@ export function initAppointmentCalendar(dateInput, options = {}) {
             }
 
             if (dateInfo?.isFull) {
-                dayButton.disabled = true;
+                dayButton.setAttribute('aria-disabled', 'true');
                 dayButton.classList.add('is-full');
             }
 
-            // The user's own appointments on this date (shown on hover).
+            // Hover details for this date.
             const tooltipHtml = getDayTooltip(dateString);
 
             if (tooltipHtml) {
                 dayTooltips.set(dateString, tooltipHtml);
                 dayButton.dataset.date = dateString;
-                dayButton.classList.add('has-own-appointments');
+                if (isOwnAppointmentDate(dateString)) {
+                    dayButton.classList.add('has-own-appointments');
+                }
             }
 
             if (dateInfo?.title) {
@@ -164,6 +167,11 @@ export function initAppointmentCalendar(dateInput, options = {}) {
             }
 
             dayButton.addEventListener('click', () => {
+                if (dateInfo?.isFull) {
+                    showDayTooltip(dayButton);
+                    return;
+                }
+
                 selectedDate = dateString;
                 dateInput.value = dateString;
 

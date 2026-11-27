@@ -35,6 +35,17 @@
             return $stmt->rowCount() > 0;
         }
 
+        public function markAllReadForUser(int $userId): int {
+            $stmt = $this->db->prepare('
+                UPDATE notifications
+                SET is_read = TRUE
+                WHERE user_id = :user_id AND is_read = FALSE
+            ');
+            $stmt->execute(['user_id' => $userId]);
+
+            return $stmt->rowCount();
+        }
+
         public function getUnreadCountForUser(int $userId): int {
             $stmt = $this->db->prepare('
                 SELECT COUNT(*)

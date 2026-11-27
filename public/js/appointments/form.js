@@ -71,7 +71,10 @@ export function initUserAppointments(userAppointmentsData, targetId = null) {
 
     const calendar = initAppointmentCalendar(dateInput, {
         getDateInfo: date => getDateInfo(date, purposeInput.value, inputs.getExcludeId()),
-        getDayTooltip: date => getOwnDayTooltip(date, userAppointmentsData),
+        getDayTooltip: date => getDayTooltip(date, userAppointmentsData),
+        isOwnAppointmentDate: date => userAppointmentsData.some(appointment =>
+            appointment.date === date && appointment.status !== 'Cancelled'
+        ),
         onSelect: () => {
             hideUserAppointmentMessage(message);
             updateStartOptions(inputs);
@@ -563,9 +566,10 @@ function getDateInfo(date, purpose, excludeId) {
     if (!scheduling.configured) return null;
 
     const scheduled = getScheduledForDate(date).filter(item => item.id !== excludeId);
+    const unavailablePeriods = scheduling.unavailable.filter(period => period.date === date);
     const isFull = !hasAvailableRange(date, purpose, 1, excludeId);
 
-    if (scheduled.length === 0 && !isFull) {
+    if (scheduled.length === 0 && !isFull && unavailablePeriods.length === 0) {
         return null;
     }
 
@@ -575,7 +579,9 @@ function getDateInfo(date, purpose, excludeId) {
 
     let title = scheduled.length === 1
         ? `1 scheduled appointment: ${bookedTimes}`
-        : `${scheduled.length} scheduled appointments: ${bookedTimes}`;
+        : scheduled.length > 1
+            ? `${scheduled.length} scheduled appointments: ${bookedTimes}`
+            : '';
 
     if (isFull) {
         title = purpose
@@ -583,26 +589,38 @@ function getDateInfo(date, purpose, excludeId) {
             : 'No available times on this date';
     }
 
+    if (unavailablePeriods.length > 0) {
+        const unavailableSummary = unavailablePeriods.map(period => {
+            const timeRange = period.startTime && period.endTime
+                ? `${formatTime(toMinutes(period.startTime))} - ${formatTime(toMinutes(period.endTime))}`
+                : 'all day';
+            const reason = String(period.reason ?? '').trim();
+
+            return `${timeRange}${reason ? `: ${reason}` : ''}`;
+        }).join('; ');
+
+        title = [title, `Unavailable: ${unavailableSummary}`].filter(Boolean).join('. ');
+    }
+
     return {
         count: scheduled.length,
         isFull,
-        title
+        title,
+        classes: unavailablePeriods.length > 0 ? ['has-unavailable'] : []
     };
 }
 
-// Hover card for a date: only the signed-in user's own appointments
-// (the list comes from /api/appointments/user). Cancelled ones are left out.
-function getOwnDayTooltip(date, userAppointmentsData) {
+// Includes the signed-in user's appointments and any admin-blocked times.
+function getDayTooltip(date, userAppointmentsData) {
     const ownAppointments = userAppointmentsData
         .filter(appointment =>
             appointment.date === date &&
             appointment.status !== 'Cancelled'
         )
         .sort((a, b) => toMinutes(a.time) - toMinutes(b.time));
+    const unavailablePeriods = scheduling.unavailable.filter(period => period.date === date);
 
-    return ownAppointments.length > 0
-        ? calendarDayTooltipModal(date, ownAppointments)
-        : '';
+    return calendarDayTooltipModal(date, ownAppointments, { unavailablePeriods });
 }
 
 function setRescheduleBanner(appointment) {

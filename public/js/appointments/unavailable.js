@@ -127,13 +127,9 @@ export async function initUnavailablePeriods() {
     };
 
     try {
-        const [periodsData, scheduleData] = await Promise.all([
-            api.fetchUnavailablePeriods(),
-            api.fetchSchedule()
-        ]);
+        const periodsData = await api.fetchUnavailablePeriods();
 
         periods = periodsData.success ? periodsData.periods : [];
-        showConfigNotice(scheduleData);
     } catch (error) {
         console.error('Failed to load unavailable periods:', error);
     }
@@ -158,19 +154,6 @@ function validatePeriod(periodData) {
 }
 
 // Tells the admin which scheduling values are still unset in the database.
-function showConfigNotice(scheduleData) {
-    const notice = document.querySelector('#scheduling-config-notice');
-
-    if (!notice) return;
-
-    const missing = scheduleData?.missing ?? [];
-
-    notice.textContent = missing.length > 0
-        ? `Booking is limited until these scheduling values are set in the database: ${missing.join('; ')}.`
-        : '';
-    notice.classList.toggle('hidden', missing.length === 0);
-}
-
 function showMessage(message, text, isSuccess) {
     if (message) {
         message.textContent = text;

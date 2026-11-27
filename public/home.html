@@ -83,7 +83,16 @@
                                 id="notification-dropdown"
                                 aria-label="Notification log"
                             >
-                                <h2 class="notification-dropdown-title">Notifications</h2>
+                                <div class="notification-dropdown-header">
+                                    <h2 class="notification-dropdown-title">Notifications</h2>
+                                    <button
+                                        type="button"
+                                        class="notification-mark-all"
+                                        id="notification-mark-all"
+                                    >
+                                        Mark all as read
+                                    </button>
+                                </div>
                                 <ul class="notification-list" id="notification-list">
                                     <li class="notification-empty">Loading notifications...</li>
                                 </ul>

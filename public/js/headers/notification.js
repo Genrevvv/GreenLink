@@ -8,8 +8,9 @@ export function initNotificationDropdown() {
     const dropdown = document.querySelector('#notification-dropdown');
     const list = document.querySelector('#notification-list');
     const count = document.querySelector('#notification-count');
+    const markAllReadButton = document.querySelector('#notification-mark-all');
 
-    if (!menu || !toggle || !dropdown || !list || !count) {
+    if (!menu || !toggle || !dropdown || !list || !count || !markAllReadButton) {
         return () => {};
     }
 
@@ -17,11 +18,13 @@ export function initNotificationDropdown() {
     let unreadCount = 0;
     let reconnectTimer = null;
     let socket = null;
+    let isMarkingAllRead = false;
 
     const setUnreadCount = value => {
         unreadCount = Math.max(0, value);
         count.textContent = unreadCount > 99 ? '99+' : String(unreadCount);
         count.classList.toggle('hidden', unreadCount === 0);
+        markAllReadButton.disabled = isMarkingAllRead || unreadCount === 0;
         toggle.setAttribute(
             'aria-label',
             unreadCount > 0 ? `Notifications, ${unreadCount} unread` : 'Notifications'
@@ -187,6 +190,38 @@ export function initNotificationDropdown() {
         const isOpen = !dropdown.classList.contains('hidden');
         dropdown.classList.toggle('hidden', isOpen);
         toggle.setAttribute('aria-expanded', String(!isOpen));
+    });
+
+    markAllReadButton.addEventListener('click', async () => {
+        if (isMarkingAllRead || unreadCount === 0) return;
+
+        isMarkingAllRead = true;
+        markAllReadButton.textContent = 'Marking...';
+        setUnreadCount(unreadCount);
+
+        try {
+            const data = await apiFetchJSON('/api/notifications/read-all', 'POST');
+            if (!data.success) {
+                throw new Error(data.message ?? 'Failed to mark notifications as read.');
+            }
+
+            notifications.forEach(notification => {
+                notification.is_read = true;
+            });
+            setUnreadCount(0);
+            renderNotifications();
+            await refreshNotifications();
+        } catch (error) {
+            console.error('Failed to mark all notifications as read:', error);
+            createNotificationElement({
+                status: 'failed',
+                message: 'Could not mark notifications as read'
+            });
+        } finally {
+            isMarkingAllRead = false;
+            markAllReadButton.textContent = 'Mark all as read';
+            setUnreadCount(unreadCount);
+        }
     });
 
     list.addEventListener('click', async event => {

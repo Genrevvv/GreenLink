@@ -50,6 +50,15 @@
                     <i class="fa-regular fa-calendar-xmark" aria-hidden="true"></i>
                     Unavailable Dates
                 </button>
+                <button
+                    type="button"
+                    class="appointments-view-switch-btn"
+                    data-view="settings"
+                    aria-pressed="false"
+                >
+                    <i class="fa-solid fa-sliders" aria-hidden="true"></i>
+                    Booking Setup
+                </button>
             </div>
 
             <label class="flex align-center gap-2 appointments-toolbar-filter" for="filter-appointment-status">
@@ -230,13 +239,6 @@
                 </div>
 
                 <div class="p-4 flex-column gap-4">
-                    <!-- Lists the scheduling values that still need to be set in the database -->
-                    <p
-                        id="scheduling-config-notice"
-                        class="user-appointment-message is-error hidden"
-                        role="status"
-                    ></p>
-
                     <form id="unavailable-form" class="flex-column gap-4">
                         <div class="user-appointment-field">
                             <label class="user-appointment-label" for="unavailable-date">Date</label>
@@ -293,5 +295,74 @@
                 <div class="admin-date-appointments" id="unavailable-list"></div>
             </section>
         </div>
+
+        <section class="admin-panel booking-settings-panel hidden" data-appointments-view="settings">
+            <div class="admin-panel-header bg-g-drd">
+                <span class="admin-panel-title">Booking Setup</span>
+            </div>
+
+            <form id="booking-settings-form" class="booking-settings-form">
+                <p class="booking-settings-intro">
+                    Choose the farm’s regular hours and the visits customers can book.
+                </p>
+
+                <fieldset class="booking-settings-section">
+                    <legend>Farm hours and capacity</legend>
+                    <div class="booking-settings-row">
+                        <label class="user-appointment-field">
+                            <span class="user-appointment-label">Opening time</span>
+                            <input type="time" class="input" id="booking-open-time" required>
+                        </label>
+
+                        <label class="user-appointment-field">
+                            <span class="user-appointment-label">Closing time</span>
+                            <input type="time" class="input" id="booking-close-time" required>
+                        </label>
+                    </div>
+
+                    <div class="booking-settings-fields">
+                        <label class="user-appointment-field">
+                            <span class="user-appointment-label">Time between start times (minutes)</span>
+                            <input type="number" class="input" id="booking-slot-interval" min="1" max="1440" step="1" required>
+                        </label>
+
+                        <label class="user-appointment-field">
+                            <span class="user-appointment-label">Max visitors at a time</span>
+                            <input type="number" class="input" id="booking-visitor-capacity" min="1" step="1" required>
+                        </label>
+                    </div>
+                </fieldset>
+
+                <fieldset class="booking-settings-section">
+                    <legend>Visit options</legend>
+                    <p class="user-appointment-hint">
+                        Turning off a visit type stops new bookings and rescheduling for it. Existing appointments remain.
+                    </p>
+                    <label class="user-appointment-field hidden" id="booking-half-day-field">
+                        <span class="user-appointment-label">What time does the morning half-day end?</span>
+                        <input type="time" class="input" id="booking-half-day-split">
+                        <span class="user-appointment-hint">The afternoon half-day starts at this time.</span>
+                    </label>
+                    <div class="booking-add-type">
+                        <label class="user-appointment-label" for="booking-new-type-name">Add a visit type</label>
+                        <div class="booking-add-type-row">
+                            <input
+                                type="text"
+                                class="input"
+                                id="booking-new-type-name"
+                                maxlength="100"
+                                placeholder="e.g. School visit"
+                            >
+                            <button type="button" class="btn" id="booking-add-type-btn">Add type</button>
+                        </div>
+                    </div>
+                    <div id="booking-type-settings" class="booking-type-settings"></div>
+                </fieldset>
+
+                <button type="submit" id="booking-settings-submit" class="btn btn-primary">
+                    Save Booking Setup
+                </button>
+            </form>
+        </section>
     </div>
 </div>

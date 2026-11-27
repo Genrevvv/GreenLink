@@ -119,6 +119,7 @@ export function initAdminCalendar(appointmentsData) {
 export function initAppointmentsViewSwitch() {
     const buttons = document.querySelectorAll('.appointments-view-switch-btn');
     const views = document.querySelectorAll('[data-appointments-view]');
+    const statusFilter = document.querySelector('.appointments-toolbar-filter');
 
     const showView = viewName => {
         buttons.forEach(button => {
@@ -131,6 +132,8 @@ export function initAppointmentsViewSwitch() {
         views.forEach(view => {
             view.classList.toggle('hidden', view.dataset.appointmentsView !== viewName);
         });
+
+        statusFilter?.classList.toggle('hidden', !['table', 'calendar'].includes(viewName));
     };
 
     buttons.forEach(button => {

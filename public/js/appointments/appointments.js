@@ -6,6 +6,7 @@ import { initUserAppointments } from './form.js';
 import { setSchedule } from './schedule.js';
 import { initAdminCalendar, initAppointmentsViewSwitch } from './admin-calendar.js';
 import { initUnavailablePeriods } from './unavailable.js';
+import { initSchedulingSettings } from './settings.js';
 
 export async function initAppointments(targetId = null) {
     const user = getCurrentUser();
@@ -48,6 +49,7 @@ function adminAppointmentsScript(appointments, targetId) {
     });
 
     initUnavailablePeriods();
+    initSchedulingSettings();
 }
 
 function userAppointmentsScript(userAppointments, scheduleData, targetId) {

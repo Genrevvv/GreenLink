@@ -660,7 +660,7 @@
     background: white;
 }
 
-.custom-calendar-day.is-full:disabled {
+.custom-calendar-day.is-full[aria-disabled="true"] {
     color: #842029;
     background: #fbeaec;
     text-decoration: line-through;
@@ -668,6 +668,14 @@
 
 .custom-calendar-day.is-full::after {
     background: #842029;
+}
+
+.custom-calendar-day.has-unavailable::after {
+    background: #d97706;
+}
+
+.custom-calendar-day.is-selected.has-unavailable::after {
+    background: white;
 }
 
 .custom-calendar-legend {
@@ -695,6 +703,10 @@
 
 .custom-calendar-legend-dot.is-full {
     background: #842029;
+}
+
+.custom-calendar-legend-dot.is-unavailable {
+    background: #d97706;
 }
 
 /* Dates with the signed-in user's own appointments */
@@ -758,6 +770,11 @@
     gap: 0.15rem;
     padding-top: var(--space-2);
     border-top: 1px solid var(--input-border);
+}
+
+.calendar-day-tooltip-unavailable {
+    padding-left: var(--space-2);
+    border-left: 3px solid #d97706;
 }
 
 .calendar-day-tooltip-detail {
@@ -946,6 +963,222 @@
 .appointments-view-switch-btn:focus-visible {
     outline: 2px solid var(--base-green);
     outline-offset: 2px;
+}
+
+.booking-settings-panel {
+    padding-bottom: var(--space-4);
+}
+
+.booking-settings-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    padding: var(--space-4);
+}
+
+.booking-settings-intro {
+    max-width: 900px;
+    margin: 0;
+    color: var(--dark-green);
+    font-size: var(--font-sm);
+    line-height: 1.5;
+}
+
+.booking-settings-section {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    min-width: 0;
+    margin: 0;
+    padding: var(--space-4);
+    border: 1px solid var(--input-border);
+    border-radius: var(--radius-md);
+}
+
+.booking-settings-section legend {
+    padding: 0 var(--space-2);
+    color: var(--darker-green);
+    font-size: var(--font-sm);
+    font-weight: 700;
+}
+
+.booking-settings-fields {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+}
+
+.booking-settings-row {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-3);
+}
+
+.booking-settings-row .user-appointment-field {
+    max-width: 420px;
+}
+
+.booking-type-settings {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+}
+
+.booking-add-type {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    max-width: 620px;
+}
+
+.booking-add-type-row {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+}
+
+.booking-add-type-row .input {
+    flex: 1;
+    min-width: 0;
+}
+
+.booking-type-card {
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+    border: 1px solid var(--input-border);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+}
+
+.booking-type-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-3);
+    padding: var(--space-3);
+}
+
+.booking-type-expand {
+    display: inline-flex;
+    flex: 1;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-3);
+    padding: 0;
+    color: var(--darker-green);
+    background: transparent;
+    border: 0;
+    font: inherit;
+    font-weight: 700;
+    text-align: left;
+    cursor: pointer;
+}
+
+.booking-type-expand:focus-visible {
+    outline: 2px solid var(--base-green);
+    outline-offset: 3px;
+}
+
+.booking-type-expand i {
+    transition: transform 0.2s ease;
+}
+
+.booking-type-card.is-expanded .booking-type-expand i {
+    transform: rotate(180deg);
+}
+
+.booking-type-content {
+    padding: var(--space-3);
+    border-top: 1px solid var(--input-border);
+}
+
+.booking-type-content[hidden] {
+    display: none;
+}
+
+.booking-type-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    cursor: pointer;
+}
+
+.booking-type-status {
+    padding: 0.2rem 0.45rem;
+    color: var(--dark-green);
+    background: #e9f5ee;
+    border-radius: var(--radius-sm);
+    font-size: var(--font-xs);
+    font-weight: 700;
+}
+
+.booking-type-card.is-disabled .booking-type-status {
+    color: #555;
+    background: #f0f0f0;
+}
+
+.booking-type-controls,
+.booking-type-control-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+}
+
+.booking-type-controls {
+    gap: var(--space-3);
+}
+
+.booking-type-control-group {
+    align-items: flex-start;
+}
+
+.booking-type-controls > .booking-settings-fields {
+    max-width: 420px;
+}
+
+.booking-choice-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+}
+
+.booking-choice {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    color: var(--dark-green);
+    font-size: var(--font-xs);
+}
+
+.booking-days {
+    gap: var(--space-1);
+}
+
+.booking-day-choice {
+    min-width: 42px;
+    padding: 0.25rem 0.4rem;
+    background: #f3f8f4;
+    border-radius: var(--radius-sm);
+}
+
+.booking-type-card.is-disabled .booking-type-controls {
+    opacity: 0.5;
+}
+
+.booking-settings-form > button {
+    align-self: flex-start;
+}
+
+@media (max-width: 600px) {
+    .booking-settings-row {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .booking-add-type-row {
+        align-items: stretch;
+        flex-direction: column;
+    }
 }
 
 /* Page styles load after utilities.css, so keep the hidden view hidden. */

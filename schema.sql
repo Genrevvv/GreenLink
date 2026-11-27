@@ -1,6 +1,22 @@
+-- DESTRUCTIVE RESET: this script deletes all GreenLink table data before
+-- recreating the schema. Back up the database before running it.
+
 CREATE DATABASE IF NOT EXISTS greenlink;
 
 USE greenlink;
+
+SET FOREIGN_KEY_CHECKS = 0;
+
+DROP TABLE IF EXISTS notifications;
+DROP TABLE IF EXISTS inquiries;
+DROP TABLE IF EXISTS appointments;
+DROP TABLE IF EXISTS products;
+DROP TABLE IF EXISTS unavailable_periods;
+DROP TABLE IF EXISTS appointment_type_rules;
+DROP TABLE IF EXISTS scheduling_settings;
+DROP TABLE IF EXISTS users;
+
+SET FOREIGN_KEY_CHECKS = 1;
 
 CREATE TABLE IF NOT EXISTS users (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -69,8 +85,8 @@ CREATE TABLE IF NOT EXISTS notifications (
 -- APPOINTMENT SCHEDULING
 -- Every scheduling value below starts as NULL (not configured). While a required
 -- value is NULL the booking form shows "scheduling not configured" and the API
--- refuses to book. Fill them in with the client's real requirements using the
--- UPDATE statements at the end of this section.
+-- refuses to book. After installing the schema, an admin can configure these
+-- values in Appointments > Booking Setup.
 
 -- One row (id = 1) of farm-wide settings.
 CREATE TABLE IF NOT EXISTS scheduling_settings (
@@ -95,7 +111,8 @@ CREATE TABLE IF NOT EXISTS appointment_type_rules (
     max_duration_minutes INT NULL DEFAULT NULL,       -- optional: NULL means no maximum
     allowed_days VARCHAR(20) NULL DEFAULT NULL,       -- PLACEHOLDER: comma list of ISO weekdays, 1 = Monday ... 7 = Sunday
     min_advance_hours INT NULL DEFAULT NULL,          -- PLACEHOLDER: how many hours ahead a visit must be booked (0 = no notice needed)
-    max_visitors INT NULL DEFAULT NULL                -- PLACEHOLDER: max visitors for one appointment of this type
+    max_visitors INT NULL DEFAULT NULL,               -- PLACEHOLDER: max visitors for one appointment of this type
+    is_active BOOLEAN NOT NULL DEFAULT FALSE
 );
 
 INSERT IGNORE INTO appointment_type_rules (purpose) VALUES
@@ -117,15 +134,3 @@ CREATE TABLE IF NOT EXISTS unavailable_periods (
     CONSTRAINT unavailable_periods_time_check
         CHECK ((start_time IS NULL AND end_time IS NULL) OR (start_time < end_time))
 );
-
--- FILL IN WITH THE CLIENT'S REQUIREMENTS (the values shown are examples only):
--- UPDATE scheduling_settings
---     SET open_time = '08:00', close_time = '17:00', slot_interval_minutes = 60,
---         half_day_split_time = '12:00', visitor_capacity = 30
---     WHERE id = 1;
---
--- UPDATE appointment_type_rules
---     SET allowed_durations = 'hourly,half_day', min_duration_minutes = 60, max_duration_minutes = NULL,
---         allowed_days = '1,2,3,4,5,6', min_advance_hours = 24, max_visitors = 20
---     WHERE purpose = 'Farm Tour';
--- (repeat for 'Educational Visit', 'Training Inquiry' and 'Other')

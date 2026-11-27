@@ -15,6 +15,14 @@ export async function fetchSchedule() {
     return data;
 }
 
+export async function saveSchedulingSettings(settings) {
+    return apiFetchJSON('/api/appointments/schedule/settings', 'POST', settings);
+}
+
+export async function addVisitType(purpose) {
+    return apiFetchJSON('/api/appointments/schedule/types', 'POST', { purpose });
+}
+
 export async function addAppointment(appointmentData) {
     const data = await apiFetchJSON('/api/appointments/addAppointment', 'POST', appointmentData);
     return data;
