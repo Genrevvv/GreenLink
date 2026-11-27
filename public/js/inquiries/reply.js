@@ -25,7 +25,7 @@ export function showReplyDialog(inquiry, onReplied) {
 
             <div class="flex-column gap-2">
                 <label for="inquiry-reply-text" class="inquiry-dialog-label">Your Reply</label>
-                <textarea id="inquiry-reply-text" class="inquiry-input inquiry-textarea" rows="6"
+                <textarea id="inquiry-reply-text" class="inquiry-input inquiry-textarea" rows="6" autocomplete="off"
                     placeholder="Type your response here...">${escapeHtml(inquiry.response)}</textarea>
             </div>
 

@@ -29,7 +29,7 @@ export function renderUsernameForm(profile) {
             <p class="profile-section-description">Choose a username for your account.</p>
             <div>
                 <span>Username</span>
-                <input class="focus-input" id="profile-username" type="text"
+                <input class="focus-input" id="profile-username" type="text" autocomplete="off"
                     placeholder="Enter username" value="${escapeHtml(profile.username)}">
             </div>
             <div id="change-username-btn" class="add-edit-btn">Save Changes</div>
@@ -44,12 +44,12 @@ export function renderEmailForm(profile) {
             <p class="profile-section-description">Verify your password to update your email address.</p>
             <div>
                 <span>Email</span>
-                <input class="focus-input" id="profile-email" type="email"
+                <input class="focus-input" id="profile-email" type="email" autocomplete="off"
                     placeholder="Enter email" value="${escapeHtml(profile.email)}">
             </div>
             <div>
                 <span>Current Password</span>
-                <input class="focus-input" id="profile-email-password" type="password"
+                <input class="focus-input" id="profile-email-password" type="password" autocomplete="off"
                     placeholder="Enter current password">
             </div>
             <div id="change-email-btn" class="add-edit-btn">Save Changes</div>
@@ -64,17 +64,17 @@ export function renderPasswordForm() {
             <p class="profile-section-description">Use at least 8 characters for your new password.</p>
             <div>
                 <span>Current Password</span>
-                <input class="focus-input" id="profile-current-password" type="password"
+                <input class="focus-input" id="profile-current-password" type="password" autocomplete="off"
                     placeholder="Enter current password">
             </div>
             <div>
                 <span>New Password</span>
-                <input class="focus-input" id="profile-new-password" type="password"
+                <input class="focus-input" id="profile-new-password" type="password" autocomplete="off"
                     placeholder="Enter new password">
             </div>
             <div>
                 <span>Confirm New Password</span>
-                <input class="focus-input" id="profile-confirm-password" type="password"
+                <input class="focus-input" id="profile-confirm-password" type="password" autocomplete="off"
                     placeholder="Confirm new password">
             </div>
             <div id="change-password-btn" class="add-edit-btn">Save Changes</div>
@@ -102,13 +102,13 @@ export function renderDeleteAccountSection() {
 
 export function renderDeleteConfirmationModal() {
     return `
-        <form class="profile-confirm-modal" id="profile-delete-confirm">
+        <form class="profile-confirm-modal" id="profile-delete-confirm" autocomplete="off">
             <button class="profile-modal-close close-overlay" type="button" aria-label="Close">×</button>
             <h2>Confirm Account Deletion</h2>
             <p>This will deactivate your account. Enter your current password to continue.</p>
             <label for="profile-delete-password">Current Password</label>
             <input class="input focus-input" id="profile-delete-password" name="currentPassword"
-                type="password" autocomplete="current-password" required>
+                type="password" autocomplete="off" required>
             <div class="profile-modal-actions">
                 <button class="btn btn-primary" type="submit">Confirm Deletion</button>
                 <button class="btn profile-cancel-button" id="profile-delete-cancel" type="button">Cancel</button>

@@ -41,7 +41,7 @@
                     <p>Create your GreenLink account to get started.</p>
                 </div>
 
-                <form id="register-form" class="auth-form" novalidate>
+                <form id="register-form" class="auth-form" autocomplete="off" novalidate>
                     <div class="auth-message" role="alert" aria-live="polite"></div>
 
                     <div class="auth-field">
@@ -53,7 +53,7 @@
                                 name="username"
                                 type="text"
                                 placeholder="Create a username"
-                                autocomplete="username"
+                                autocomplete="off"
                                 minlength="3"
                                 maxlength="50"
                                 pattern="[A-Za-z0-9_.-]+"
@@ -72,7 +72,7 @@
                                 name="email"
                                 type="email"
                                 placeholder="Enter your email address"
-                                autocomplete="email"
+                                autocomplete="off"
                                 maxlength="255"
                                 required
                             >
@@ -88,7 +88,7 @@
                                 name="password"
                                 type="password"
                                 placeholder="At least 8 characters"
-                                autocomplete="new-password"
+                                autocomplete="off"
                                 minlength="8"
                                 required
                             >
@@ -111,7 +111,7 @@
                                 name="confirmPassword"
                                 type="password"
                                 placeholder="Enter your password again"
-                                autocomplete="new-password"
+                                autocomplete="off"
                                 minlength="8"
                                 required
                             >

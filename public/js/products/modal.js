@@ -22,6 +22,7 @@ export function addEditProductModal(productData = null) {
                     id="product-name"
                     type="text"
                     class="focus-input"
+                    autocomplete="off"
                     placeholder="Enter product name"
                     value="${name}"
                 >
@@ -32,6 +33,7 @@ export function addEditProductModal(productData = null) {
                 <textarea
                     id="product-description"
                     class="focus-input"
+                    autocomplete="off"
                     placeholder="Enter product description"
                     rows="4"
                 >${description}</textarea>
