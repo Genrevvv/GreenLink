@@ -5,7 +5,14 @@ import {
     emptyAdminDateAppointmentsModal
 } from './modal.js';
 import { initAppointmentCalendar } from './calendar.js';
-import { getSelectedStatus, matchesStatusFilter } from './filter.js';
+import {
+    getSelectedStatus,
+    matchesStatusFilter,
+    getSelectedDateFilter,
+    getSelectedPurposeFilter,
+    matchesDateFilter,
+    matchesPurposeFilter
+} from './filter.js';
 import { toMinutes } from './schedule.js';
 import { requestStatusChange } from './table.js';
 
@@ -29,11 +36,17 @@ export function initAdminCalendar(appointmentsData) {
 
     const getAppointmentsForDate = (date, applyFilter = true) => {
         const selectedStatus = getSelectedStatus(STATUS_FILTER);
+        const selectedDateFilter = getSelectedDateFilter();
+        const selectedPurpose = getSelectedPurposeFilter();
 
         return appointmentsData
             .filter(appointment =>
                 appointment.date === date &&
-                (!applyFilter || matchesStatusFilter(appointment, selectedStatus))
+                (!applyFilter || (
+                    matchesStatusFilter(appointment, selectedStatus)
+                    && matchesDateFilter(appointment, selectedDateFilter)
+                    && matchesPurposeFilter(appointment, selectedPurpose)
+                ))
             )
             .sort((a, b) => toMinutes(a.time) - toMinutes(b.time));
     };
@@ -119,7 +132,7 @@ export function initAdminCalendar(appointmentsData) {
 export function initAppointmentsViewSwitch() {
     const buttons = document.querySelectorAll('.appointments-view-switch-btn');
     const views = document.querySelectorAll('[data-appointments-view]');
-    const statusFilter = document.querySelector('.appointments-toolbar-filter');
+    const toolbarFilters = document.querySelectorAll('.appointments-toolbar-filter');
 
     const showView = viewName => {
         buttons.forEach(button => {
@@ -133,7 +146,9 @@ export function initAppointmentsViewSwitch() {
             view.classList.toggle('hidden', view.dataset.appointmentsView !== viewName);
         });
 
-        statusFilter?.classList.toggle('hidden', !['table', 'calendar'].includes(viewName));
+        toolbarFilters.forEach(filter => {
+            filter.classList.toggle('hidden', !['table', 'calendar'].includes(viewName));
+        });
     };
 
     buttons.forEach(button => {

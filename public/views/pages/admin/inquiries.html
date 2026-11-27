@@ -1,4 +1,4 @@
-<div class="inquiries-page">
+<div class="inquiries-page admin-inquiries-page">
     <!-- SUMMARY CARDS (counted from js/inquiries/summary.js) -->
     <div class="inquiries-summary grid">
         <div class="dashboard-card dashboard-card-lg inquiries-summary-card text-center">
@@ -15,11 +15,28 @@
         </div>
     </div>
 
+    <div class="inquiries-toolbar">
+        <label class="inquiries-toolbar-field flex align-center gap-2" for="filter-inquiry-status">
+            Status
+            <select class="inquiry-filter" id="filter-inquiry-status" aria-label="Filter inquiries by status">
+                <option value="all">All Statuses</option>
+                <option value="pending">Pending</option>
+                <option value="responded">Responded</option>
+            </select>
+        </label>
+        <label class="inquiries-toolbar-field flex align-center gap-2" for="sort-inquiries-date">
+            Date
+            <select class="inquiry-filter" id="sort-inquiries-date" aria-label="Sort inquiries by date">
+                <option value="newest">Newest First</option>
+                <option value="oldest">Oldest First</option>
+            </select>
+        </label>
+    </div>
+
     <div class="inquiries-workspace grid">
         <!-- INQUIRY MANAGEMENT -->
         <section class="dashboard-card dashboard-card-lg inquiries-panel inquiries-table-panel">
             <div class="inquiries-panel-header header-dark">Inquiry Management</div>
-
             <div class="inquiries-table-wrapper">
                 <table class="inquiries-table">
                     <thead>

@@ -1,30 +1,3 @@
-/* ===================== SHARED ICONS ===================== */
-
-const productIcons = {
-    Lettuce: '🥬',
-    Kangkong: '🌿',
-    'Free-Range Chicken': '🐔',
-    'Organic Eggs': '🥚',
-    Tomatoes: '🍅',
-    Eggplant: '🍆',
-    Mushroom: '🍄',
-    Honey: '🍯'
-};
-
-const categoryIcons = {
-    vegetables: '🥬',
-    fruits: '🍎',
-    poultry: '🥚',
-    fungi: '🍄',
-    apiary: '🍯'
-};
-
-function getProductIcon(product) {
-    return productIcons[product.name]
-        ?? categoryIcons[String(product.category ?? '').toLowerCase()]
-        ?? '📦';
-}
-
 /* ===================== ADMIN DASHBOARD ===================== */
 
 export function getAdminStatsData(summary) {
@@ -71,7 +44,6 @@ export function getStockAlertsData(outOfStockProducts) {
     return outOfStockProducts.map(product => ({
         name: product.name,
         category: product.category,
-        icon: getProductIcon(product),
         units: 0,
         status: 'Out of Stock'
     }));
@@ -176,7 +148,6 @@ export function getProductAvailabilityData(products, limit = 4) {
         id: product.id,
         name: product.name,
         category: product.category,
-        icon: getProductIcon(product),
         status: product.inStock ? 'In Stock' : 'Out of Stock'
     }));
 }

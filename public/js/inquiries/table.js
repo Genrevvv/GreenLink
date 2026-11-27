@@ -7,11 +7,16 @@ import { showReplyDialog } from './reply.js';
 
 export let inquiries = [];
 let selectedId = null;
+const STATUS_FILTER = '#filter-inquiry-status';
+const DATE_SORT = '#sort-inquiries-date';
 
 // LOAD INQUIRIES
 export function loadInquiries(inquiriesData, initialSelectedId = null) {
     inquiries = inquiriesData;
     selectedId = initialSelectedId ? Number(initialSelectedId) : null;
+
+    document.querySelector(STATUS_FILTER)?.addEventListener('change', renderInquiries);
+    document.querySelector(DATE_SORT)?.addEventListener('change', renderInquiries);
 
     renderInquiries();
 }
@@ -28,7 +33,33 @@ export function renderInquiryRows() {
     const tbody = document.querySelector('#inquiries-tbody');
     if (!tbody) return;
 
-    tbody.innerHTML = inquiries.map(inquiry => `
+    const selectedStatus = document.querySelector(STATUS_FILTER)?.value || 'all';
+    const dateSort = document.querySelector(DATE_SORT)?.value || 'newest';
+
+    const visibleInquiries = [...inquiries]
+        .filter(inquiry => selectedStatus === 'all'
+            || inquiry.status.toLowerCase() === selectedStatus)
+        .sort((first, second) => {
+            const comparison = String(first.date).localeCompare(String(second.date));
+            return dateSort === 'oldest' ? comparison : -comparison;
+        });
+
+    if (!visibleInquiries.some(inquiry => inquiry.id === selectedId)) {
+        selectedId = null;
+    }
+
+    if (visibleInquiries.length === 0) {
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="5" class="inquiry-table-empty text-center">
+                    No inquiries match the selected filter.
+                </td>
+            </tr>
+        `;
+        return;
+    }
+
+    tbody.innerHTML = visibleInquiries.map(inquiry => `
         <tr class="inquiry-row ${inquiry.id === selectedId ? 'selected' : ''}" data-id="${inquiry.id}">
             <td class="inquiry-customer">${escapeHtml(inquiry.customer)}</td>
             <td>${escapeHtml(inquiry.subject)}</td>

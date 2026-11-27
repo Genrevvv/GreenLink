@@ -16,7 +16,7 @@
     max-width: 1128px;
     margin: 2rem auto 0;
     padding: 0 var(--space-3) var(--space-6);
-    font-size: 14px;
+    font-size: var(--font-sm);
 }
 
 .inquiries-page p {
@@ -50,6 +50,17 @@
 
 .header-light {
     background: linear-gradient(to right, var(--dark-green), var(--base-green));
+}
+
+.admin-inquiries-page {
+    font-size: var(--font-xs);
+}
+
+.admin-inquiries-page .inquiries-panel-header {
+    justify-content: space-between;
+    gap: var(--space-2);
+    min-height: 0;
+    padding: 0.6rem 1rem;
 }
 
 .inquiries-panel-body {
@@ -158,12 +169,12 @@
 
 .inquiries-page .inquiries-summary-card {
     display: flex;
-    min-height: 76px;
+    min-height: 90px;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 0.15rem;
-    padding: 0.65rem 1rem;
+    gap: var(--space-1);
+    padding: var(--space-4);
     background-color: var(--clr-background);
     border: 1px solid var(--input-border);
     border-radius: var(--radius-md);
@@ -179,7 +190,7 @@
 }
 
 .inquiries-page .inquiries-summary-value {
-    font-size: 1.35rem;
+    font-size: var(--font-lg);
     font-weight: 700;
     line-height: 1.2;
 }
@@ -200,8 +211,8 @@
 
 .inquiries-page .inquiries-workspace {
     display: grid;
-    grid-template-columns: minmax(0, 2fr) minmax(0, 0.95fr);
-    gap: 1rem;
+    grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+    gap: var(--space-4);
     width: 100%;
     margin: 0;
     align-items: start;
@@ -209,6 +220,43 @@
 
 .inquiries-page .inquiries-table-panel {
     grid-column: auto;
+}
+
+.inquiries-workspace .inquiry-info-box {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    padding: 0.5rem;
+    background-color: #f8f9fa;
+    border: 1px solid var(--input-border);
+    border-radius: var(--radius-md);
+}
+
+.inquiries-workspace .inquiry-info-label {
+    margin-bottom: 0 !important;
+    font-size: var(--font-xs);
+    font-weight: 600;
+}
+
+.inquiries-workspace .inquiry-info-value,
+.inquiries-workspace .inquiry-info-text {
+    font-size: var(--font-xs);
+}
+
+.inquiries-workspace .inquiry-response-box {
+    background: linear-gradient(to bottom right, rgb(64 145 108 / 0.1), rgb(45 106 79 / 0.1));
+    border-left: 4px solid var(--base-green);
+}
+
+.admin-inquiries-page .inquiries-workspace .inquiry-details-empty {
+    min-height: 0;
+    padding: var(--space-6) var(--space-4);
+    background-color: transparent;
+    border: none;
+}
+
+.admin-inquiries-page .inquiries-workspace .inquiry-details-empty i {
+    font-size: 2rem;
 }
 
 /* Table */
@@ -224,8 +272,37 @@
     text-align: left;
 }
 
+.inquiries-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: var(--space-2);
+}
+
+.inquiries-toolbar-field {
+    color: var(--darker-green);
+    font-size: var(--font-xs);
+    font-weight: 700;
+}
+
+.inquiry-filter {
+    padding: 0.2rem 0.4rem;
+    color: var(--dark-green);
+    background: white;
+    border: 1px solid var(--input-border);
+    border-radius: var(--radius-sm);
+    font-family: inherit;
+    font-size: var(--font-xs);
+    cursor: pointer;
+}
+
+.inquiry-table-empty {
+    height: 7rem;
+    color: var(--dark-green);
+}
+
 .inquiries-table th {
-    padding: 0.5rem 0.55rem;
+    padding: 0.6rem;
     color: var(--darker-green);
     background-color: #f8f9fa;
     border-bottom: 1px solid var(--input-border);
@@ -235,7 +312,7 @@
 }
 
 .inquiries-table td {
-    padding: 0.6rem 0.55rem;
+    padding: var(--space-3);
     color: var(--dark-green);
     border-bottom: 1px solid var(--clr-light);
     font-size: var(--font-xs);
@@ -262,15 +339,19 @@
     font-weight: 600;
 }
 
+.admin-inquiries-page .inquiries-table .dashboard-badge {
+    font-size: var(--font-xs);
+}
+
 /* Reply Buttons */
 
 .inquiry-reply-btn {
-    height: 1.75rem;
-    padding: 0 0.6rem;
+    height: 25px;
+    padding: 0 var(--space-2);
     color: white;
     background-color: var(--base-green);
     border: none;
-    border-radius: var(--radius-md);
+    border-radius: 4px;
     font-size: var(--font-xs);
     font-weight: 500;
     cursor: pointer;
@@ -325,7 +406,7 @@
     background: white;
     border-radius: var(--radius-md);
     box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
-    font-size: 14px;
+    font-size: var(--font-sm);
     animation: inquiryDialogIn 0.2s ease;
 }
 
@@ -378,8 +459,12 @@
 
 /* User Layout */
 
+.user-inquiries-page {
+    margin-top: var(--space-6);
+}
+
 .user-inquiries-grid {
-    gap: 1.15rem;
+    gap: var(--space-4);
     align-items: start;
 }
 
@@ -391,64 +476,64 @@
 
 .user-inquiries-grid .inquiries-panel-header {
     min-height: 38px;
-    padding: 0.45rem 0.8rem;
-    font-size: 0.8rem;
+    padding: var(--space-2) var(--space-3);
+    font-size: var(--font-sm);
 }
 
 .user-inquiries-grid .inquiries-panel-body {
-    padding: 1rem;
+    padding: var(--space-4);
 }
 
 /* Inquiry Form */
 
 .inquiry-form {
-    gap: 1.15rem;
+    gap: var(--space-4);
 }
 
 .inquiry-field {
-    gap: 0.4rem;
+    gap: var(--space-1);
 }
 
 .inquiry-label {
     color: var(--clr-text);
-    font-size: 0.82rem;
+    font-size: var(--font-sm);
     font-weight: 500;
 }
 
 .user-inquiries-grid .inquiry-input {
     height: 2.1rem;
-    padding: 0.25rem 0.65rem;
-    font-size: 0.82rem;
+    padding: var(--space-1) var(--space-3);
+    font-size: var(--font-sm);
 }
 
 .user-inquiries-grid .inquiry-textarea {
     min-height: 130px;
-    padding: 0.55rem 0.65rem;
+    padding: var(--space-2) var(--space-3);
 }
 
 .user-inquiries-grid .inquiry-primary-btn {
-    height: 2.1rem;
-    font-size: 0.82rem;
+    height: 2rem;
+    font-size: var(--font-sm);
 }
 
 .inquiry-response-time {
-    margin-top: 1.15rem;
-    padding: 0.8rem;
+    margin-top: var(--space-4);
+    padding: var(--space-3);
     background-color: #f8f9fa;
     border-left: 3px solid var(--base-green);
     border-radius: var(--radius-md);
 }
 
 .inquiry-response-time-title {
-    margin-bottom: 0.3rem !important;
+    margin-bottom: var(--space-1) !important;
     color: var(--dark-green);
-    font-size: 0.82rem;
+    font-size: var(--font-sm);
     font-weight: 600;
 }
 
 .inquiry-response-time-text {
     color: var(--dark-green);
-    font-size: 0.78rem;
+    font-size: var(--font-compact);
     line-height: 1.45;
 }
 
@@ -456,15 +541,15 @@
 
 .previous-inquiries-list {
     max-height: 540px;
-    gap: 0.7rem;
-    padding-right: 0.35rem;
+    gap: var(--space-2);
+    padding-right: var(--space-1);
     overflow-y: auto;
 }
 
 /* Compact Inquiry Cards */
 
 .previous-inquiry-card {
-    padding: 0.8rem;
+    padding: var(--space-3);
     background-color: #f8f9fa;
     border: 1px solid #e9ecef;
     border-radius: var(--radius-md);
@@ -472,49 +557,49 @@
 
 .previous-inquiry-top {
     align-items: flex-start;
-    gap: 0.45rem;
-    margin-bottom: 0.55rem;
+    gap: var(--space-2);
+    margin-bottom: var(--space-2);
 }
 
 .previous-inquiry-subject {
-    margin-bottom: 0.15rem;
+    margin-bottom: var(--space-1);
     color: var(--darker-green);
-    font-size: 0.95rem;
+    font-size: var(--font-md);
     font-weight: 700;
     line-height: 1.35;
 }
 
 .previous-inquiry-date {
-    margin-bottom: 0.55rem !important;
+    margin-bottom: var(--space-2) !important;
     color: var(--dark-green);
-    font-size: 0.76rem;
+    font-size: var(--font-compact);
     line-height: 1.4;
 }
 
 .previous-inquiry-section {
-    margin-bottom: 0.55rem;
+    margin-bottom: var(--space-2);
 }
 
 .previous-inquiry-label {
-    margin-bottom: 0.25rem !important;
+    margin-bottom: var(--space-1) !important;
     color: var(--dark-green);
-    font-size: 0.78rem;
+    font-size: var(--font-sm);
     font-weight: 600;
 }
 
 .previous-inquiry-message {
-    padding: 0.6rem 0.7rem;
+    padding: var(--space-2) var(--space-3);
     color: var(--darker-green);
     background: white;
     border-radius: var(--radius-md);
-    font-size: 0.82rem;
+    font-size: var(--font-sm);
     line-height: 1.45;
     overflow-wrap: anywhere;
 }
 
 .previous-inquiry-response-section {
-    margin: 0.65rem 0 0;
-    padding-top: 0.65rem;
+    margin: var(--space-3) 0 0;
+    padding-top: var(--space-3);
     border-top: 1px solid #e9ecef;
 }
 
@@ -526,9 +611,9 @@
 /* Smaller Status Badges */
 
 .previous-inquiry-card .dashboard-badge {
-    padding: 0.22rem 0.5rem;
+    padding: var(--space-1) var(--space-2);
     border-radius: 999px;
-    font-size: 0.7rem;
+    font-size: var(--font-compact);
     line-height: 1.3;
 }
 
@@ -538,6 +623,11 @@
 @media (max-width: 1024px) {
     .inquiries-page {
         max-width: 100%;
+    }
+
+    .inquiries-toolbar {
+        flex-wrap: wrap;
+        justify-content: flex-end;
     }
 
     .inquiries-page .inquiries-workspace,
@@ -556,15 +646,15 @@
     }
 
     .user-inquiries-grid {
-        gap: 0.9rem;
+        gap: var(--space-3);
     }
 
     .user-inquiries-grid .inquiries-panel-body {
-        padding: 0.85rem;
+        padding: var(--space-3);
     }
 
     .previous-inquiry-card {
-        padding: 0.75rem;
+        padding: var(--space-3);
     }
 }
 
@@ -578,14 +668,14 @@
     }
 
     .user-inquiries-grid .inquiries-panel-body {
-        padding: 0.75rem;
+        padding: var(--space-3);
     }
 
     .previous-inquiry-subject {
-        font-size: 0.9rem;
+        font-size: var(--font-sm);
     }
 
     .previous-inquiry-message {
-        font-size: 0.8rem;
+        font-size: var(--font-sm);
     }
 }

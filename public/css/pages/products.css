@@ -12,7 +12,7 @@
     background-color: rgba(255, 255, 255, 0.08);
     border: 1px solid var(--input-border);
     border-radius: var(--radius-sm);
-    font-size: 0.75rem;
+    font-size: var(--font-compact);
 }
 
 .product-search {
@@ -256,16 +256,20 @@
 #product-cards {
     display: flex;
     flex-wrap: wrap;
-    gap: 1rem;
+    gap: var(--space-4);
 }
 
 .product-card {
     width: 300px;
-    padding-bottom: 0.6rem;
+    padding-bottom: var(--space-2);
     border-radius: 1rem;
     background-color: #fff;
     overflow: hidden;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.user-products-content .product-card h4 {
+    font-size: var(--font-sm);
 }
 
 .product-image {
@@ -280,18 +284,18 @@
 
 /* PRODUCT DESCRIPTION AND AVAILABILITY */
 .product-description {
-    margin-top: 0.35rem;
+    margin-top: var(--space-1);
     color: var(--text-secondary, #6c757d);
-    font-size: 0.7rem;
+    font-size: var(--font-compact);
     line-height: 1.4;
 }
 
 .product-availability {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
-    padding: 0.5rem 0.65rem;
-    margin-top: 0.65rem;
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-3);
+    margin-top: var(--space-3);
     border: 1px solid transparent;
     border-radius: var(--radius-sm, 8px);
 }
@@ -303,16 +307,16 @@
 .product-availability div {
     display: flex;
     flex-direction: column;
-    gap: 0.1rem;
+    gap: var(--space-1);
 }
 
 .availability-label {
-    font-size: 0.65rem;
+    font-size: var(--font-xs);
     opacity: 0.8;
 }
 
 .product-availability strong {
-    font-size: 0.8rem;
+    font-size: var(--font-sm);
 }
 
 .product-availability.available {
@@ -328,10 +332,24 @@
 }
 
 /* USER PRODUCT FILTERS */
+.user-products-content {
+    font-size: var(--font-sm);
+}
+
+.user-products-content > .container {
+    padding-inline: var(--space-4);
+}
+
 .product-card-filter-bar {
     flex-wrap: wrap;
-    margin: 1rem 0;
+    gap: var(--space-1);
+    margin: var(--space-4) 0;
     border-radius: var(--radius-sm);
+}
+
+.product-card-filter-bar .product-search,
+.product-card-filter-bar .product-filter {
+    padding: var(--space-1) var(--space-2);
 }
 
 .product-card-filter-bar .product-search {
@@ -349,9 +367,9 @@
 }
 
 .no-products-found {
-    padding: 1.5rem 0;
+    padding: var(--space-5) 0;
     color: #6c757d;
-    font-size: 0.8rem;
+    font-size: var(--font-sm);
     text-align: center;
 }
 

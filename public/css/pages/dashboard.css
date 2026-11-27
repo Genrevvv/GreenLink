@@ -7,7 +7,7 @@
 
 .main-container-dashboard {
     padding: var(--space-5);
-    font-size: 14px;
+    font-size: var(--font-sm);
 }
 
 .main-container-dashboard p {
@@ -29,7 +29,7 @@
 .dashboard-badge {
     padding: 0.125rem 0.5rem;
     border-radius: var(--radius-md);
-    font-size: 0.75rem;
+    font-size: var(--font-compact);
     font-weight: 500;
     white-space: nowrap;
 }
@@ -64,11 +64,11 @@
 
 .admin-stat-cards {
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 1rem;
+    gap: var(--space-4);
 }
 
 .admin-stat-card {
-    padding: 1rem;
+    padding: var(--space-4);
     transition: box-shadow 0.2s ease;
 }
 
@@ -92,7 +92,7 @@
 }
 
 .admin-stat-value {
-    font-size: 2rem;
+    font-size: var(--font-xl);
     font-weight: 700;
     line-height: 1.1;
 }
@@ -108,14 +108,14 @@
 
 .admin-dashboard-row {
     grid-template-columns: repeat(5, minmax(0, 1fr));
-    gap: 1.15rem;
+    gap: var(--space-4);
 }
 
 .inventory-panel { grid-column: span 2; }
 .alerts-panel    { grid-column: span 3; }
 
 .dashboard-panel {
-    padding: 1.2rem;
+    padding: var(--space-4);
 }
 
 .dashboard-panel-head {
@@ -124,7 +124,7 @@
 
 .main-container-dashboard .dashboard-panel-title {
     color: var(--darker-green);
-    font-size: 0.95rem;
+    font-size: var(--font-md);
     font-weight: 600;
     line-height: 1.3;
 }
@@ -136,16 +136,16 @@
 
 .dashboard-panel-sub {
     color: var(--dark-green);
-    font-size: 0.75rem;
+    font-size: var(--font-compact);
 }
 
 .dashboard-link-btn {
-    padding: 0.35rem 0.75rem;
+    padding: var(--space-1) var(--space-3);
     color: var(--base-green);
     background: white;
     border: 1px solid var(--base-green);
     border-radius: 6px;
-    font-size: 0.75rem;
+    font-size: var(--font-compact);
     font-weight: 500;
     cursor: pointer;
     transition: background-color 0.2s ease, color 0.2s ease;
@@ -184,7 +184,7 @@
 
 .inventory-legend {
     color: var(--darker-green);
-    font-size: 0.75rem;
+    font-size: var(--font-compact);
 }
 
 .inventory-tooltip {
@@ -195,7 +195,7 @@
     border: 1px solid #e9ecef;
     border-radius: var(--radius-md);
     box-shadow: var(--shadow-sm);
-    font-size: 13px;
+    font-size: var(--font-compact);
     white-space: nowrap;
     pointer-events: none;
 }
@@ -203,13 +203,14 @@
 /* Stock Alerts */
 
 .stock-alert-row {
-    padding: 0.75rem;
+    padding: var(--space-3);
     background-color: #f8f9fa;
     border: 1px solid #e9ecef;
     border-radius: var(--radius-lg);
 }
 
 .stock-alert-icon {
+    color: var(--dark-green);
     font-size: 1.3rem;
     line-height: 1;
 }
@@ -222,7 +223,7 @@
 
 .dashboard-row-sub {
     color: var(--dark-green);
-    font-size: 0.75rem;
+    font-size: var(--font-compact);
 }
 
 .stock-alert-units {
@@ -238,7 +239,7 @@
 }
 
 .appointment-row-card {
-    padding: 0.85rem;
+    padding: var(--space-3);
     background-color: #f8f9fa;
     border-left: 4px solid var(--base-green);
     border-radius: var(--radius-lg);
@@ -255,7 +256,7 @@
 }
 
 .inquiry-row-card {
-    padding: 0.85rem;
+    padding: var(--space-3);
     background-color: #f8f9fa;
     border-left: 4px solid var(--dark-green);
     border-radius: var(--radius-lg);
@@ -272,28 +273,28 @@
     display: flex;
     flex-direction: column;
     align-items: stretch;
-    gap: 1.25rem;
-    padding: 1.25rem;
+    gap: var(--space-4);
+    padding: var(--space-4);
     background: transparent;
 }
 
 .user-dashboard .user-dashboard-welcome {
     display: flex;
     flex-direction: column;
-    gap: 0.25rem;
+    gap: var(--space-1);
 }
 
 .user-dashboard .user-dashboard-welcome h2 {
     margin: 0;
     color: var(--darker-green);
-    font-size: 1.4rem;
+    font-size: var(--font-lg);
     font-weight: 700;
     line-height: 1.3;
 }
 
 .user-dashboard .user-dashboard-welcome p {
     color: var(--dark-green);
-    font-size: 0.88rem;
+    font-size: var(--font-sm);
     line-height: 1.5;
 }
 
@@ -302,7 +303,7 @@
 .user-dashboard .user-stat-cards {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 0.85rem;
+    gap: var(--space-3);
 }
 
 .user-dashboard .user-stat-card {
@@ -310,9 +311,9 @@
     flex-direction: column;
     align-items: stretch;
     justify-content: flex-start;
-    gap: 0.5rem;
-    min-height: 100px;
-    padding: 1rem;
+    gap: var(--space-2);
+    min-height: 90px;
+    padding: var(--space-4);
     overflow: hidden;
     background: white;
     border: 1px solid #edf0ee;
@@ -327,14 +328,14 @@
 .user-dashboard .user-stat-text {
     display: flex;
     flex-direction: column;
-    gap: 0.35rem;
+    gap: var(--space-1);
     padding: 0;
 }
 
 .user-dashboard .user-stat-label {
     margin: 0;
     color: var(--dark-green);
-    font-size: 0.84rem;
+    font-size: var(--font-sm);
     font-weight: 600;
     line-height: 1.4;
 }
@@ -342,7 +343,7 @@
 .user-dashboard .user-stat-value {
     margin: 0;
     color: var(--darker-green);
-    font-size: 1.8rem;
+    font-size: var(--font-xl);
     font-weight: 700;
     line-height: 1.1;
 }
@@ -361,15 +362,15 @@
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     align-items: stretch;
-    gap: 1rem;
+    gap: var(--space-3);
 }
 
 .user-dashboard .user-dashboard-panel {
     display: flex;
     flex-direction: column;
-    gap: 0.85rem;
+    gap: var(--space-3);
     min-width: 0;
-    padding: 1.15rem;
+    padding: var(--space-4);
     overflow: hidden;
     background: white;
     border: 1px solid #edf0ee;
@@ -380,25 +381,25 @@
 .user-dashboard .user-panel-header {
     display: flex;
     flex-direction: column;
-    gap: 0.25rem;
+    gap: var(--space-1);
     padding: 0;
     color: var(--darker-green);
     background: transparent;
-    font-size: 0.95rem;
+    font-size: var(--font-md);
     font-weight: 600;
 }
 
 .user-dashboard .user-panel-header h3 {
     margin: 0;
     color: var(--darker-green);
-    font-size: 1rem;
+    font-size: var(--font-md);
     font-weight: 700;
     line-height: 1.4;
 }
 
 .user-dashboard .user-panel-header p {
     color: var(--dark-green);
-    font-size: 0.78rem;
+    font-size: var(--font-compact);
     font-weight: 400;
     line-height: 1.45;
 }
@@ -408,7 +409,7 @@
 .user-dashboard .user-panel-list {
     display: flex;
     flex-direction: column;
-    gap: 0.65rem;
+    gap: var(--space-2);
     min-width: 0;
     margin: 0;
     padding: 0;
@@ -419,8 +420,8 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 0.65rem;
-    padding: 0.75rem;
+    gap: var(--space-2);
+    padding: var(--space-3);
     background-color: #f5f8f8;
     border: 0;
     border-radius: 10px;
@@ -428,14 +429,14 @@
 
 .user-dashboard .user-dashboard-row .dashboard-row-title {
     color: var(--darker-green);
-    font-size: 0.85rem;
+    font-size: var(--font-sm);
     font-weight: 600;
 }
 
 .user-dashboard .user-dashboard-row .dashboard-row-sub {
-    margin-top: 0.2rem;
+    margin-top: 0.15rem;
     color: var(--dark-green);
-    font-size: 0.76rem;
+    font-size: var(--font-compact);
     line-height: 1.45;
 }
 
@@ -444,8 +445,8 @@
 .user-dashboard .next-appointment-card {
     display: flex;
     flex-direction: column;
-    gap: 0.65rem;
-    padding: 1rem;
+    gap: var(--space-2);
+    padding: var(--space-4);
     color: white;
     background: var(--dark-green);
     border: 1px solid var(--darker-green);
@@ -455,7 +456,7 @@
 
 .user-dashboard .next-appointment-label {
     color: var(--yellow-green);
-    font-size: 0.72rem;
+    font-size: var(--font-compact);
     font-weight: 700;
     letter-spacing: 0.02em;
 }
@@ -464,21 +465,21 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 0.65rem;
+    gap: var(--space-2);
 }
 
 .user-dashboard .next-appointment-date {
     margin: 0;
     color: white;
-    font-size: 1rem;
+    font-size: var(--font-md);
     font-weight: 700;
     line-height: 1.4;
 }
 
 .user-dashboard .next-appointment-details {
-    margin-top: 0.25rem;
+    margin-top: var(--space-1);
     color: #e3ece5;
-    font-size: 0.8rem;
+    font-size: var(--font-sm);
     line-height: 1.45;
 }
 
@@ -488,9 +489,9 @@
 }
 
 .user-dashboard .dashboard-badge {
-    padding: 0.3rem 0.55rem;
+    padding: var(--space-1) var(--space-2);
     border-radius: 999px;
-    font-size: 0.7rem;
+    font-size: var(--font-compact);
     font-weight: 600;
 }
 
@@ -499,7 +500,7 @@
 .user-dashboard #user-product-availability-list {
     display: flex;
     flex-direction: column;
-    gap: 0.6rem;
+    gap: var(--space-2);
     margin: 0;
     padding: 0;
     list-style: none;
@@ -509,8 +510,8 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 0.65rem;
-    padding: 0.75rem;
+    gap: var(--space-2);
+    padding: var(--space-3);
     background: #f5f8f8;
     border-radius: 10px;
     list-style: none;
@@ -522,27 +523,27 @@
 
 .user-dashboard .product-availability-row .dashboard-row-title {
     color: var(--darker-green);
-    font-size: 0.85rem;
+    font-size: var(--font-sm);
     font-weight: 600;
 }
 
 .user-dashboard .product-availability-row .dashboard-row-sub {
-    margin-top: 0.2rem;
+    margin-top: 0.15rem;
     color: var(--dark-green);
-    font-size: 0.76rem;
+    font-size: var(--font-compact);
 }
 
 /* Recent Inquiry Updates */
 
 .user-dashboard .user-inquiries-panel {
-    gap: 0.85rem;
+    gap: var(--space-3);
 }
 
 .user-dashboard .user-inquiry-grid {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     align-items: stretch;
-    gap: 0.75rem;
+    gap: var(--space-3);
     min-width: 0;
     margin: 0;
     padding: 0;
@@ -553,9 +554,9 @@
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: 0.4rem;
+    gap: var(--space-1);
     min-width: 0;
-    padding: 0.8rem;
+    padding: var(--space-3);
     background: #f5f8f8;
     border: 1px solid transparent;
     border-radius: 10px;
@@ -564,20 +565,20 @@
 
 .user-dashboard .user-inquiry-card .dashboard-row-title {
     color: var(--darker-green);
-    font-size: 0.85rem;
+    font-size: var(--font-sm);
     font-weight: 600;
     line-height: 1.4;
 }
 
 .user-dashboard .user-inquiry-card .dashboard-row-sub {
     color: var(--dark-green);
-    font-size: 0.75rem;
+    font-size: var(--font-compact);
     line-height: 1.4;
     overflow-wrap: anywhere;
 }
 
 .user-dashboard .user-inquiry-card .dashboard-badge {
-    margin-top: 0.15rem;
+    margin-top: 0.1rem;
 }
 
 /* User Empty States */
@@ -587,13 +588,13 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 0.4rem;
+    gap: var(--space-1);
     min-height: 5rem;
-    padding: 0.85rem;
+    padding: var(--space-3);
     color: var(--dark-green);
     background: #f8f9fa;
     border-radius: 10px;
-    font-size: 0.8rem;
+    font-size: var(--font-sm);
 }
 
 .user-dashboard .dashboard-empty i {
@@ -651,16 +652,16 @@
 
 @media (max-width: 480px) {
     .main-container-dashboard.user-dashboard {
-        gap: 0.9rem;
-        padding: 0.75rem;
+        gap: var(--space-3);
+        padding: var(--space-2);
     }
 
     .user-dashboard .user-dashboard-welcome h2 {
-        font-size: 1.2rem;
+            font-size: var(--font-lg);
     }
 
     .user-dashboard .user-dashboard-welcome p {
-        font-size: 0.8rem;
+        font-size: var(--font-sm);
     }
 
     .user-dashboard .user-stat-cards {
@@ -669,19 +670,19 @@
 
     .user-dashboard .user-stat-card {
         min-height: 90px;
-        padding: 0.75rem;
+        padding: var(--space-3);
     }
 
     .user-dashboard .user-stat-label {
-        font-size: 0.78rem;
+        font-size: var(--font-compact);
     }
 
     .user-dashboard .user-stat-value {
-        font-size: 1.6rem;
+        font-size: var(--font-xl);
     }
 
     .user-dashboard .user-dashboard-panel {
-        padding: 0.85rem;
+        padding: var(--space-3);
     }
 
     .user-dashboard .user-inquiry-grid {
@@ -696,6 +697,6 @@
     }
 
     .user-dashboard .next-appointment-date {
-        font-size: 0.95rem;
+        font-size: var(--font-md);
     }
 }

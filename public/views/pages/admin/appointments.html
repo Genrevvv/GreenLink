@@ -76,6 +76,30 @@
                     <option value="cancelled">Cancelled</option>
                 </select>
             </label>
+
+            <label class="flex align-center gap-2 appointments-toolbar-filter" for="filter-appointment-date">
+                Date
+                <select
+                    class="appointment-status-filter"
+                    id="filter-appointment-date"
+                    aria-label="Filter appointments by date"
+                >
+                    <option value="all">All Appointments</option>
+                    <option value="today">Today</option>
+                    <option value="month">This Month</option>
+                </select>
+            </label>
+
+            <label class="flex align-center gap-2 appointments-toolbar-filter" for="filter-appointment-purpose">
+                Purpose
+                <select
+                    class="appointment-status-filter"
+                    id="filter-appointment-purpose"
+                    aria-label="Filter appointments by purpose"
+                >
+                    <option value="all">All Purposes</option>
+                </select>
+            </label>
         </div>
 
         <!-- Table View -->

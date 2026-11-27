@@ -5,7 +5,17 @@ import {
     emptyAppointmentsRowModal
 } from './modal.js';
 import { updateSummaryCards } from './summary.js';
-import { getSelectedStatus, initStatusFilter, matchesStatusFilter } from './filter.js';
+import {
+    getSelectedStatus,
+    initStatusFilter,
+    matchesStatusFilter,
+    getSelectedDateFilter,
+    getSelectedPurposeFilter,
+    matchesDateFilter,
+    matchesPurposeFilter,
+    initAppointmentFilters,
+    populatePurposeFilter
+} from './filter.js';
 import { createNotificationElement } from '../utils/notification/notification.js';
 import * as api from './api.js';
 
@@ -20,8 +30,12 @@ let afterRender = () => {};
 export function loadAppointments(appointmentsData, options = {}) {
     selectedId = options.initialSelectedId ? Number(options.initialSelectedId) : null;
     afterRender = options.afterRender ?? (() => {});
+    populatePurposeFilter(appointmentsData, options.appointmentTypes ?? []);
 
     initStatusFilter(STATUS_FILTER, () => {
+        renderAppointments(appointmentsData);
+    });
+    initAppointmentFilters(() => {
         renderAppointments(appointmentsData);
     });
 
@@ -37,8 +51,12 @@ export function renderAppointments(appointmentsData) {
     tbody.innerHTML = '';
 
     const selectedStatus = getSelectedStatus(STATUS_FILTER);
+    const selectedDate = getSelectedDateFilter();
+    const selectedPurpose = getSelectedPurposeFilter();
     const visibleAppointments = appointmentsData.filter(appointment =>
         matchesStatusFilter(appointment, selectedStatus)
+        && matchesDateFilter(appointment, selectedDate)
+        && matchesPurposeFilter(appointment, selectedPurpose)
     );
 
     if (visibleAppointments.length === 0) {

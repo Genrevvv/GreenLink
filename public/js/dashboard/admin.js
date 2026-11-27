@@ -114,7 +114,7 @@ export function renderStockAlerts(alerts) {
         .map(alert => `
             <li class="stock-alert-row flex-between gap-3">
                 <div class="flex align-center gap-3">
-                    <span class="stock-alert-icon">${escapeHtml(alert.icon)}</span>
+                    <i class="fa-solid fa-box stock-alert-icon" aria-hidden="true"></i>
                     <div>
                         <p class="dashboard-row-title">${escapeHtml(alert.name)}</p>
                         <p class="dashboard-row-sub">${escapeHtml(titleCase(alert.category ?? ''))}</p>

@@ -26,6 +26,7 @@
     /* Typography */
     --font-family: Lexend;
     --font-xs: 0.625rem;
+    --font-compact: 0.75rem;
     --font-sm: 0.875rem;
     --font-md: 1rem;
     --font-lg: 1.25rem;
@@ -40,6 +41,20 @@
     --shadow-sm: 0 2px 4px rgb(0 0 0 / 0.1);
     --shadow-md: 0 4px 8px rgb(0 0 0 / 0.1);
     --shadow-bottom: 0 4px 8px rgb(0 0 0 / 0.1);
+}
+
+.compact-page {
+    --font-compact: 0.7rem;
+    --font-sm: 0.8125rem;
+    --font-md: 0.9375rem;
+    --font-lg: 1.125rem;
+    --font-xl: 1.75rem;
+    --space-1: 0.225rem;
+    --space-2: 0.45rem;
+    --space-3: 0.675rem;
+    --space-4: 0.9rem;
+    --space-5: 1.35rem;
+    --space-6: 1.8rem;
 }
 
 
