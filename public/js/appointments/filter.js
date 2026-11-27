@@ -39,6 +39,23 @@ export function matchesDateFilter(appointment, selectedDateFilter) {
 
     if (selectedDateFilter === 'today') return appointment.date === today;
     if (selectedDateFilter === 'month') return String(appointment.date).startsWith(monthPrefix);
+    if (selectedDateFilter === 'week') {
+        const startOfWeek = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+        startOfWeek.setDate(startOfWeek.getDate() - ((startOfWeek.getDay() + 6) % 7));
+
+        const endOfWeek = new Date(startOfWeek);
+        endOfWeek.setDate(endOfWeek.getDate() + 6);
+
+        const formatDate = date => [
+            date.getFullYear(),
+            String(date.getMonth() + 1).padStart(2, '0'),
+            String(date.getDate()).padStart(2, '0')
+        ].join('-');
+
+        const appointmentDate = String(appointment.date);
+        return appointmentDate >= formatDate(startOfWeek)
+            && appointmentDate <= formatDate(endOfWeek);
+    }
 
     return true;
 }
