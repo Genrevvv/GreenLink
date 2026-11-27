@@ -248,6 +248,23 @@
     margin-top: 0.125rem;
 }
 
+/* Recent Inquiries */
+
+.recent-inquiries-grid {
+    gap: var(--space-3);
+}
+
+.inquiry-row-card {
+    padding: 0.85rem;
+    background-color: #f8f9fa;
+    border-left: 4px solid var(--dark-green);
+    border-radius: var(--radius-lg);
+}
+
+.inquiry-row-card .dashboard-row-sub {
+    margin-top: 0.125rem;
+}
+
 
 /* ===================== USER DASHBOARD ===================== */
 
@@ -610,7 +627,8 @@
 }
 
 @media (max-width: 768px) {
-    .upcoming-appointments-grid.grid-2 {
+    .upcoming-appointments-grid.grid-2,
+    .recent-inquiries-grid.grid-2 {
         grid-template-columns: minmax(0, 1fr);
     }
 

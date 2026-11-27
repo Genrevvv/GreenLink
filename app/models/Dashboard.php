@@ -66,6 +66,27 @@
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
 
+        public function getRecentInquiries(int $limit): array {
+            $sql = '
+                SELECT
+                    inquiries.id,
+                    users.username AS customer,
+                    inquiries.subject,
+                    inquiries.status,
+                    inquiries.created_at
+                FROM inquiries
+                INNER JOIN users ON users.id = inquiries.user_id
+                ORDER BY inquiries.created_at DESC, inquiries.id DESC
+                LIMIT :limit
+            ';
+
+            $stmt = $this->db->prepare($sql);
+            $stmt->bindValue('limit', $limit, PDO::PARAM_INT);
+            $stmt->execute();
+
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+
         // USER DASHBOARD
         public function getUserAppointments(int $userId): array {
             $sql = '

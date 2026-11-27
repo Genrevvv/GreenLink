@@ -18,6 +18,7 @@ import {
     renderInventoryChart,
     renderStockAlerts,
     renderUpcomingAppointments,
+    renderRecentInquiries,
     setupDashboardLinks
 } from './admin.js';
 
@@ -62,6 +63,7 @@ function adminDashboardScript(dashboardData) {
     renderInventoryChart(getInventoryData(summary));
     renderStockAlerts(getStockAlertsData(dashboardData.outOfStockProducts ?? []));
     renderUpcomingAppointments(dashboardData.upcomingAppointments ?? []);
+    renderRecentInquiries(dashboardData.recentInquiries ?? []);
     setupDashboardLinks();
 }
 

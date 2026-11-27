@@ -3,6 +3,7 @@
         private Dashboard $dashboard;
 
         private const UPCOMING_APPOINTMENTS_LIMIT = 4;
+        private const RECENT_INQUIRIES_LIMIT = 4;
         private const PRODUCT_PREVIEW_LIMIT = 4;
 
         public function __construct(Dashboard $dashboard) {
@@ -14,6 +15,7 @@
                 $summary = $this->dashboard->getProductSummary();
                 $outOfStockProducts = $this->dashboard->getOutOfStockProducts();
                 $appointments = $this->dashboard->getUpcomingAppointments(self::UPCOMING_APPOINTMENTS_LIMIT);
+                $inquiries = $this->dashboard->getRecentInquiries(self::RECENT_INQUIRIES_LIMIT);
 
                 $formattedOutOfStockProducts = array_map(function ($product) {
                     return [
@@ -34,6 +36,16 @@
                     ];
                 }, $appointments);
 
+                $formattedInquiries = array_map(function ($inquiry) {
+                    return [
+                        'id' => (int) $inquiry['id'],
+                        'customer' => $inquiry['customer'],
+                        'subject' => $inquiry['subject'],
+                        'date' => substr($inquiry['created_at'], 0, 10),
+                        'status' => $inquiry['status']
+                    ];
+                }, $inquiries);
+
                 json_response([
                     'success' => true,
                     'summary' => [
@@ -42,7 +54,8 @@
                         'outOfStock' => (int) $summary['out_of_stock']
                     ],
                     'outOfStockProducts' => $formattedOutOfStockProducts,
-                    'upcomingAppointments' => $formattedAppointments
+                    'upcomingAppointments' => $formattedAppointments,
+                    'recentInquiries' => $formattedInquiries
                 ]);
 
             } catch (Throwable $e) {

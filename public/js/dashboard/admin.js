@@ -152,6 +152,31 @@ export function renderUpcomingAppointments(appointments) {
     `).join('');
 }
 
+// RECENT INQUIRIES (ADMIN)
+export function renderRecentInquiries(inquiries) {
+    const list = document.querySelector('#recent-inquiries-list');
+    if (!list) return;
+
+    if (!inquiries.length) {
+        list.innerHTML = emptyState(
+            'fa-regular fa-message',
+            'No inquiries submitted yet.'
+        );
+        return;
+    }
+
+    list.innerHTML = inquiries.map(inquiry => `
+        <li class="inquiry-row-card flex-between gap-3">
+            <div>
+                <p class="dashboard-row-title">${escapeHtml(inquiry.customer)}</p>
+                <p class="dashboard-row-sub">${escapeHtml(inquiry.subject)}</p>
+                <p class="dashboard-row-sub">${escapeHtml(inquiry.date)}</p>
+            </div>
+            ${badge(inquiry.status)}
+        </li>
+    `).join('');
+}
+
 // DASHBOARD NAVIGATION LINKS
 export function setupDashboardLinks() {
     document.querySelectorAll('.dashboard-link-btn').forEach(button => {
